@@ -10,10 +10,15 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./components/core/AppBar.vue')['default']
     AppFooter: typeof import('./components/core/AppFooter.vue')['default']
+    Auth: typeof import('./components/auth/index.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     NavBar: typeof import('./components/core/NavBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StepForgotPassword: typeof import('./components/auth/forgot/StepForgotPassword.vue')['default']
+    StepSendEmail: typeof import('./components/auth/forgot/StepSendEmail.vue')['default']
+    StepSetPassword: typeof import('./components/auth/register/StepSetPassword.vue')['default']
+    StepUserInfo: typeof import('./components/auth/register/StepUserInfo.vue')['default']
     VListProfile: typeof import('./components/profile/VListProfile.vue')['default']
   }
 }
