@@ -1,16 +1,16 @@
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth.ts'
 
-export function useFetch<T = unknown>(url: string, options: RequestInit = {}) {
+export function useFetch<T = unknown> (url: string, options:RequestInit = {}) {
   const data = ref<T | null>(null)
   const error = ref<Error | null>(null)
   const loading = ref(true)
 
   const fetchData = () => {
-    const userStore = useUserStore()
+    const userStore = useAuthStore()
     const token = userStore.token
 
-    const headers: HeadersInit = {
+    const headers:HeadersInit = {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
@@ -20,16 +20,16 @@ export function useFetch<T = unknown>(url: string, options: RequestInit = {}) {
       ...options,
       headers,
     })
-      .then((response) => {
+      .then(response => {
         if (!response.ok) {
           throw new Error(`Erreur ${response.status}: ${response.statusText}`)
         }
         return response.json()
       })
-      .then((json) => {
+      .then(json => {
         data.value = json
       })
-      .catch((err) => {
+      .catch(err => {
         error.value = err instanceof Error ? err : new Error('Une erreur inconnue est survenue')
         data.value = null
       })

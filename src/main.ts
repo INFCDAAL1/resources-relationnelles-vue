@@ -6,7 +6,7 @@
 
 // Plugins
 import { registerPlugins } from '@/plugins'
-import {registerDirectives} from '@/directives'
+import { registerDirectives } from '@/directives'
 
 // Components
 import App from './App.vue'

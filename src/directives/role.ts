@@ -1,8 +1,8 @@
-import { useUserStore } from '@/stores/user.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 
 export default {
-  mounted(el: HTMLElement, binding: any) {
-    const userStore = useUserStore()
+  mounted (el: HTMLElement, binding: Ref<Array<String> | String>) {
+    const userStore = useAuthStore()
     const currentRole = userStore.role
 
     const allowedRoles = Array.isArray(binding.value)
@@ -14,9 +14,9 @@ export default {
     }
   },
 
-  updated(el: HTMLElement, binding: any) {
+  updated (el: HTMLElement, binding: Ref<Array<String> | String>) {
     // Gère le cas où le rôle change dynamiquement
-    const userStore = useUserStore()
+    const userStore = useAuthStore()
     const currentRole = userStore.role
 
     const allowedRoles = Array.isArray(binding.value)
@@ -26,5 +26,5 @@ export default {
     if (!allowedRoles.includes(currentRole)) {
       el.remove()
     }
-  }
+  },
 }

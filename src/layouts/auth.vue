@@ -5,7 +5,9 @@
 <template>
   <v-main>
     <h1>Auth Layout</h1>
+    <div class="pa-9">
     <router-view />
+    </div>
   </v-main>
 </template>
 

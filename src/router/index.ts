@@ -8,6 +8,8 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
+import { useAuthStore } from '@/stores/auth.ts';
+import type { NavigationGuardNext,RouteLocationNormalized,RouteLocationNormalizedLoaded } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,5 +34,28 @@ router.onError((err, to) => {
 router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload')
 })
+
+router.beforeEach(( to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded, next: NavigationGuardNext) => {
+  const authStore = useAuthStore();
+
+  const isRequiredAuth = to.meta.requiresAuth
+  const isRequiredAdmin = to.meta.isAdmin
+
+  if(isRequiredAuth) {
+    if (
+      !authStore.isLoggedIn &&
+      to.name !== '/auth/')
+      next({ name: '/auth/' })
+    else {
+      if(isRequiredAdmin && !authStore.isAdmin) {
+        next({ name: '/' })
+        return
+      } else
+      next()
+    }
+  }
+  else
+    next()
+});
 
 export default router
