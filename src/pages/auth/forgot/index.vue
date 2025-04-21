@@ -1,7 +1,12 @@
-
 <script setup lang="ts">
 import {useAuthStore} from "@/stores/auth.ts";
-
+import {definePage} from "unplugin-vue-router/runtime";
+definePage({
+  meta: {
+    layout: 'auth',
+    requiresAuth: false,
+  },
+})
 const authStore = useAuthStore();
 const router = useRouter();
 onMounted(() => {
@@ -37,8 +42,3 @@ const getValide = (e:boolean) => {
 <style scoped lang="sass">
 
 </style>
-<route lang="yaml">
-meta:
-  layout: 'auth'
-  requiresAuth : false
-</route>

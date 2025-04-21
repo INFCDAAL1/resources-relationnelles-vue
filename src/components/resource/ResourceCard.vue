@@ -6,12 +6,25 @@ const props = defineProps<{
   item: Resource;
 }>();
 
+const emit = defineEmits<{
+  (e: 'toggle-favorite', item: Resource): void;
+}>();
+
 const isValid = computed(() => {
   return props.item.isValid ? 'Validé' : 'Non validé';
 });
 const isPublished = computed(() => {
   return props.item.isPublished ? 'Publié' : 'Non publié';
 });
+const isFavoriteColor = computed(() => {
+  return props.item.isFavorite ? 'yellow' : 'grey';
+});
+const isFavoriteIcon = computed(() => {
+  return props.item.isFavorite ? 'mdi-star' : 'mdi-star-outline';
+});
+const toggleFavorite = () => {
+  emit('toggle-favorite', props.item);
+};
 </script>
 
 <template>
@@ -21,7 +34,7 @@ const isPublished = computed(() => {
       <div>{{ item.name }}</div>
       <v-spacer></v-spacer>
         <div class="d-flex ga-2">
-      <v-chip :color="props.item.isValid? 'green':'red'" :text="isValid"></v-chip>
+        <v-chip :color="props.item.isValid? 'green':'red'" :text="isValid"></v-chip>
         <v-chip :color="props.item.isPublished? 'blue':'red'" :text="isPublished"></v-chip>
         </div>
       </div>
@@ -36,7 +49,11 @@ const isPublished = computed(() => {
           </v-chip-group>
         </div>
         <v-spacer/>
-        <p class="text-grey-lighten-2">Créer le : {{ item.createdAt.toLocaleDateString() }}</p>
+        <div class="d-flex ga-3 align-center">
+        <p class="text-grey-lighten-2">Créer le : {{ new Date(item.createdAt).toDateString() }}</p>
+        <v-btn variant="tonal" :prepend-icon="isFavoriteIcon" :color="isFavoriteColor" @click="toggleFavorite">Favoris</v-btn>
+          <slot name="action"/>
+        </div>
       </div>
 
     </v-card-text>

@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import {useAuthStore} from "@/stores/auth.ts";
+import {definePage} from "unplugin-vue-router/runtime";
 
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+    isAdmin: true,
+  },
+})
 
 </script>
 
@@ -12,9 +19,4 @@ import {useAuthStore} from "@/stores/auth.ts";
 <style scoped lang="sass">
 
 </style>
-<route lang="yaml">
-meta:
-  layout: default
-  requiresAuth : true
-  isAdmin: true
-</route>
+

@@ -83,6 +83,7 @@
     "stores": true,
     "useAppStore": true,
     "useUserStore": true,
-    "useFetch": true
+    "useFetch": true,
+    "definePage": "readonly"
   }
 }

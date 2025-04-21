@@ -1,5 +1,13 @@
 <script setup lang="ts">
+import {definePage} from "unplugin-vue-router/runtime";
 
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+    isAdmin: true,
+  },
+})
 </script>
 
 <template>

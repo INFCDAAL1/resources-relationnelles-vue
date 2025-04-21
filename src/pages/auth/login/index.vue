@@ -1,7 +1,13 @@
 <script lang="ts" setup>
-
 import {ref} from "vue";
+import {definePage} from "unplugin-vue-router/runtime";
 
+definePage({
+  meta: {
+    layout: 'auth',
+    requiresAuth: false,
+  },
+})
 const router = useRouter()
 
 const formValid = ref(false);
@@ -69,8 +75,3 @@ const submit = () => {
 <style lang="sass" scoped>
 
 </style>
-<route lang="yaml">
-meta:
-  layout: 'auth'
-  requiresAuth : false
-</route>

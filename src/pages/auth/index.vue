@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import {definePage} from "unplugin-vue-router/runtime";
+
+definePage({
+  meta: {
+    layout: 'auth',
+    requiresAuth: false,
+  },
+})
 const router = useRouter()
 </script>
 
@@ -13,8 +21,4 @@ const router = useRouter()
 <style scoped lang="sass">
 
 </style>
-<route lang="yaml">
-meta:
-  layout: auth
-  requiresAuth : false
-</route>
+

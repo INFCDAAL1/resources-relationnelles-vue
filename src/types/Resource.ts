@@ -5,6 +5,7 @@ export interface Resource {
   category: string;
   isValid: boolean;
   isPublished: boolean;
+  isFavorite: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

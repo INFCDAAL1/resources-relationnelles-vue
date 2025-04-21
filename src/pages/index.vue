@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 //
-  const { data, error, loading } = useFetch('https://jsonplaceholder.typicode.com/todos');
+  import {definePage} from "unplugin-vue-router/runtime";
+
+const { data, error, loading } = useFetch('https://jsonplaceholder.typicode.com/todos');
+  definePage({
+    meta: {
+      layout: 'default',
+      requiresAuth: false,
+    },
+  })
 </script>
 
 <template>
@@ -15,8 +23,3 @@
     </div>
   </div>
 </template>
-<route lang="yaml">
-meta:
-  layout: default
-  requiresAuth : false
-</route>
