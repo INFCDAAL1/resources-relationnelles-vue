@@ -28,8 +28,6 @@ const passwordValide = computed(() => {
          confirmPasswordRules.value.every((rule) => rule(confirmPassword.value) === true);
 });
 
-
-
 const submit = () => {
   emit('password', password.value);
   emit('passwordValide', passwordValide.value);
