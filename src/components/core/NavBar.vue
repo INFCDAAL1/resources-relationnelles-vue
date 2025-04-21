@@ -19,9 +19,9 @@ onMounted(()=> {
 
     <v-divider />
     <v-list density="compact">
-      <v-list-item link title="List Item 1" />
-      <v-list-item link title="List Item 2" />
-      <v-list-item link title="List Item 3" />
+      <v-list-item link title="Ressources" prepend-icon="mdi-package-variant" to="/resource/"/>
+      <v-list-item link title="Messagerie" prepend-icon="mdi-message" />
+      <v-list-item link title="Favoris" prepend-icon="mdi-star"/>
     </v-list>
     <template #append>
       <v-list-profile/>
