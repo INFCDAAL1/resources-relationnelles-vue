@@ -1,29 +1,13 @@
 <script setup lang="ts">
-import {useAuthStore} from "@/stores/auth.ts";
-
-const authStore = useAuthStore();
-const router = useRouter();
-onMounted(() => {
-  if (authStore.isLoggedIn) {
-    router.push({ name: '/' });
-  }
-})
+const router = useRouter()
 </script>
 
 <template>
-  <v-card title="Authentification" subtitle="CESIZEN">
-    <template #text>
-      <v-btn block color="primary" @click="router.push({ name: '/auth/login/' })">
-        Connexion
-      </v-btn>
-      <v-btn block color="primary" @click="router.push({ name: '/auth/forgot/' })">
-        Oubli de mot de passe
-      </v-btn>
-      <v-btn block color="primary" @click="router.push({ name: '/auth/register/' })">
-        Inscription
-      </v-btn>
-    </template>
-  </v-card>
+  <h1>Page d'authentifiaction</h1>
+ <div class="d-flex justify-center align-center ga-3">
+  <v-btn @click="router.push('/auth/login')" height="250" width="250" prepend-icon="mdi-login">Connexion</v-btn>
+   <v-btn @click="router.push('/auth/register')" height="250" width="250" prepend-icon="mdi-account-plus-outline">Inscription</v-btn>
+ </div>
 </template>
 
 <style scoped lang="sass">
@@ -31,6 +15,6 @@ onMounted(() => {
 </style>
 <route lang="yaml">
 meta:
-  layout: 'auth'
+  layout: auth
   requiresAuth : false
 </route>

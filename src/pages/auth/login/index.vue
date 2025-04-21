@@ -1,7 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import {ref} from "vue";
 
+const router = useRouter()
+
+const formValid = ref(false);
 const email = ref('');
 const emailRules = ref([
   (v: string) => !!v || 'L\'email est requis',
@@ -14,10 +17,8 @@ const passwordRules = ref([
 ]);
 
 const submit = () => {
-  const emailValide = emailRules.value.every((rule) => rule(email.value) === true);
-  const passwordValide = passwordRules.value.every((rule) => rule(password.value) === true);
 
-  if (emailValide && passwordValide) {
+  if (formValid) {
     // Call your login function here
     console.log('Login successful with email:', email.value, 'and password:', password.value);
   } else {
@@ -29,29 +30,43 @@ const submit = () => {
 
 <template>
   <div class="d-flex flex-column align-center">
-<v-card title="Connexion" subtitle="Entrez vos identifiants" width="800">
-  <template #text>
-    <v-text-field
-      label="Email"
-      v-model="email"
-      type="email"
-      :rules="emailRules"
-    />
-    <v-text-field
-      label="Mot de passe"
-      v-model="password"
-      type="password"
-      :rules="passwordRules"
-    />
-    <v-btn block color="primary" @click="submit">
-      Connexion
-    </v-btn>
-  </template>
-</v-card>
+    <v-card subtitle="Entrez vos identifiants" title="Connexion" width="800">
+      <template #text>
+        <div class="d-flex flex-column ga-3">
+          <v-form v-model="formValid">
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              autocomplete="username"
+              label="Email"
+              type="email"
+            />
+            <v-text-field
+              v-model="password"
+              :rules="passwordRules"
+              autocomplete="current-password"
+              label="Mot de passe"
+              type="password"
+            />
+          <div class="d-flex flex-column ga-2">
+            <v-btn block variant="text" @click="router.push({ name: '/auth/forgot/' })">
+              Oubli de mot de passe
+            </v-btn>
+            <v-btn block color="primary" @click="submit" :disabled="formValid">
+              Connexion
+            </v-btn>
+            <v-btn block color="secondary" @click="router.push({ name: '/auth/register/' })">
+              Inscription
+            </v-btn>
+          </div>
+          </v-form>
+        </div>
+      </template>
+    </v-card>
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>
 <route lang="yaml">

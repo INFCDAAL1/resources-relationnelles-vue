@@ -13,19 +13,17 @@ const email = ref('');
 const getEmail = (e:string) => {
   email.value = e;
 }
-const emailValide = ref(false);
-const getEmailValide = (e:boolean) => {
-  emailValide.value = e;
-}
 
 const nom = ref('');
 const getNom = (e:string) => {
   nom.value = e;
 }
-const nomValide = ref(false);
-const getNomValide = (e:boolean) => {
-  nomValide.value = e;
+
+const userinfoValide = ref(false);
+const getUserinfoValide = (e:boolean) => {
+  userinfoValide.value = e;
 }
+
 const password = ref('');
 const getPassword = (e:string) => {
   password.value = e;
@@ -40,7 +38,7 @@ const getPasswordValide = (e:boolean) => {
   <div class="d-flex flex-column align-center">
     <v-stepper :items="['Renseignement de l\'utilisateur', 'Renseignement du mot de passe']" width="800">
       <template v-slot:item.1>
-        <StepUserInfo @email="getEmail" @emailValide="getEmailValide" @nom="getNom" @nomValide="getNomValide"/>
+        <StepUserInfo @email="getEmail" @nom="getNom" @valide="getUserinfoValide"/>
       </template>
 
       <template v-slot:item.2>

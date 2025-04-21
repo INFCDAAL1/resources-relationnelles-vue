@@ -9,7 +9,7 @@
     <h1>Default Layout</h1>
     <AppBar @toggle-drawer="drawer = !drawer"/>
     <NavBar :show="drawer"/>
-    <div class="pa-6">
+    <div class="pa-2">
       <router-view />
     </div>
 

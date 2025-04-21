@@ -5,7 +5,7 @@ const emit = defineEmits<{
   (e: 'password', value: string): void;
   (e: 'passwordValide', value: boolean): void;
 }>();
-
+const formValid = ref(false);
 const password = ref('');
 const passwordRules = ref([
   (v: string) => !!v || 'Le mot de passe est requis',
@@ -23,14 +23,9 @@ const confirmPasswordRules = ref([
 ]);
 
 
-const passwordValide = computed(() => {
-  return passwordRules.value.every((rule) => rule(password.value) === true) &&
-         confirmPasswordRules.value.every((rule) => rule(confirmPassword.value) === true);
-});
-
 const submit = () => {
   emit('password', password.value);
-  emit('passwordValide', passwordValide.value);
+  emit('passwordValide', formValid.value);
 };
 </script>
 
@@ -38,6 +33,7 @@ const submit = () => {
   <v-card flat title="Information utilisateur" subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe">
     <template #text>
    <div class="d-flex flex-column ga-2">
+     <v-form v-model="formValid">
      <v-text-field
        label="Mot de passe"
        v-model="password"
@@ -52,6 +48,7 @@ const submit = () => {
        type="password"
        :rules="confirmPasswordRules"
      />
+     </v-form>
    </div>
 
     </template>

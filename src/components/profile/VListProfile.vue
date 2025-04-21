@@ -28,7 +28,7 @@ const store = useAuthStore()
         icon="mdi-login"
         color="primary"
         variant="text"
-        to="/auth"
+        to="/auth/login"
       ></v-btn>
     </template>
   </v-list-item>

@@ -2,10 +2,20 @@
 const props = defineProps<{
   show:boolean
 }>()
+
+const drawer = ref(true)
+
+onMounted(()=> {
+  drawer.value = props.show
+  watch(() => props.show, (val) => {
+    drawer.value = val
+  })
+})
+
 </script>
 
 <template>
-  <v-navigation-drawer v-model="props.show">
+  <v-navigation-drawer v-model="drawer">
 
     <v-divider />
     <v-list density="compact">
