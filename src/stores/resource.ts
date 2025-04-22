@@ -29,6 +29,9 @@ export const useResourceStore = defineStore('resource', {
 
   getters: {
     getAllResources: (state) => state.resources,
+    getFavoriteResources: (state) => state.resources.filter(resource => resource.isFavorite),
+    getPublishedResources: (state) => state.resources.filter(resource => resource.isPublished),
+    getUnpublishedResources: (state) => state.resources.filter(resource => !resource.isPublished),
     getResourceById: (state) => {
       return (id: Resource['id']): Resource | undefined => state.resources.find(resource => resource.id === Number(id));
     },

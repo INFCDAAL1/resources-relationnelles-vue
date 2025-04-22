@@ -16,6 +16,7 @@ declare module 'vue' {
     NavBar: typeof import('./components/core/NavBar.vue')['default']
     NotFound: typeof import('./components/core/NotFound.vue')['default']
     ResourceCard: typeof import('./components/resource/ResourceCard.vue')['default']
+    ResourceList: typeof import('./components/resource/ResourceList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StepForgotPassword: typeof import('./components/auth/forgot/StepForgotPassword.vue')['default']
