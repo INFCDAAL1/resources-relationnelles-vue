@@ -21,7 +21,7 @@ onMounted(()=> {
     <v-list density="compact">
       <v-list-item link title="Ressources" prepend-icon="mdi-package-variant" to="/resource/"/>
       <v-list-item link title="Messagerie" prepend-icon="mdi-message" />
-      <v-list-item link title="Favoris" prepend-icon="mdi-star" to="/resource?filter=favorite"/>
+      <v-list-item link title="Favoris" prepend-icon="mdi-star" to="/resource/favorite"/>
     </v-list>
     <template #append>
       <v-list-profile/>

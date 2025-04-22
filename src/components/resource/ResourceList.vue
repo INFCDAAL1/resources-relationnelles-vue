@@ -8,6 +8,7 @@ const props = defineProps<{
   items: Resource[],
   filter: FilterResource,
   search: string,
+  noFilter?: boolean,
 }>()
 
 const emit = defineEmits<{
@@ -44,7 +45,7 @@ onMounted(()=> {
   <div class="d-flex flex-column ga-5">
     <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
       <template #header>
-        <div class="d-flex ga-3 align-center justify-center">
+        <div class="d-flex ga-3 align-center justify-center" >
           <v-select
             v-model="itemsPerPage"
             :items="[5, 10, 15, 20]"
@@ -58,6 +59,7 @@ onMounted(()=> {
             hide-details
             label="Filtre ressources"
             max-width="350"
+            v-if="!noFilter"
           ></v-select>
           <v-text-field
             v-model="search"

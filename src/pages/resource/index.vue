@@ -48,7 +48,6 @@ onMounted(() => {
 })
 
 watch(() => route.query, (_) => {
-  console.log('route.query', route.query)
   if (route.query.filter) {
     if(filter.value!=route.query.filter){
       filter.value = route.query.filter as FilterResource;
@@ -57,9 +56,7 @@ watch(() => route.query, (_) => {
   }
 })
 
-
 const applyFilter = (filterCase: string) => {
-  console.log('applyFilter', filterCase)
   switch (filterCase) {
     case 'favorite':
       filter.value = 'favorite';
@@ -81,7 +78,6 @@ const applyFilter = (filterCase: string) => {
 };
 
 const updateQuery = () => {
-  console.log('updateQuery', filter.value,search.value)
   if(search.value.length>0)
     router.push({query: {search: search.value,filter: filter.value}});
   else
