@@ -4,9 +4,9 @@ import type {User} from '@/types';
 
 export const useUserStore = defineStore('auth', {
   state: () => ({
-    token: "" as User['token'] | null,
+    token: "oui" as User['token'] | null,
     validity: null as Date | null,
-    user: null as User | null,
+    user: {id:0,name:"Bob",role:"admin"} as User,
   }),
 
   getters: {

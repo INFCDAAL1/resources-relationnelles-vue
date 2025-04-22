@@ -9,6 +9,7 @@ definePage({
     requiresAuth: false,
   },
 })
+
 </script>
 
 <template>

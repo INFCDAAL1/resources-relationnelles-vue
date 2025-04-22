@@ -17,7 +17,7 @@ const isPublished = computed(() => {
   return props.item.isPublished ? 'Publié' : 'Non publié';
 });
 const isFavoriteColor = computed(() => {
-  return props.item.isFavorite ? 'yellow' : 'grey';
+  return props.item.isFavorite ? 'orange' : 'grey';
 });
 const isFavoriteIcon = computed(() => {
   return props.item.isFavorite ? 'mdi-star' : 'mdi-star-outline';

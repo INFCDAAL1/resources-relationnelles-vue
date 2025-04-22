@@ -10,6 +10,7 @@ const updateTheme = () => {
 
 onMounted(() => {
   darkThemeMq.addEventListener('change', updateTheme);
+  updateTheme()
 });
 </script>
 

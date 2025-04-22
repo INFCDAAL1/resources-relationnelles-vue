@@ -1,9 +1,10 @@
+import type {User} from "@/types";
 export interface Message {
   id: number;
   content: string;
   read: boolean;
-  senderId: number;
-  receiverId: number;
+  sender: Partial<User>;
+  receiver: Partial<User>;
   createdAt: Date;
   updatedAt: Date;
 }
