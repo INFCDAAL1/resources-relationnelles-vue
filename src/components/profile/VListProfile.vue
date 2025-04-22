@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import {useUserStore} from '@/stores/user'
+  import { useUserStore } from '@/stores/user'
 
-const store = useUserStore()
+  const store = useUserStore()
 
 </script>
 
@@ -11,25 +11,25 @@ const store = useUserStore()
     nav
     :title="store.user.name"
   >
-    <template v-slot:append>
+    <template #append>
       <v-btn
         color="red"
         icon="mdi-logout"
         variant="text"
-      ></v-btn>
+      />
     </template>
   </v-list-item>
   <v-list-item
     v-else
     title="Login"
   >
-    <template v-slot:append>
+    <template #append>
       <v-btn
         color="primary"
         icon="mdi-login"
         to="/auth/login"
         variant="text"
-      ></v-btn>
+      />
     </template>
   </v-list-item>
 

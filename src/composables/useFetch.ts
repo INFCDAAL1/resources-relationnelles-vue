@@ -1,5 +1,5 @@
-import {ref} from 'vue'
-import {useUserStore} from '@/stores/user.ts'
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/user.ts'
 
 export function useFetch<T = unknown>(url: string, options: RequestInit = {}) {
   const data = ref<T | null>(null)
@@ -16,7 +16,7 @@ export function useFetch<T = unknown>(url: string, options: RequestInit = {}) {
       ...options.headers,
     }
 
-    fetch(url, {
+    fetch("http://localhost:8000/" + url, {
       ...options,
       headers,
     })
