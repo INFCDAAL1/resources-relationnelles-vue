@@ -23,7 +23,7 @@
             variant="tonal"
           >
             <template #image>
-              <v-img position="top right" />
+              <v-img position="top right"/>
             </template>
 
             <template #title>
@@ -34,7 +34,15 @@
 
             <template #subtitle>
               <div class="text-subtitle-1">
-                Change this page by updating <v-kbd>{{ `<HelloWorld />` }}</v-kbd> in <v-kbd>components/HelloWorld.vue</v-kbd>.
+                Change this page by updating
+                <v-kbd>{{
+                    `
+                  <HelloWorld/>
+                  ` }}
+                </v-kbd>
+                in
+                <v-kbd>components/HelloWorld.vue</v-kbd>
+                .
               </div>
             </template>
           </v-card>
@@ -42,16 +50,16 @@
 
         <v-col v-for="link in links" :key="link.href" cols="6">
           <v-card
+            :href="link.href"
+            :prepend-icon="link.icon"
+            :subtitle="link.subtitle"
+            :title="link.title"
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
-            :href="link.href"
-            :prepend-icon="link.icon"
             rel="noopener noreferrer"
             rounded="lg"
-            :subtitle="link.subtitle"
             target="_blank"
-            :title="link.title"
             variant="tonal"
           />
         </v-col>
@@ -60,31 +68,31 @@
   </v-container>
 </template>
 
-<script setup lang="ts">
-  const links = [
-    {
-      href: 'https://vuetifyjs.com/',
-      icon: 'mdi-text-box-outline',
-      subtitle: 'Learn about all things Vuetify in our documentation.',
-      title: 'Documentation',
-    },
-    {
-      href: 'https://vuetifyjs.com/introduction/why-vuetify/#feature-guides',
-      icon: 'mdi-star-circle-outline',
-      subtitle: 'Explore available framework Features.',
-      title: 'Features',
-    },
-    {
-      href: 'https://vuetifyjs.com/components/all',
-      icon: 'mdi-widgets-outline',
-      subtitle: 'Discover components in the API Explorer.',
-      title: 'Components',
-    },
-    {
-      href: 'https://discord.vuetifyjs.com',
-      icon: 'mdi-account-group-outline',
-      subtitle: 'Connect with Vuetify developers.',
-      title: 'Community',
-    },
-  ]
+<script lang="ts" setup>
+const links = [
+  {
+    href: 'https://vuetifyjs.com/',
+    icon: 'mdi-text-box-outline',
+    subtitle: 'Learn about all things Vuetify in our documentation.',
+    title: 'Documentation',
+  },
+  {
+    href: 'https://vuetifyjs.com/introduction/why-vuetify/#feature-guides',
+    icon: 'mdi-star-circle-outline',
+    subtitle: 'Explore available framework Features.',
+    title: 'Features',
+  },
+  {
+    href: 'https://vuetifyjs.com/components/all',
+    icon: 'mdi-widgets-outline',
+    subtitle: 'Discover components in the API Explorer.',
+    title: 'Components',
+  },
+  {
+    href: 'https://discord.vuetifyjs.com',
+    icon: 'mdi-account-group-outline',
+    subtitle: 'Connect with Vuetify developers.',
+    title: 'Community',
+  },
+]
 </script>

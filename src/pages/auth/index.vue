@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({
@@ -12,13 +12,15 @@ const router = useRouter()
 
 <template>
   <h1>Page d'authentifiaction</h1>
- <div class="d-flex justify-center align-center ga-3">
-  <v-btn @click="router.push('/auth/login')" height="250" width="250" prepend-icon="mdi-login">Connexion</v-btn>
-   <v-btn @click="router.push('/auth/register')" height="250" width="250" prepend-icon="mdi-account-plus-outline">Inscription</v-btn>
- </div>
+  <div class="d-flex justify-center align-center ga-3">
+    <v-btn height="250" prepend-icon="mdi-login" width="250" @click="router.push('/auth/login')">Connexion</v-btn>
+    <v-btn height="250" prepend-icon="mdi-account-plus-outline" width="250" @click="router.push('/auth/register')">
+      Inscription
+    </v-btn>
+  </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type {FilterResource, Resource} from '@/types';
+import type {Resource} from '@/types';
 import {definePage} from "unplugin-vue-router/runtime";
 import {useResourceStore} from "@/stores/resource.ts";
 
@@ -41,14 +41,14 @@ onMounted(() => {
 })
 
 const updateQuery = () => {
-  if(search.value.length>0)
+  if (search.value.length > 0)
     router.push({query: {search: search.value}});
 };
 </script>
 <template>
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources {{ items.length }}</h1>
-    <ResourceList :items="items" filter="favorite" no-filter :search="search" @search="search = $event"/>
+    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event"/>
   </div>
 </template>
 

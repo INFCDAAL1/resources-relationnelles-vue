@@ -1,22 +1,18 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({
   meta: {
     layout: 'default',
     requiresAuth: true,
-    isAdmin: true,
   },
 })
-
 </script>
 
 <template>
-  <v-card subtitle="CESIZEN" title="Authentification"></v-card>
-  <v-btn to="/admin/page2">Page2</v-btn>
+
 </template>
 
-<style lang="sass" scoped>
+<style scoped lang="sass">
 
 </style>
-

@@ -1,6 +1,6 @@
 // Utilities
 import {defineStore} from 'pinia'
-import type {Resource, Comment} from '@/types';
+import type {Resource} from '@/types';
 import {useStorage} from "@vueuse/core";
 
 export const useResourceStore = defineStore('resource', {
@@ -15,16 +15,7 @@ export const useResourceStore = defineStore('resource', {
       isFavorite: false,
       createdAt: new Date(),
       updatedAt: new Date(),
-    }))as Resource[],sessionStorage) ,
-    comments: useStorage("comments", Array.from({length:1000},(_,i)=>({
-        id: i,
-        content: "Comment " + i,
-        status: "pending" as Comment['status'],
-        userId: Math.floor(Math.random() * 200),
-        resourceId: Math.floor(Math.random() * 200),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    })) as Comment[],sessionStorage),
+    })) as Resource[], sessionStorage)
   }),
 
   getters: {
@@ -41,9 +32,6 @@ export const useResourceStore = defineStore('resource', {
     getResourcesByName: (state) => {
       return (name: Resource['name']): Resource[] | undefined => state.resources.filter(resource => resource.name === name)
     },
-    getCommentsByResourceId: (state) => {
-      return (id: Resource['id']):Comment[]|undefined => state.comments.filter(comment => comment.resourceId === Number(id))
-    }
   },
   actions: {
     // Resource actions
@@ -53,12 +41,11 @@ export const useResourceStore = defineStore('resource', {
     updateResource(id: Resource['id'], updatedResource: Partial<Resource>) {
       const index = this.resources.findIndex(resource => resource.id === id)
       if (index !== -1) {
-        this.resources[index] = { ...this.resources[index], ...updatedResource }
+        this.resources[index] = {...this.resources[index], ...updatedResource}
       }
     },
     deleteResource(id: Resource['id']) {
       this.resources = this.resources.filter(resource => resource.id !== id)
-      this.comments = this.comments.filter(comment => comment.resourceId !== id)
     },
     toggleResourceFavorite(resourceFav: Resource) {
       const index = this.resources.findIndex(resource => resource.id === resourceFav.id)
@@ -66,18 +53,5 @@ export const useResourceStore = defineStore('resource', {
         this.resources[index].isFavorite = !this.resources[index].isFavorite
       }
     },
-    // Comment actions
-    addComment(comment: Comment) {
-      this.comments.push(comment)
-    },
-    updateComment(id: Comment['id'], updatedComment: Partial<Comment>) {
-      const index = this.comments.findIndex(comment => comment.id === id)
-      if (index !== -1) {
-        this.comments[index] = { ...this.comments[index], ...updatedComment }
-      }
-    },
-    deleteComment(id: Comment['id']) {
-      this.comments = this.comments.filter(comment => comment.id !== id)
-    }
   }
 })

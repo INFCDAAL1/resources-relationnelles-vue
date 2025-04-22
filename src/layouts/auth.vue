@@ -1,15 +1,15 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 </script>
 
 <template>
   <v-main>
     <div class="pa-5">
-    <router-view />
+      <router-view/>
     </div>
   </v-main>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

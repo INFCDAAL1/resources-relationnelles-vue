@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const emit = defineEmits<{
   (e: 'toggleDrawer'): void
 }>()
@@ -13,10 +13,10 @@ const toggleDrawer = () => {
       <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
     </template>
 
-    <v-app-bar-title>CESIZen</v-app-bar-title>
+    <v-app-bar-title>Resources Relationnelles</v-app-bar-title>
   </v-app-bar>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

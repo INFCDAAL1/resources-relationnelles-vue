@@ -5,11 +5,11 @@
  */
 
 // Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from 'virtual:generated-layouts'
-import { routes } from 'vue-router/auto-routes'
-import { useAuthStore } from '@/stores/auth.ts';
-import type { NavigationGuardNext,RouteLocationNormalized,RouteLocationNormalizedLoaded } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router/auto'
+import {setupLayouts} from 'virtual:generated-layouts'
+import {routes} from 'vue-router/auto-routes'
+import {useUserStore} from '@/stores/user.ts';
+import type {NavigationGuardNext, RouteLocationNormalized, RouteLocationNormalizedLoaded} from 'vue-router';
 import NotFound from "@/components/core/NotFound.vue";
 
 
@@ -43,26 +43,25 @@ router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload')
 })
 
-router.beforeEach(( to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded, next: NavigationGuardNext) => {
-  const authStore = useAuthStore();
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalizedLoaded, next: NavigationGuardNext) => {
+  const store = useUserStore();
 
   const isRequiredAuth = to.meta.requiresAuth
   const isRequiredAdmin = to.meta.isAdmin
 
-  if(isRequiredAuth) {
+  if (isRequiredAuth) {
     if (
-      !authStore.isLoggedIn &&
+      !store.isLoggedIn &&
       to.name !== '/auth/')
-      next({ name: '/auth/' })
+      next({name: '/auth/'})
     else {
-      if(isRequiredAdmin && !authStore.isAdmin) {
-        next({ name: '/' })
+      if (isRequiredAdmin && !store.isAdmin) {
+        next({name: '/'})
         return
       } else
-      next()
+        next()
     }
-  }
-  else
+  } else
     next()
 });
 

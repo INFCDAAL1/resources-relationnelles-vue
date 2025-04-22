@@ -1,40 +1,40 @@
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+<script lang="ts" setup>
+import {useUserStore} from '@/stores/user'
 
-const store = useAuthStore()
+const store = useUserStore()
+
 </script>
 
 <template>
   <v-list-item
-    prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-    title="John Leider"
+    v-if="store.isLoggedIn && store.user"
     nav
-    v-if="store.isLoggedIn"
+    :title="store.user.name"
   >
     <template v-slot:append>
       <v-btn
-        icon="mdi-logout"
         color="red"
+        icon="mdi-logout"
         variant="text"
       ></v-btn>
     </template>
   </v-list-item>
   <v-list-item
-    title="Login"
     v-else
+    title="Login"
   >
     <template v-slot:append>
       <v-btn
-        icon="mdi-login"
         color="primary"
-        variant="text"
+        icon="mdi-login"
         to="/auth/login"
+        variant="text"
       ></v-btn>
     </template>
   </v-list-item>
 
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

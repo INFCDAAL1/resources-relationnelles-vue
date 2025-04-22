@@ -1,6 +1,5 @@
-
-<script setup lang="ts">
-import {useAuthStore} from "@/stores/auth.ts";
+<script lang="ts" setup>
+import {useUserStore} from "@/stores/user.ts";
 import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({
@@ -10,34 +9,34 @@ definePage({
   },
 })
 
-const authStore = useAuthStore();
+const store = useUserStore();
 const router = useRouter();
 onMounted(() => {
-  if (authStore.isLoggedIn) {
-    router.push({ name: '/' });
+  if (store.isLoggedIn) {
+    router.push({name: '/'});
   }
 })
 const email = ref('');
-const getEmail = (e:string) => {
+const getEmail = (e: string) => {
   email.value = e;
 }
 
 const nom = ref('');
-const getNom = (e:string) => {
+const getNom = (e: string) => {
   nom.value = e;
 }
 
 const userinfoValide = ref(false);
-const getUserinfoValide = (e:boolean) => {
+const getUserinfoValide = (e: boolean) => {
   userinfoValide.value = e;
 }
 
 const password = ref('');
-const getPassword = (e:string) => {
+const getPassword = (e: string) => {
   password.value = e;
 }
 const passwordValide = ref(false);
-const getPasswordValide = (e:boolean) => {
+const getPasswordValide = (e: boolean) => {
   passwordValide.value = e;
 }
 </script>
@@ -57,6 +56,6 @@ const getPasswordValide = (e:boolean) => {
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

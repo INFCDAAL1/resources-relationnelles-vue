@@ -1,35 +1,34 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const props = defineProps<{
-  show:boolean
+  show: boolean
 }>()
-
+watch(() => props.show, (val) => {
+  drawer.value = val
+})
 const drawer = ref(true)
 
-onMounted(()=> {
+onMounted(() => {
   drawer.value = props.show
-  watch(() => props.show, (val) => {
-    drawer.value = val
-  })
 })
 
 </script>
 
 <template>
-  <v-navigation-drawer v-model="drawer">
+  <v-navigation-drawer v-model="drawer" app>
 
-    <v-divider />
+    <v-divider/>
     <v-list density="compact">
-      <v-list-item link title="Ressources" prepend-icon="mdi-package-variant" to="/resource/"/>
-      <v-list-item link title="Messagerie" prepend-icon="mdi-message" />
-      <v-list-item link title="Favoris" prepend-icon="mdi-star" to="/resource/favorite"/>
+      <v-list-item link prepend-icon="mdi-package-variant" title="Ressources" to="/resource/"/>
+      <v-list-item link prepend-icon="mdi-message" title="Messagerie"/>
+      <v-list-item link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite"/>
     </v-list>
     <template #append>
       <v-list-profile/>
-      <AppFooter />
+      <AppFooter/>
     </template>
   </v-navigation-drawer>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

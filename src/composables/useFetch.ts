@@ -1,18 +1,18 @@
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth.ts'
+import {ref} from 'vue'
+import {useUserStore} from '@/stores/user.ts'
 
-export function useFetch<T = unknown> (url: string, options:RequestInit = {}) {
+export function useFetch<T = unknown>(url: string, options: RequestInit = {}) {
   const data = ref<T | null>(null)
   const error = ref<Error | null>(null)
   const loading = ref(true)
 
   const fetchData = () => {
-    const userStore = useAuthStore()
-    const token = userStore.token
+    const store = useUserStore()
+    const token = store.token
 
-    const headers:HeadersInit = {
+    const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(token ? {Authorization: `Bearer ${token}`} : {}),
       ...options.headers,
     }
 

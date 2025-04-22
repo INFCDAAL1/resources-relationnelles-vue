@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({
@@ -11,15 +11,15 @@ definePage({
 </script>
 
 <template>
-<h1>La page admin 2</h1>
+  <h1>La page admin 2</h1>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>
 <route lang="yaml">
 meta:
-  layout: default
-  requiresAuth : true
-  isAdmin: true
+layout: default
+requiresAuth : true
+isAdmin: true
 </route>

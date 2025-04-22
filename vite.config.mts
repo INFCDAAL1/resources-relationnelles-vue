@@ -5,12 +5,12 @@ import Fonts from 'unplugin-fonts/vite'
 import Layouts from 'vite-plugin-vue-layouts-next'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import {VueRouterAutoImports} from 'unplugin-vue-router'
+import Vuetify, {transformAssetUrls} from 'vite-plugin-vuetify'
 
 // Utilities
-import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import {defineConfig} from 'vite'
+import {fileURLToPath, URL} from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,7 +27,7 @@ export default defineConfig({
           'pinia': ['defineStore', 'storeToRefs'],
         },
       ],
-      dirs:[
+      dirs: [
         'src/composables',
         'src/directives',
       ],
@@ -36,13 +36,13 @@ export default defineConfig({
         enabled: true,
       },
       vueTemplate: true,
-      vueDirectives:true,
+      vueDirectives: true,
     }),
     Components({
       dts: 'src/components.d.ts',
     }),
     Vue({
-      template: { transformAssetUrls },
+      template: {transformAssetUrls},
     }),
     // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({
@@ -69,7 +69,7 @@ export default defineConfig({
       'unplugin-vue-router/data-loaders/basic',
     ],
   },
-  define: { 'process.env': {} },
+  define: {'process.env': {}},
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

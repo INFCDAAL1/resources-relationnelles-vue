@@ -1,0 +1,74 @@
+<script lang="ts" setup>
+import type {Comment} from '@/types';
+import {defineProps} from 'vue';
+
+const props = defineProps<{
+  item: Comment;
+}>();
+
+const statusText = computed(() => {
+  switch (props.item.status) {
+    case 'pending':
+      return 'En attente';
+    case 'approved':
+      return 'Approuvé';
+    case 'rejected':
+      return 'Rejeté';
+    default:
+      return 'Inconnu';
+  }
+})
+
+const statusColor = computed(() => {
+  switch (props.item.status) {
+    case 'pending':
+      return 'orange';
+    case 'approved':
+      return 'green';
+    case 'rejected':
+      return 'red';
+    default:
+      return 'grey';
+  }
+});
+const statusIcon = computed(() => {
+  switch (props.item.status) {
+    case 'pending':
+      return 'mdi-clock';
+    case 'approved':
+      return 'mdi-check-circle';
+    case 'rejected':
+      return 'mdi-close-circle';
+    default:
+      return 'mdi-help-circle';
+  }
+});
+</script>
+
+<template>
+  <v-card>
+    <v-card-title>
+      <div class="d-flex">
+        <div>{{ item.user.name }}</div>
+        <v-spacer></v-spacer>
+        <div class="d-flex ga-2">
+          <v-chip :append-icon="statusIcon" :color="statusColor" :text="statusText"></v-chip>
+        </div>
+      </div>
+    </v-card-title>
+    <v-card-subtitle>{{ item.content }}</v-card-subtitle>
+    <v-card-text>
+      <div class="d-flex align-end">
+        <v-spacer/>
+        <div class="d-flex ga-3 align-center flex-wrap">
+          <p class="text-grey-lighten-2">Créer le : {{ new Date(item.createdAt).toDateString() }}</p>
+          <slot name="action"/>
+        </div>
+      </div>
+
+    </v-card-text>
+  </v-card>
+</template>
+
+<style lang="sass" scoped>
+</style>

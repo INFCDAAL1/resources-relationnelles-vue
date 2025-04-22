@@ -22,14 +22,14 @@ watch(search, (_) => {
 
 const filter: Ref<FilterResource> = ref("all")
 watch(filter, (newValue) => {
-  if(filter.value != newValue){
+  if (filter.value != newValue) {
     applyFilter(newValue)
   }
 })
 onMounted(() => {
   const searchQuery = route.query.search;
   const filterQuery = route.query.filter;
-  applyFilter(filterQuery?.toString()|| "all")
+  applyFilter(filterQuery?.toString() || "all")
   if (searchQuery) {
     search.value = searchQuery.toString();
   }
@@ -49,7 +49,7 @@ onMounted(() => {
 
 watch(() => route.query, (_) => {
   if (route.query.filter) {
-    if(filter.value!=route.query.filter){
+    if (filter.value != route.query.filter) {
       filter.value = route.query.filter as FilterResource;
       applyFilter(filter.value)
     }
@@ -78,8 +78,8 @@ const applyFilter = (filterCase: string) => {
 };
 
 const updateQuery = () => {
-  if(search.value.length>0)
-    router.push({query: {search: search.value,filter: filter.value}});
+  if (search.value.length > 0)
+    router.push({query: {search: search.value, filter: filter.value}});
   else
     router.push({query: {filter: filter.value}});
 };
@@ -87,7 +87,7 @@ const updateQuery = () => {
 <template>
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources {{ items.length }}</h1>
-    <ResourceList :items="items" :filter="filter" :search="search" @filter="applyFilter" @search="search = $event"/>
+    <ResourceList :filter="filter" :items="items" :search="search" @filter="applyFilter" @search="search = $event"/>
   </div>
 </template>
 

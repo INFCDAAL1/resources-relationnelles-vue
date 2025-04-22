@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref, computed, defineEmits } from 'vue';
+<script lang="ts" setup>
+import {defineEmits, ref} from 'vue';
 
 const emit = defineEmits<{
   (e: 'email', email: string): void;
@@ -19,21 +19,21 @@ const submit = () => {
 </script>
 
 <template>
-  <v-card flat title="Mot de passe oublié" subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe">
+  <v-card flat subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe" title="Mot de passe oublié">
     <template #text>
       <v-form v-model="formValid">
-      <v-text-field
-        label="Email"
-        v-model="email"
-        @input="submit"
-        type="email"
-        :rules="emailRules"
-      />
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="Email"
+          type="email"
+          @input="submit"
+        />
       </v-form>
     </template>
   </v-card>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

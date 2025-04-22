@@ -2,8 +2,8 @@
 import role from './role'
 
 // Types
-import type { App } from 'vue'
+import type {App} from 'vue'
 
-export function registerDirectives (app: App) {
+export function registerDirectives(app: App) {
   app.directive('role', role)
 }

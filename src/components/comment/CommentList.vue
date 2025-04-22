@@ -1,49 +1,50 @@
 <script lang="ts" setup>
-import type {FilterResource, Resource} from '@/types';
-import {useResourceStore} from "@/stores/resource.ts";
-
-const store = useResourceStore()
+import type { Comment, FilterComment } from '@/types';
 
 const props = defineProps<{
-  items: Resource[],
-  filter: FilterResource,
-  search: string,
+  items: Comment[],
+  filter?: FilterComment,
+  search?: string,
   noFilter?: boolean,
-}>()
+  noSearch?: boolean,
+}>();
 
 const emit = defineEmits<{
-  (e: 'filter', value: FilterResource): void;
+  (e: 'filter', value: FilterComment): void;
   (e: 'search', value: string): void;
 }>();
 
-const page = ref(1)
+const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
 const search = shallowRef("");
+
 watch(search, (newValue) => {
   emit('search', newValue);
-})
-watch(() => props.search, (newValue: string) => {
-  search.value = newValue
-})
+});
 
-const filterModel: Ref<FilterResource> = ref("all");
-watch(filterModel, (_) => {
-  emit('filter', filterModel.value);
-})
-watch(() => props.filter, (newFilter: FilterResource) => {
-  filterModel.value = newFilter
-})
+watch(() => props.search, (newValue) => {
+  search.value = newValue as string;
+});
+
+const filterModel = ref<FilterComment>("all");
+watch(filterModel, (newValue) => {
+  emit('filter', newValue);
+});
+
+watch(() => props.filter, (newFilter) => {
+  filterModel.value = newFilter as FilterComment;
+});
 
 onMounted(() => {
-  filterModel.value = props.filter
-  search.value = props.search
-})
-
+  filterModel.value = props.filter || "all";
+  search.value = props.search || "";
+});
 </script>
+
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
+    <v-data-iterator v-if="items && props.items.length" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
       <template #header>
         <div class="d-flex ga-3 align-center justify-center">
           <v-select
@@ -54,14 +55,15 @@ onMounted(() => {
             max-width="350"
           ></v-select>
           <v-select
-            v-if="!noFilter"
+            v-if="!props.noFilter"
             v-model="filterModel"
-            :items="['favorite', 'published', 'unpublished','all']"
+            :items="['pending', 'approved', 'rejected', 'all']"
             hide-details
             label="Filtre ressources"
             max-width="350"
           ></v-select>
           <v-text-field
+            v-if="!props.noSearch"
             v-model="search"
             hide-details
             label="Search"
@@ -72,14 +74,9 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.id">
-            <ResourceCard :item="item.raw" @toggle-favorite="store.toggleResourceFavorite">
-              <template #action>
-                <v-btn :to="'/resource/'+item.raw.id" append-icon="mdi-arrow-right" variant="tonal">En savoir plus
-                </v-btn>
-              </template>
-            </ResourceCard>
+            <CommentCard :item="item.raw">
+            </CommentCard>
           </template>
-
         </div>
       </template>
       <template #footer>
@@ -90,10 +87,8 @@ onMounted(() => {
         ></v-pagination>
       </template>
     </v-data-iterator>
-
   </div>
 </template>
-
 
 <style lang="sass" scoped>
 </style>

@@ -54,17 +54,17 @@ const submit = () => {
               label="Mot de passe"
               type="password"
             />
-          <div class="d-flex flex-column ga-2">
-            <v-btn block variant="text" @click="router.push({ name: '/auth/forgot/' })">
-              Oubli de mot de passe
-            </v-btn>
-            <v-btn block color="primary" @click="submit" :disabled="formValid">
-              Connexion
-            </v-btn>
-            <v-btn block color="secondary" @click="router.push({ name: '/auth/register/' })">
-              Inscription
-            </v-btn>
-          </div>
+            <div class="d-flex flex-column ga-2">
+              <v-btn block variant="text" @click="router.push({ name: '/auth/forgot/' })">
+                Oubli de mot de passe
+              </v-btn>
+              <v-btn :disabled="formValid" block color="primary" @click="submit">
+                Connexion
+              </v-btn>
+              <v-btn block color="secondary" @click="router.push({ name: '/auth/register/' })">
+                Inscription
+              </v-btn>
+            </div>
           </v-form>
         </div>
       </template>

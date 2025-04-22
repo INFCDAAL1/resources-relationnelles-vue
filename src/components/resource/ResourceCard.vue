@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import type { Resource } from '@/types';
-import { defineProps } from 'vue';
+<script lang="ts" setup>
+import type {Resource} from '@/types';
+import {defineProps} from 'vue';
 
 const props = defineProps<{
   item: Resource;
@@ -31,11 +31,11 @@ const toggleFavorite = () => {
   <v-card>
     <v-card-title>
       <div class="d-flex">
-      <div>{{ item.name }}</div>
-      <v-spacer></v-spacer>
+        <div>{{ item.name }}</div>
+        <v-spacer></v-spacer>
         <div class="d-flex ga-2">
-        <v-chip :color="props.item.isValid? 'green':'red'" :text="isValid"></v-chip>
-        <v-chip :color="props.item.isPublished? 'blue':'red'" :text="isPublished"></v-chip>
+          <v-chip :color="props.item.isValid? 'green':'red'" :text="isValid"></v-chip>
+          <v-chip :color="props.item.isPublished? 'blue':'red'" :text="isPublished"></v-chip>
         </div>
       </div>
     </v-card-title>
@@ -50,8 +50,10 @@ const toggleFavorite = () => {
         </div>
         <v-spacer/>
         <div class="d-flex ga-3 align-center">
-        <p class="text-grey-lighten-2">Créer le : {{ new Date(item.createdAt).toDateString() }}</p>
-        <v-btn variant="tonal" :prepend-icon="isFavoriteIcon" :color="isFavoriteColor" @click="toggleFavorite">Favoris</v-btn>
+          <p class="text-grey-lighten-2">Créer le : {{ new Date(item.createdAt).toDateString() }}</p>
+          <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
+            Favoris
+          </v-btn>
           <slot name="action"/>
         </div>
       </div>
@@ -60,5 +62,5 @@ const toggleFavorite = () => {
   </v-card>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>
