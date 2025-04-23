@@ -54,8 +54,7 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.raw.user.id">
-            <MessageGroupCard :item="item.raw">
-            </MessageGroupCard>
+            <MessageGroupCard :item="item.raw" />
           </template>
         </div>
       </template>
@@ -69,6 +68,3 @@ onMounted(() => {
     </v-data-iterator>
   </div>
 </template>
-
-<style lang="sass" scoped>
-</style>

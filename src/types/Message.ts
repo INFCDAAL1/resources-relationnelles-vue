@@ -3,6 +3,11 @@ export interface UserMessage {
   name: string;
 }
 
+export interface User {
+  id: number;
+  name: string;
+}
+
 export interface Message {
   id: number;
   content: string;
