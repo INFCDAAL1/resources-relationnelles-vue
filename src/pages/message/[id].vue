@@ -1,63 +1,98 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user.ts";
-import type { GroupMessage, RouteParams, Message } from "@/types";
+import { useMessageStore } from "@/stores/message.ts";
+import type { Message, RouteParams } from "@/types";
+import { definePage } from 'unplugin-vue-router/runtime';
+
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+  },
+});
 
 const route = useRoute();
-const store = useUserStore();
+const router = useRouter();
+const userStore = useUserStore();
+const messageStore = useMessageStore();
 
 const messages = ref<Message[]>([]);
 const newMessage = ref<string>("");
+const isLoading = ref(true);
+const error = ref<string | null>(null);
 
-onMounted(() => {
-  const { id } = route.params as RouteParams;
-  console.log(`Fetching conversation with id ${id}`);
-  // Simuler la récupération des messages
-  // Remplacez ceci par votre logique de récupération des messages
-  messages.value = [
-    {
-      id: 1,
-      content: "Bonjour !",
-      read: true,
-      sender: { id: 1, name: "Alice" },
-      receiver: { id: 2, name: "Bob" },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 2,
-      content: "Salut ! Comment ça va ?",
-      read: false,
-      sender: { id: 2, name: "Bob" },
-      receiver: { id: 1, name: "Alice" },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
+// Get user ID from route params
+const userId = computed(() => {
+  const { id } = route.params;
+  return Number(id);
 });
 
-const sendMessage = () => {
-  if (newMessage.value.trim() !== "") {
-    const message: Message = {
-      id: messages.value.length + 1,
-      content: newMessage.value,
-      read: false,
-      sender: { id: store.user.id, name: store.user.name },
-      receiver: { id: 2, name: "Bob" }, // Remplacez par l'ID du destinataire
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    messages.value.push(message);
-    newMessage.value = ""; // Réinitialiser le champ de saisie
+// Get user info from conversation
+const conversationUser = computed(() => {
+  const conversation = messageStore.conversations.find(c => c.user.id === userId.value);
+  return conversation?.user || { id: userId.value, name: 'User' };
+});
+
+onMounted(async () => {
+  try {
+    isLoading.value = true;
+    
+    // Make sure conversations are loaded
+    if (messageStore.conversations.length === 0) {
+      await messageStore.fetchConversations();
+    }
+    
+    // Fetch messages for this conversation
+    await messageStore.fetchMessagesByUserId(userId.value);
+    messages.value = messageStore.messages;
+    
+    // Mark messages as read
+    await messageStore.markAllAsRead(userId.value);
+  } catch (err) {
+    console.error('Failed to load conversation:', err);
+    error.value = err instanceof Error ? err.message : 'Unknown error occurred';
+  } finally {
+    isLoading.value = false;
   }
+});
+
+const sendMessage = async () => {
+  if (newMessage.value.trim() === "") return;
+  
+  try {
+    await messageStore.sendMessage(userId.value, newMessage.value);
+    newMessage.value = ""; // Reset input field
+  } catch (err) {
+    console.error('Failed to send message:', err);
+    // You could show an error toast here
+  }
+};
+
+// Format date for display
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleString();
 };
 </script>
 
 <template>
   <v-container>
-    <v-card flat>
-      <v-card-title>
-        <span>Chat avec {{ messages[0]?.receiver.name }}</span>
-      </v-card-title>
+    <div class="d-flex align-center mb-4">
+      <v-btn icon class="mr-2" @click="router.push('/message')">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+      <h2>{{ conversationUser.name }}</h2>
+    </div>
+    
+    <div v-if="isLoading" class="d-flex justify-center my-5">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    
+    <v-alert v-else-if="error" type="error">
+      {{ error }}
+    </v-alert>
+    
+    <v-card v-else flat>
       <v-card-text>
         <v-list>
           <v-list-item-group>
@@ -68,7 +103,7 @@ const sendMessage = () => {
                     <strong>{{ message.sender.name }}:</strong> {{ message.content }}
                   </div>
                 </v-list-item-title>
-                <v-list-item-subtitle>{{ message.createdAt.toLocaleString() }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ formatDate(message.created_at) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -87,5 +122,10 @@ const sendMessage = () => {
 </template>
 
 <style scoped lang="sass">
-/* Ajoutez vos styles ici */
+.text-wrap
+  white-space: normal
+  word-break: break-word
+
+v-list-item-content
+  max-width: 100%
 </style>

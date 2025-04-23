@@ -1,34 +1,36 @@
 <script lang="ts" setup>
-import type {FilterResource, GroupMessage, Message, Resource} from '@/types';
-import {useResourceStore} from "@/stores/resource.ts";
+import type { Conversation } from '@/types';
+import { useMessageStore } from "@/stores/message.ts";
 
-const store = useResourceStore()
+const store = useMessageStore();
 
 const props = defineProps<{
-  items: GroupMessage[],
+  items: Conversation[],
   search?: string,
-}>()
+}>();
 
 const emit = defineEmits<{
   (e: 'search', value: string): void;
 }>();
 
-const page = ref(1)
+const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
 const search = shallowRef("");
+
 watch(search, (newValue) => {
   emit('search', newValue);
-})
+});
+
 watch(() => props.search, (newValue: string|undefined) => {
   search.value = newValue || "";
-})
+});
 
 onMounted(() => {
   search.value = props.search || "";
-})
-
+});
 </script>
+
 <template>
   <div class="d-flex flex-column ga-5">
     <v-data-iterator :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
@@ -51,10 +53,8 @@ onMounted(() => {
       </template>
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.id">
-
-            <MessageGroupCard :item="item.raw">
-            </MessageGroupCard>
+          <template v-for="(item, i) in items" :key="item.raw.user.id">
+            <MessageGroupCard :item="item.raw" />
           </template>
         </div>
       </template>
@@ -66,10 +66,5 @@ onMounted(() => {
         ></v-pagination>
       </template>
     </v-data-iterator>
-
   </div>
 </template>
-
-
-<style lang="sass" scoped>
-</style>

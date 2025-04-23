@@ -2,6 +2,7 @@
 import type { Resource } from "@/types";
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
+import axios from '@/lib/axios';
 import { useUserStore } from "@/stores/user";
 
 export const useResourceStore = defineStore("resource", {
@@ -70,11 +71,22 @@ export const useResourceStore = defineStore("resource", {
 
     toggleResourceFavorite(resourceId: number) {
       const index = this.favorites.indexOf(resourceId);
-      if (index === -1) {
+      //Call axios route favorite/resourceId with setTo boolean
+      const setTo = index === -1 ? true : false;
+      if (setTo) {
         this.favorites.push(resourceId);
       } else {
         this.favorites.splice(index, 1);
       }
+
+      // Call axios route favorite/resourceId with setTo boolean
+      axios.post(`favorite/${resourceId}`, { setTo: setTo })
+        .then(() => {
+          console.log("Favorite status updated successfully.");
+        })
+        .catch((error) => {
+          console.error("Error updating favorite status:", error);
+        });
     },
   },
 });
