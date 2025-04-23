@@ -26,7 +26,7 @@
 
   const submit = async () => {
     const {
-      data, error, isLoading, execute: login }=  useFetch<AuthReponse>('login', {
+      data, error, execute: login }=  useFetch<AuthReponse>('login', {
       method:"post",
       data: {
         email: email.value,
@@ -36,8 +36,8 @@
     await login();
     if (data.value) {
       const store = useUserStore();
-      store.user = data.value.user;
-      store.token = data.value.token;
+      store.setToken(data.value.token);
+      store.setUser(data.value.user);
       await router.push({name: '/'});
     } else  if (error.value) {
       console.error('Erreur lors de la connexion:', error.value);

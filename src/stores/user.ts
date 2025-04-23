@@ -15,6 +15,15 @@ export const useUserStore = defineStore('auth', {
     isAdmin: state => state.user ? state.user.role === 'admin':false,
   },
   actions: {
+    setUser(user: User) {
+      this.user = user
+    },
+    setToken(token: User['token']) {
+      this.token = token
+    },
+    setValidity(validity: Date) {
+      this.validity = validity
+    },
     logout () {
       this.token = null
       this.validity = null

@@ -15,7 +15,7 @@ const store = useResourceStore();
 
 const items: Ref<Resource[]> = ref([] as Resource[]);
 const isLoading = ref(true);
-const error = ref(null);
+const error = ref();
 
 const search = shallowRef('');
 watch(search, (_) => {
@@ -32,23 +32,21 @@ watch(filter, (newValue) => {
 // Fetch resources from API
 const fetchResources = async () => {
   isLoading.value = true;
-  error.value = null;
-  
-  const { data, error: fetchError } = useFetch<ResourceApiResponse>('/api/resources');
-  await until(data).toBeTruthy().catch(() => {
-    error.value = "Timeout waiting for API response";
-  });
-  
+
+  const { data, error:errorApi } = useFetch<ResourceApiResponse>('/api/resources');
+
+  if (error.value) {
+    console.error('Error fetching resources:', error.value);
+    error.value = errorApi.value;
+    isLoading.value = false;
+    return;
+  }
+
   if (data.value) {
     store.setResources(data.value.data);
     applyFilter(filter.value);
   }
-  
-  if (fetchError.value) {
-    error.value = fetchError.value;
-    console.error('Error fetching resources:', fetchError.value);
-  }
-  
+
   isLoading.value = false;
 };
 
@@ -56,13 +54,13 @@ onMounted(async () => {
   // Load search and filter from URL
   const searchQuery = route.query.search;
   const filterQuery = route.query.filter;
-  
+
   if (searchQuery) {
     search.value = searchQuery.toString();
   }
-  
+
   filter.value = (filterQuery?.toString() as FilterResource) || "all";
-  
+
   // Fetch resources from API
   await fetchResources();
 });
@@ -107,21 +105,21 @@ const updateQuery = () => {
 <template>
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources ({{ items.length }})</h1>
-    
+
     <v-alert v-if="error" type="error" title="Erreur de chargement">
       Une erreur est survenue lors du chargement des ressources.
     </v-alert>
-    
+
     <div v-if="isLoading" class="d-flex justify-center my-5">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
-    
-    <ResourceList 
-      v-else 
-      :filter="filter" 
-      :items="items" 
-      :search="search" 
-      @filter="applyFilter" 
+
+    <ResourceList
+      v-else
+      :filter="filter"
+      :items="items"
+      :search="search"
+      @filter="applyFilter"
       @search="search = $event"
     />
   </div>
