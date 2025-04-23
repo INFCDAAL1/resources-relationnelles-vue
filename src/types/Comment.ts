@@ -9,3 +9,5 @@
     createdAt: Date;
     updatedAt: Date;
   }
+
+  export type FilterComment = 'pending' | 'approved' | 'rejected' | 'all'
