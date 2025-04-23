@@ -140,12 +140,18 @@ onMounted(async () => {
       Une erreur est survenue lors du chargement des ressources.
     </v-alert>
 
+    <v-empty-state
+      v-if="items.length === 0 && !isLoading"
+      title="Aucune ressource trouvée"
+      icon="mdi-file-document-outline"
+    ></v-empty-state>
+
     <div v-if="isLoading" class="d-flex justify-center my-5">
       <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
     <ResourceList
-      v-else
+      v-else-if="isLoading || items.length > 0"
       :filter="filter"
       :items="items"
       :search="search"
