@@ -24,6 +24,7 @@ onMounted(() => {
       <v-list-item link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite"/>
     </v-list>
     <template #append>
+      <v-list-item link prepend-icon="mdi-account-group" title="Gestion utilisateurs" to="/profile/"/>
       <v-list-profile/>
       <AppFooter/>
     </template>

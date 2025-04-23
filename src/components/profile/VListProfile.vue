@@ -17,10 +17,16 @@ const logout = () => {
   >
     <template #append>
       <v-btn
+        color="primary"
+        icon="mdi-account"
+        variant="text"
+        :to="'/profile/'+store.user.id"
+      />
+      <v-btn
         color="red"
         icon="mdi-logout"
         variant="text"
-        @click="logout"
+        @click.prevent="logout"
       />
     </template>
   </v-list-item>

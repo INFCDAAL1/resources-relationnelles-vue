@@ -62,7 +62,7 @@ const updateQuery = () => {
       <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
-    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event" v-if="!loading || items.length>0"/>
+    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event" v-if="!loading && items.length>0"/>
   </div>
 </template>
 
