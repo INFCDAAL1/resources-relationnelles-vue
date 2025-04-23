@@ -1,24 +1,33 @@
 <template>
-    <v-container>
-      <h1 class="text-h4 mb-4">Mentions Légales</h1>
+    <v-container class="py-10">
+      <v-card flat class="pa-6">
+        <v-card-title class="text-h4 font-weight-bold">Mentions Légales</v-card-title>
   
-      <h2 class="text-h6 mt-6">1. Éditeur du site</h2>
-      <p>
-        Le site est édité dans le cadre d’un projet pédagogique par un groupe d’étudiants agissant en tant que prestataire. <br />
-        Contact : <strong>support@ressourcesrelationnelles.fr</strong>
-      </p>
+        <v-divider class="mb-4 mt-2" />
   
-      <h2 class="text-h6 mt-4">2. Hébergement</h2>
-      <p>
-        Le site est hébergé par : <br />
-        <strong>Render / Vercel / autre selon déploiement</strong><br />
-        Adresse : À compléter selon prestataire retenu.
-      </p>
+        <v-list density="compact" class="text-body-1">
+          <v-list-item>
+            <v-list-item-title class="text-h6">1. Éditeur</v-list-item-title>
+            <v-list-item-subtitle>
+              Ce site est édité dans le cadre d’un projet pédagogique. Contact : <strong>support@ressourcesrelationnelles.fr</strong>
+            </v-list-item-subtitle>
+          </v-list-item>
   
-      <h2 class="text-h6 mt-4">3. Responsabilité</h2>
-      <p>
-        L’équipe éditrice ne saurait être tenue responsable des erreurs ou omissions dans les contenus diffusés. Les utilisateurs sont responsables des contenus qu’ils publient.
-      </p>
+          <v-list-item>
+            <v-list-item-title class="text-h6">2. Hébergeur</v-list-item-title>
+            <v-list-item-subtitle>
+              Hébergé par Vercel / Render (à adapter). Adresse et mentions légales de l’hébergeur disponibles sur leur site respectif.
+            </v-list-item-subtitle>
+          </v-list-item>
+  
+          <v-list-item>
+            <v-list-item-title class="text-h6">3. Responsabilités</v-list-item-title>
+            <v-list-item-subtitle>
+              L’équipe éditrice décline toute responsabilité quant aux contenus publiés par les utilisateurs ou à l’utilisation des ressources proposées.
+            </v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-container>
   </template>
   

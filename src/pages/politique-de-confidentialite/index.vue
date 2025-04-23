@@ -1,20 +1,41 @@
 <template>
-    <v-container>
-      <h1 class="text-h4 mb-4">Politique de Confidentialité</h1>
+    <v-container class="py-10">
+      <v-card flat class="pa-6">
+        <v-card-title class="text-h4 font-weight-bold">Politique de Confidentialité</v-card-title>
+        <v-card-subtitle class="text-caption mb-6">Dernière mise à jour : Avril 2025</v-card-subtitle>
   
-      <p>Dernière mise à jour : Avril 2025</p>
+        <v-divider class="mb-4" />
   
-      <h2 class="text-h6 mt-6">1. Données collectées</h2>
-      <p>Nous collectons uniquement les données nécessaires à la création du compte, à la modération des contenus et à l’analyse statistique d’usage.</p>
+        <v-list density="compact" class="text-body-1">
+          <v-list-item>
+            <v-list-item-title class="text-h6">1. Données collectées</v-list-item-title>
+            <v-list-item-subtitle>
+              Seules les données nécessaires à l’inscription, la sécurité et les statistiques anonymisées sont collectées.
+            </v-list-item-subtitle>
+          </v-list-item>
   
-      <h2 class="text-h6 mt-4">2. Utilisation des données</h2>
-      <p>Les données sont utilisées pour vous proposer un service personnalisé, garantir la sécurité des échanges et produire des statistiques anonymisées.</p>
+          <v-list-item>
+            <v-list-item-title class="text-h6">2. Utilisation</v-list-item-title>
+            <v-list-item-subtitle>
+              Vos données sont utilisées uniquement pour le bon fonctionnement du service, sans cession à des tiers.
+            </v-list-item-subtitle>
+          </v-list-item>
   
-      <h2 class="text-h6 mt-4">3. Droits des utilisateurs</h2>
-      <p>Vous disposez d’un droit d’accès, de rectification et de suppression de vos données. Pour exercer vos droits, contactez-nous à <strong>support@ressourcesrelationnelles.fr</strong>.</p>
+          <v-list-item>
+            <v-list-item-title class="text-h6">3. Vos droits</v-list-item-title>
+            <v-list-item-subtitle>
+              Vous pouvez demander à tout moment l’accès, la modification ou la suppression de vos données à l’adresse : <strong>support@ressourcesrelationnelles.fr</strong>
+            </v-list-item-subtitle>
+          </v-list-item>
   
-      <h2 class="text-h6 mt-4">4. Cookies</h2>
-      <p>Des cookies strictement nécessaires sont utilisés pour le bon fonctionnement du site. Aucun cookie tiers à des fins publicitaires n’est utilisé.</p>
+          <v-list-item>
+            <v-list-item-title class="text-h6">4. Cookies</v-list-item-title>
+            <v-list-item-subtitle>
+              Ce site utilise des cookies techniques uniquement. Aucun suivi publicitaire.
+            </v-list-item-subtitle>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-container>
   </template>
   
