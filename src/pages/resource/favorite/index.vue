@@ -14,7 +14,8 @@ const router = useRouter();
 const store = useResourceStore()
 
 const items: Ref<Resource[]> = ref([] as Resource[]);
-
+const loading = ref(true);
+const error = ref();
 const search = shallowRef('')
 watch(search, (_) => {
   updateQuery()
@@ -22,11 +23,20 @@ watch(search, (_) => {
 
 
 onMounted(() => {
+  try{
   const searchQuery = route.query.search;
   if (searchQuery) {
     search.value = searchQuery.toString();
   }
   items.value = store.getFavoriteResources;
+  } catch (err) {
+    error.value = err;
+    console.error('Error fetching resources:', error);
+
+  } finally {
+    loading.value = false;
+  }
+
 })
 
 const updateQuery = () => {
@@ -37,7 +47,22 @@ const updateQuery = () => {
 <template>
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources {{ items.length }}</h1>
-    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event"/>
+
+    <v-alert v-if="error" title="Erreur de chargement" type="error">
+      Une erreur est survenue lors du chargement des ressources.
+    </v-alert>
+
+    <v-empty-state
+      v-if="items.length === 0 && !loading"
+      title="Aucune ressource trouvée"
+      icon="mdi-file-document-outline"
+    ></v-empty-state>
+
+    <div v-if="loading" class="d-flex justify-center my-5">
+      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    </div>
+
+    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event" v-if="!loading || items.length>0"/>
   </div>
 </template>
 
