@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import type { Resource } from '@/types';
 import { useResourceStore } from "@/stores/resource.ts";
+import { useUserStore } from "@/stores/user.ts";
 
 const store = useResourceStore();
+const userStore = useUserStore();
 
 const props = defineProps<{
   item: Resource;
@@ -11,6 +13,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'toggle-favorite', id: number): void;
 }>();
+
+const isOurResource = computed(() => {
+  return props.item.user.id === userStore?.user?.id;
+});
 
 const isValid = computed(() => {
   return props.item.validated ? 'Validé' : 'Non validé';
@@ -60,7 +66,8 @@ const toggleFavorite = () => {
         </div>
         <v-spacer/>
         <div class="d-flex ga-3 align-center">
-          <p class="text-grey-lighten-2">Créer le : {{ new Date(item.created_at).toDateString() }}</p>
+          <p class="text-grey-lighten-2">Créé le : {{ new Date(item.created_at).toDateString() }}</p>
+          <p v-if="isOurResource"><v-icon color="green">mdi-account</v-icon>Votre ressource</p>
           <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
             Favoris
           </v-btn>
