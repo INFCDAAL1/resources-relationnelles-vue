@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type {Resource, User} from "@/types";
 import axios from "@/lib/axios.ts";
-import {useResourceStore} from "@/stores/resource.ts";
 import {useInvitationStore} from "@/stores/invitation.ts";
 import type {AxiosResponse} from "axios";
 
@@ -34,7 +33,7 @@ onMounted(async () => {
 const submit = async () => {
   if (userSelected.value && resourceSelected.value) {
     try {
-      const res:AxiosResponse = await axios.post(`invitations`, {
+      const res: AxiosResponse = await axios.post(`invitations`, {
         receiver_id: userSelected.value.id,
         resource_id: resourceSelected.value.id
       });

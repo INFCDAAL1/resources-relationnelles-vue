@@ -1,9 +1,9 @@
 // Utilities
-import type { Resource } from "@/types";
-import { useStorage } from "@vueuse/core";
-import { defineStore } from "pinia";
+import type {Resource} from "@/types";
+import {useStorage} from "@vueuse/core";
+import {defineStore} from "pinia";
 import axios from '@/lib/axios';
-import { useUserStore } from "@/stores/user";
+import {useUserStore} from "@/stores/user";
 
 export const useResourceStore = defineStore("resource", {
   state: () => ({
@@ -40,7 +40,7 @@ export const useResourceStore = defineStore("resource", {
     getMyResources: (state) => {
       const userStore = useUserStore();
       if (userStore.user !== null)
-        return  state.resources.filter((resource) => resource.user.id === userStore.user?.id);
+        return state.resources.filter((resource) => resource.user.id === userStore.user?.id);
       else return [];
     }
   },
@@ -80,7 +80,7 @@ export const useResourceStore = defineStore("resource", {
       }
 
       // Call axios route favorite/resourceId with setTo boolean
-      axios.post(`favorite/${resourceId}`, { setTo: setTo })
+      axios.post(`favorite/${resourceId}`, {setTo: setTo})
         .then(() => {
           console.log("Favorite status updated successfully.");
         })

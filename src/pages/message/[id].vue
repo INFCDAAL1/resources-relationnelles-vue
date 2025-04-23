@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import { useUserStore } from "@/stores/user.ts";
-import { useMessageStore } from "@/stores/message.ts";
-import type { Message, RouteParams } from "@/types";
-import { definePage } from 'unplugin-vue-router/runtime';
+<script lang="ts" setup>
+import {useUserStore} from "@/stores/user.ts";
+import {useMessageStore} from "@/stores/message.ts";
+import type {Message, RouteParams} from "@/types";
+import {definePage} from 'unplugin-vue-router/runtime';
 
 definePage({
   meta: {
@@ -23,29 +23,29 @@ const error = ref<string | null>(null);
 
 // Get user ID from route params
 const userId = computed(() => {
-  const { id } = route.params;
+  const {id} = route.params as RouteParams;
   return Number(id);
 });
 
 // Get user info from conversation
 const conversationUser = computed(() => {
   const conversation = messageStore.conversations.find(c => c.user.id === userId.value);
-  return conversation?.user || { id: userId.value, name: 'User' };
+  return conversation?.user || {id: userId.value, name: 'User'};
 });
 
 onMounted(async () => {
   try {
     isLoading.value = true;
-    
+
     // Make sure conversations are loaded
     if (messageStore.conversations.length === 0) {
       await messageStore.fetchConversations();
     }
-    
+
     // Fetch messages for this conversation
     await messageStore.fetchMessagesByUserId(userId.value);
     messages.value = messageStore.messages;
-    
+
     // Mark messages as read
     await messageStore.markAllAsRead(userId.value);
   } catch (err) {
@@ -58,7 +58,7 @@ onMounted(async () => {
 
 const sendMessage = async () => {
   if (newMessage.value.trim() === "") return;
-  
+
   try {
     await messageStore.sendMessage(userId.value, newMessage.value);
     newMessage.value = ""; // Reset input field
@@ -78,20 +78,20 @@ const formatDate = (dateString: string) => {
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
-      <v-btn icon class="mr-2" @click="router.push('/message')">
+      <v-btn class="mr-2" icon @click="router.push('/message')">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <h2>{{ conversationUser.name }}</h2>
     </div>
-    
+
     <div v-if="isLoading" class="d-flex justify-center my-5">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
-    
+
     <v-alert v-else-if="error" type="error">
       {{ error }}
     </v-alert>
-    
+
     <v-card v-else flat>
       <v-card-text>
         <v-list>
@@ -121,7 +121,7 @@ const formatDate = (dateString: string) => {
   </v-container>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 .text-wrap
   white-space: normal
   word-break: break-word

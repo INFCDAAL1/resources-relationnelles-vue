@@ -37,6 +37,7 @@
                 Change this page by updating
                 <v-kbd>{{
                     `
+
                   <HelloWorld/>
                   ` }}
                 </v-kbd>

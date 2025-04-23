@@ -1,13 +1,13 @@
 // Utilities
-import { defineStore } from 'pinia'
-import type { User } from '@/types';
-import { useStorage } from '@vueuse/core';
+import {defineStore} from 'pinia'
+import type {User} from '@/types';
+import {useStorage} from '@vueuse/core';
 import axios from "@/lib/axios.ts";
 
 export const useUserStore = defineStore('auth', {
   state: () => ({
-    token: useStorage('token','' as User['token'] | null,localStorage),
-    validity:  useStorage('validity',null as Date | null,localStorage),
+    token: useStorage('token', '' as User['token'] | null, localStorage),
+    validity: useStorage('validity', null as Date | null, localStorage),
     user: useStorage<User | null>('user', null, localStorage, {
       serializer: {
         read: (v: string) => JSON.parse(v),
@@ -18,7 +18,7 @@ export const useUserStore = defineStore('auth', {
 
   getters: {
     isLoggedIn: state => !!state.token,
-    isAdmin: state => state.user ? state.user.role === 'admin':false,
+    isAdmin: state => state.user ? state.user.role === 'admin' : false,
   },
   actions: {
     setUser(user: User) {
@@ -30,10 +30,10 @@ export const useUserStore = defineStore('auth', {
     setValidity(validity: Date) {
       this.validity = validity
     },
-    logout () {
-      axios.post('logout').then(()=> {
+    logout() {
+      axios.post('logout').then(() => {
         console.log('Déconnexion réussie')
-      }).catch(()=> {
+      }).catch(() => {
         console.error('Erreur lors de la déconnexion')
       })
 

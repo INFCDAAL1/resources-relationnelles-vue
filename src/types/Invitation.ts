@@ -1,4 +1,4 @@
-import type {User,Resource} from "@/types";
+import type {Resource, User} from "@/types";
 
 export interface Invitation {
   id: number;

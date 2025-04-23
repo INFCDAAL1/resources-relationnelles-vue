@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type {Invitation} from "@/types";
 import {useInvitationStore} from "@/stores/invitation.ts";
-import axios from "@/lib/axios.ts";
 
 const props = defineProps<{
   item: Invitation
@@ -59,7 +58,7 @@ const submit = (value: boolean): void => {
 </script>
 
 <template>
-  <v-card :loading="loading" :append-icon="icon">
+  <v-card :append-icon="icon" :loading="loading">
     <template #title>
       <div class="text-wrap text-body-1">{{ item.sender.name }} vous invite à rejoindre {{ item.resource.name }}</div>
     </template>

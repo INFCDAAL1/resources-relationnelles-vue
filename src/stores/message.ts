@@ -1,11 +1,6 @@
 import axios from "@/lib/axios";
-import type {
-  Conversation,
-  ConversationsResponse,
-  Message,
-  User,
-} from "@/types";
-import { defineStore } from "pinia";
+import type {Conversation, ConversationsResponse, Message, User,} from "@/types";
+import {defineStore} from "pinia";
 
 interface UserListResponse {
   users: User[];
@@ -55,7 +50,7 @@ export const useMessageStore = defineStore("message", {
       this.loading = true;
       try {
         const response = await axios.get(`/messages`, {
-          params: { user_id: userId },
+          params: {user_id: userId},
         });
         this.messages = response.data.data || [];
         return this.messages;

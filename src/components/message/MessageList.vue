@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { Conversation } from '@/types';
-import { useMessageStore } from "@/stores/message.ts";
+import type {Conversation} from '@/types';
+import {useMessageStore} from "@/stores/message.ts";
 
 const store = useMessageStore();
 
@@ -22,7 +22,7 @@ watch(search, (newValue) => {
   emit('search', newValue);
 });
 
-watch(() => props.search, (newValue: string|undefined) => {
+watch(() => props.search, (newValue: string | undefined) => {
   search.value = newValue || "";
 });
 
@@ -54,7 +54,7 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.raw.user.id">
-            <MessageGroupCard :item="item.raw" />
+            <MessageGroupCard :item="item.raw"/>
           </template>
         </div>
       </template>

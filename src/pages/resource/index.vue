@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { FilterResource, Resource, ResourceApiResponse } from '@/types';
-import { definePage } from "unplugin-vue-router/runtime";
-import { useResourceStore } from "@/stores/resource.ts";
+import type {FilterResource, Resource} from '@/types';
+import {definePage} from "unplugin-vue-router/runtime";
+import {useResourceStore} from "@/stores/resource.ts";
 import axios from '@/lib/axios';
 
 definePage({
@@ -136,12 +136,12 @@ onMounted(async () => {
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources ({{ items.length }})</h1>
 
-    <v-alert v-if="error" type="error" title="Erreur de chargement">
+    <v-alert v-if="error" title="Erreur de chargement" type="error">
       Une erreur est survenue lors du chargement des ressources.
     </v-alert>
 
     <div v-if="isLoading" class="d-flex justify-center my-5">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
     <ResourceList
@@ -152,6 +152,7 @@ onMounted(async () => {
       @filter="applyFilter"
       @search="search = $event"
     />
-    <v-fab icon="mdi-plus" app to="/resource/add" color="primary" size="75" v-role="['admin', 'user','moderator','superadmin']"></v-fab>
+    <v-fab v-role="['admin', 'user','moderator','superadmin']" app color="primary" icon="mdi-plus" size="75"
+           to="/resource/add"></v-fab>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue'
-import type { Resource } from '@/types'
+import {onMounted, ref, watch} from 'vue'
+import type {Resource} from '@/types'
 import axios from '@/lib/axios.ts'
 
 const props = defineProps<{
@@ -34,7 +34,7 @@ watch(
       formPublished.value = newVal.published || false
     }
   },
-  { immediate: true }
+  {immediate: true}
 )
 
 onMounted(async () => {
@@ -75,9 +75,9 @@ const submitForm = () => {
 </script>
 
 <template>
-  <v-form @submit.prevent="submitForm" class="d-flex flex-column ga-4">
-    <v-text-field v-model="formName" label="Nom" required />
-    <v-textarea v-model="formDescription" label="Description" required />
+  <v-form class="d-flex flex-column ga-4" @submit.prevent="submitForm">
+    <v-text-field v-model="formName" label="Nom" required/>
+    <v-textarea v-model="formDescription" label="Description" required/>
 
     <v-select
       v-model="formCategory"
@@ -97,18 +97,18 @@ const submitForm = () => {
       required
     />
 
-    <v-switch v-model="formPublished" label="Publié" />
+    <v-switch v-model="formPublished" label="Publié"/>
 
     <v-file-input
-      label="Fichier à joindre"
-      @change="handleFileChange"
       accept=".pdf,.doc,.docx,.jpg,.png"
+      label="Fichier à joindre"
       prepend-icon="mdi-paperclip"
+      @change="handleFileChange"
     />
 
-    <v-btn :loading="formLoading" type="submit" color="primary" @submit="submitForm">Soumettre</v-btn>
+    <v-btn :loading="formLoading" color="primary" type="submit" @submit="submitForm">Soumettre</v-btn>
   </v-form>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

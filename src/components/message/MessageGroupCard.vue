@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import type { Conversation } from "@/types";
+<script lang="ts" setup>
+import type {Conversation} from "@/types";
 
 const props = defineProps<{
   item: Conversation
@@ -29,12 +29,12 @@ const formatTime = (dateString: string | null) => {
         {{ item.unread_count }}
       </v-chip>
     </v-card-title>
-    
+
     <v-card-text>
       <div class="d-flex flex-column flex-wrap">
         <div v-if="item.last_message">
-          {{ formatTime(item.last_activity) }} 
-          <strong>{{ item.last_message.sender.name }}</strong>: 
+          {{ formatTime(item.last_activity) }}
+          <strong>{{ item.last_message.sender.name }}</strong>:
           {{ shortContent(item.last_message.content) }}
         </div>
         <div v-else class="text-grey">
@@ -45,5 +45,5 @@ const formatTime = (dateString: string | null) => {
   </v-card>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

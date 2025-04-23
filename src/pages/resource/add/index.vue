@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime";
-import { useResourceStore } from "@/stores/resource.ts";
-import type { Resource, RouteParams } from "@/types";
+import {definePage} from "unplugin-vue-router/runtime";
+import {useResourceStore} from "@/stores/resource.ts";
+import type {Resource} from "@/types";
 import axios from "@/lib/axios.ts";
 import ResourceForm from "@/components/resource/ResourceForm.vue";
 
@@ -22,7 +22,7 @@ const submit = async (formData: FormData) => {
     const res = await axios.post(
       `/resources`,
       formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
+      {headers: {'Content-Type': 'multipart/form-data'}}
     );
     store.addResource(res.data.data);
   } catch (error) {
@@ -34,7 +34,7 @@ const submit = async (formData: FormData) => {
 <template>
   <div>
     <h1 class="text-h5 mb-4">Ajout d'une ressource</h1>
-    <ResourceForm :model-value="item" @submit="submit" />
+    <ResourceForm :model-value="item" @submit="submit"/>
   </div>
 </template>
 

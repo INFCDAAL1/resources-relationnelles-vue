@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
+import {defineEmits, defineProps} from 'vue';
 
 const props = defineProps<{
   email: string;
@@ -18,7 +18,7 @@ const handleSubmit = () => {
     emit('submit');
   }
 }
-const passwordCensure = computed(()=> {
+const passwordCensure = computed(() => {
   return props.password.replace(/./g, '•');
 });
 </script>
@@ -38,22 +38,22 @@ const passwordCensure = computed(()=> {
         </v-list-item>
         <v-list-item>
           <v-list-item-title>Mot de passe :</v-list-item-title>
-          <v-list-item-subtitle>{{passwordCensure}}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ passwordCensure }}</v-list-item-subtitle>
         </v-list-item>
       </v-list>
 
       <v-alert
         v-if="!props.userinfoValide || !props.passwordValide"
-        type="error"
         class="mt-4"
+        type="error"
       >
         Les informations ne sont pas valides. Veuillez corriger les erreurs dans les étapes précédentes.
       </v-alert>
 
       <v-btn
         :disabled="!props.userinfoValide || !props.passwordValide"
-        color="primary"
         class="mt-4"
+        color="primary"
         @click="handleSubmit"
       >
         Confirmer et s'inscrire

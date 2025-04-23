@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Comment, FilterComment } from '@/types';
+import type {Comment, FilterComment} from '@/types';
 
 const props = defineProps<{
   items: Comment[],
@@ -44,7 +44,8 @@ onMounted(() => {
 
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator v-if="items && props.items.length" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
+    <v-data-iterator v-if="items && props.items.length" :items="items" :items-per-page="itemsPerPage" :page="page"
+                     :search="search">
       <template #header>
         <div class="d-flex ga-3 align-center justify-center">
           <v-select

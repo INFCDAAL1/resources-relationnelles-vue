@@ -1,7 +1,7 @@
-<script setup lang="ts">
-import { useMessageStore } from "@/stores/message.ts";
-import { definePage } from 'unplugin-vue-router/runtime';
-import type { Conversation } from "@/types";
+<script lang="ts" setup>
+import {useMessageStore} from "@/stores/message.ts";
+import {definePage} from 'unplugin-vue-router/runtime';
+import type {Conversation} from "@/types";
 import MessageNewConversation from '@/components/message/MessageNewConversation.vue';
 import MessageList from '@/components/message/MessageList.vue';
 
@@ -43,10 +43,10 @@ const closeNewConversation = () => {
     <div class="d-flex justify-space-between align-center mb-4">
       <h1>Vos messages</h1>
       <v-btn
+        :text="showNewConversation ? 'Fermer' : 'Nouvelle conversation'"
         color="primary"
         prepend-icon="mdi-message-plus"
         @click="showNewConversation = !showNewConversation"
-        :text="showNewConversation ? 'Fermer' : 'Nouvelle conversation'"
       ></v-btn>
     </div>
 
@@ -59,7 +59,7 @@ const closeNewConversation = () => {
     </v-expand-transition>
 
     <div v-if="isLoading" class="d-flex justify-center my-5">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
     <v-alert v-else-if="error" type="error">
@@ -68,14 +68,14 @@ const closeNewConversation = () => {
 
     <v-empty-state
       v-else-if="items.length === 0 && !showNewConversation"
-      title="Aucune conversation"
       icon="mdi-message-outline"
+      title="Aucune conversation"
     ></v-empty-state>
 
 
-    <MessageList v-else-if="items.length > 0" :items="items" />
+    <MessageList v-else-if="items.length > 0" :items="items"/>
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

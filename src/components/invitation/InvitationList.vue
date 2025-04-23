@@ -71,7 +71,7 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.raw.id">
-              <InvitationCard :item="item.raw"/>
+            <InvitationCard :item="item.raw"/>
           </template>
         </div>
       </template>

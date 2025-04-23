@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-  import { useUserStore } from '@/stores/user'
+import {useUserStore} from '@/stores/user'
 
-  const store = useUserStore()
+const store = useUserStore()
 
-  const logout = () => {
-    store.logout()
-  }
+const logout = () => {
+  store.logout()
+}
 
 </script>
 
 <template>
   <v-list-item
     v-if="store.isLoggedIn && store.user"
-    nav
     :title="store.user.name+' - '+store.user.role"
+    nav
   >
     <template #append>
       <v-btn

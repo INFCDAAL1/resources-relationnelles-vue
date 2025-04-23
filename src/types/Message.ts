@@ -3,11 +3,6 @@ export interface UserMessage {
   name: string;
 }
 
-export interface User {
-  id: number;
-  name: string;
-}
-
 export interface Message {
   id: number;
   content: string;
@@ -25,12 +20,6 @@ export interface Conversation {
   last_activity: string | null;
 }
 
-export interface GroupMessage {
-  id: number;
-  user: UserMessage;
-  unread_count: number;
-  last_message: Message | null;
-}
 
 // API response types
 export interface MessageApiResponse {
@@ -59,8 +48,4 @@ export interface MessageApiResponse {
 
 export interface ConversationsResponse {
   conversations: Conversation[];
-}
-
-export interface RouteParams {
-  id: string;
 }

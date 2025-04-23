@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime";
-import { useResourceStore } from "@/stores/resource.ts";
-import type { Resource, RouteParams } from "@/types";
+import {definePage} from "unplugin-vue-router/runtime";
+import {useResourceStore} from "@/stores/resource.ts";
+import type {Resource, RouteParams} from "@/types";
 import axios from "@/lib/axios.ts";
 import ResourceForm from "@/components/resource/ResourceForm.vue";
 
@@ -18,7 +18,7 @@ const store = useResourceStore();
 const item: Ref<Resource | undefined> = ref();
 
 onMounted(async () => {
-  const { id } = route.params as RouteParams;
+  const {id} = route.params as RouteParams;
   const resourceId = Number(id);
 
   // Essayer d'abord depuis le store
@@ -43,7 +43,7 @@ const submit = async (formData: FormData) => {
     const res = await axios.put(
       `/resources/${item.value.id}`,
       formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
+      {headers: {'Content-Type': 'multipart/form-data'}}
     );
 
     // Mettre à jour le store local
@@ -60,8 +60,8 @@ const submit = async (formData: FormData) => {
 <template>
   <div>
     <h1 class="text-h5 mb-4">Modifier une ressource</h1>
-    <ResourceForm v-if="item" :model-value="item" @submit="submit" />
-    <v-alert v-else type="info" text="Chargement de la ressource..."></v-alert>
+    <ResourceForm v-if="item" :model-value="item" @submit="submit"/>
+    <v-alert v-else text="Chargement de la ressource..." type="info"></v-alert>
   </div>
 </template>
 

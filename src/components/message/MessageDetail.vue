@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { Message } from '@/types';
-import { useMessageStore } from "@/stores/message.ts";
-import { useUserStore } from "@/stores/user.ts";
+import type {Message} from '@/types';
+import {useMessageStore} from "@/stores/message.ts";
+import {useUserStore} from "@/stores/user.ts";
 
 const messageStore = useMessageStore();
 const userStore = useUserStore();
@@ -19,7 +19,7 @@ const currentUser = computed(() => userStore.user);
 // Send a new message
 const sendMessage = async () => {
   if (!newMessage.value.trim()) return;
-  
+
   try {
     await messageStore.sendMessage(props.userId, newMessage.value);
     newMessage.value = '';
@@ -38,7 +38,7 @@ watch(() => props.messages, () => {
       messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
     }
   });
-}, { deep: true });
+}, {deep: true});
 
 onMounted(() => {
   nextTick(() => {
@@ -50,7 +50,7 @@ onMounted(() => {
 
 // Format message time
 const formatTime = (dateString: string) => {
-  return new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return new Date(dateString).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 };
 </script>
 
@@ -58,31 +58,31 @@ const formatTime = (dateString: string) => {
   <div class="message-detail">
     <!-- Messages -->
     <div ref="messageContainer" class="message-container">
-      <div v-for="message in messages" :key="message.id" 
+      <div v-for="message in messages" :key="message.id"
            :class="['message', message.sender.id === currentUser?.id ? 'sent' : 'received']">
         <div class="message-bubble">
           {{ message.content }}
           <div class="message-time">
             {{ formatTime(message.created_at) }}
-            <v-icon v-if="message.sender.id === currentUser?.id" 
-                   size="x-small" 
-                   :color="message.read ? 'success' : 'grey'">
+            <v-icon v-if="message.sender.id === currentUser?.id"
+                    :color="message.read ? 'success' : 'grey'"
+                    size="x-small">
               {{ message.read ? 'mdi-check-all' : 'mdi-check' }}
             </v-icon>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- Message input -->
     <div class="message-input">
-      <v-form @submit.prevent="sendMessage" class="d-flex ga-2">
+      <v-form class="d-flex ga-2" @submit.prevent="sendMessage">
         <v-text-field
           v-model="newMessage"
-          placeholder="Type a message..."
-          hide-details
-          variant="outlined"
           density="compact"
+          hide-details
+          placeholder="Type a message..."
+          variant="outlined"
           @keyup.enter.prevent="sendMessage"
         ></v-text-field>
         <v-btn color="primary" icon @click="sendMessage">
@@ -110,17 +110,17 @@ const formatTime = (dateString: string) => {
 .message
   max-width: 70%
   margin-bottom: 0.5rem
-  
+
   &.sent
     align-self: flex-end
-    
+
     .message-bubble
       background-color: #e3f2fd
       border-radius: 18px 18px 0 18px
 
   &.received
     align-self: flex-start
-    
+
     .message-bubble
       background-color: #f5f5f5
       border-radius: 18px 18px 18px 0

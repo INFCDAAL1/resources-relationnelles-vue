@@ -1,16 +1,16 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import axios from "@/lib/axios.ts";
 import {useResourceStore} from "@/stores/resource.ts";
 import {useInvitationStore} from "@/stores/invitation.ts";
-import type {FilterInvitation, FilterResource, Invitation, InvitationResponse, Resource} from "@/types";
+import type {FilterInvitation, Invitation, InvitationResponse, Resource} from "@/types";
 import type {AxiosResponse} from "axios";
 
 const store = useInvitationStore()
 const resourceStore = useResourceStore()
 
 const resources: Ref<Resource[]> = ref([])
-const invitation:Ref<Invitation[]> = ref([])
+const invitation: Ref<Invitation[]> = ref([])
 
 const filter: Ref<FilterInvitation> = ref("all");
 watch(filter, (newValue) => {
@@ -20,11 +20,11 @@ watch(filter, (newValue) => {
 });
 
 
-onMounted(()=>{
+onMounted(() => {
   resources.value = resourceStore.getMyResources
   invitation.value = store.getAllInvitations
   if (invitation.value) {
-    axios.get(`invitations`).then((response:AxiosResponse<InvitationResponse>) => {
+    axios.get(`invitations`).then((response: AxiosResponse<InvitationResponse>) => {
       store.setInvitations(response.data.data)
     }).catch((error) => {
       console.error(error)
@@ -43,17 +43,17 @@ const applyFilter = (value: FilterInvitation) => {
 </script>
 
 <template>
-<h1>Liste des invitations</h1>
+  <h1>Liste des invitations</h1>
   <v-row>
     <v-col>
-      <InvitationList :items="invitation" :filter="filter" search="" @filter="applyFilter"/>
+      <InvitationList :filter="filter" :items="invitation" search="" @filter="applyFilter"/>
     </v-col>
     <v-col>
-      <InvitationForm />
+      <InvitationForm/>
     </v-col>
   </v-row>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

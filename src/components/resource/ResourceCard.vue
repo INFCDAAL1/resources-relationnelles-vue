@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { Resource } from '@/types';
-import { useResourceStore } from "@/stores/resource.ts";
-import { useUserStore } from "@/stores/user.ts";
+import type {Resource} from '@/types';
+import {useResourceStore} from "@/stores/resource.ts";
+import {useUserStore} from "@/stores/user.ts";
 
 const store = useResourceStore();
 const userStore = useUserStore();
@@ -67,11 +67,16 @@ const toggleFavorite = () => {
         <v-spacer/>
         <div class="d-flex ga-3 align-center">
           <p class="text-grey-lighten-2">Créé le : {{ new Date(item.created_at).toDateString() }}</p>
-          <p v-if="isOurResource"><v-icon color="green">mdi-account</v-icon>Votre ressource</p>
+          <p v-if="isOurResource">
+            <v-icon color="green">mdi-account</v-icon>
+            Votre ressource
+          </p>
           <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
             Favoris
           </v-btn>
-          <v-btn v-role="['admin', 'user','moderator','superadmin']" :to="'/resource/edit/'+item.id" variant="tonal" prepend-icon="mdi-pencil">Modifier</v-btn>
+          <v-btn v-role="['admin', 'user','moderator','superadmin']" :to="'/resource/edit/'+item.id" prepend-icon="mdi-pencil"
+                 variant="tonal">Modifier
+          </v-btn>
           <slot name="action"/>
         </div>
       </div>

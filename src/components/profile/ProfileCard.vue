@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import type { User } from '@/types'
+<script lang="ts" setup>
+import type {User} from '@/types'
 
 const props = defineProps<{
   user: User
@@ -21,21 +21,23 @@ const props = defineProps<{
           <v-list-item-title><strong>Email :</strong> {{ user.email }}</v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><strong>Rôle :</strong> {{ user.role === 'admin' ? 'Administrateur' : 'Utilisateur' }}</v-list-item-title>
+          <v-list-item-title><strong>Rôle :</strong> {{ user.role === 'admin' ? 'Administrateur' : 'Utilisateur' }}
+          </v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title><strong>Inscription :</strong> {{ new Date(user.created_at).toLocaleDateString() }}</v-list-item-title>
+          <v-list-item-title><strong>Inscription :</strong> {{ new Date(user.created_at).toLocaleDateString() }}
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-card-text>
 
     <v-card-actions>
-      <v-chip color="primary" variant="elevated" label>
+      <v-chip color="primary" label variant="elevated">
         {{ user.role }}
       </v-chip>
     </v-card-actions>
   </v-card>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

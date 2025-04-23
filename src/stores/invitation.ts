@@ -1,6 +1,6 @@
 // Utilities
 import {defineStore} from 'pinia'
-import type {FilterInvitation, Invitation, User} from '@/types';
+import type {FilterInvitation, Invitation} from '@/types';
 import {useStorage} from "@vueuse/core";
 
 export const useInvitationStore = defineStore('invitation', {

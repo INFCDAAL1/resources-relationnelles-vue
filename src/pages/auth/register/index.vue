@@ -2,7 +2,6 @@
 import {useUserStore} from "@/stores/user.ts";
 import {definePage} from "unplugin-vue-router/runtime";
 import type {AxiosResponse} from "axios";
-import Auth from "@/layouts/auth.vue";
 import type {AuthReponse} from "@/types";
 import axios from "@/lib/axios.ts";
 
@@ -49,7 +48,7 @@ const submit = () => {
     email: email.value,
     name: nom.value,
     password: password.value,
-  }).then((response:AxiosResponse<AuthReponse>) => {
+  }).then((response: AxiosResponse<AuthReponse>) => {
     if (response.status === 200) {
       store.setToken(response.data.token);
       store.setUser(response.data.user);
@@ -63,7 +62,8 @@ const submit = () => {
 
 <template>
   <div class="d-flex flex-column align-center">
-    <v-stepper :items="['Renseignement de l\'utilisateur', 'Renseignement du mot de passe', 'Confirmation']" width="800">
+    <v-stepper :items="['Renseignement de l\'utilisateur', 'Renseignement du mot de passe', 'Confirmation']"
+               width="800">
       <template v-slot:item.1>
         <StepUserInfo @email="getEmail" @nom="getNom" @valide="getUserinfoValide"/>
       </template>
@@ -72,7 +72,8 @@ const submit = () => {
         <StepSetPassword @password="getPassword" @passwordValide="getPasswordValide"/>
       </template>
       <template v-slot:item.3>
-        <StepConfirmation :email="email" :nom="nom" :password="password" :userinfoValide="userinfoValide" :passwordValide="passwordValide" @submit="submit"/>
+        <StepConfirmation :email="email" :nom="nom" :password="password" :passwordValide="passwordValide"
+                          :userinfoValide="userinfoValide" @submit="submit"/>
       </template>
 
     </v-stepper>

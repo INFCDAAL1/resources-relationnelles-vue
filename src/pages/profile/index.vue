@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {definePage} from "unplugin-vue-router/runtime";
 
 definePage({
@@ -13,6 +13,6 @@ definePage({
 
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

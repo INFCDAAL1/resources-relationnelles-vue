@@ -1,7 +1,7 @@
-<script setup lang="ts">
-import { useMessageStore } from "@/stores/message.ts";
-import type { User } from "@/types";
-import { useRouter } from "vue-router";
+<script lang="ts" setup>
+import {useMessageStore} from "@/stores/message.ts";
+import type {User} from "@/types";
+import {useRouter} from "vue-router";
 
 const router = useRouter();
 const messageStore = useMessageStore();
@@ -52,41 +52,41 @@ const startConversation = async () => {
   <div class="new-conversation">
     <h2>Démarrer une nouvelle conversation</h2>
 
-    <v-alert v-if="error" type="error" class="mb-4">
+    <v-alert v-if="error" class="mb-4" type="error">
       {{ error }}
     </v-alert>
 
-    <v-alert type="info" v-if="users.length === 0 && !error">
+    <v-alert v-if="users.length === 0 && !error" type="info">
       Vous avez déjà des conversations avec tous les utilisateurs disponibles.
     </v-alert>
 
     <v-form v-else @submit.prevent="startConversation">
       <v-select
         v-model="selectedUser"
+        :disabled="isLoading"
         :items="users"
+        :loading="isLoading"
+        class="mb-4"
         item-title="name"
         item-value="id"
         label="Sélectionnez un utilisateur"
-        :loading="isLoading"
-        :disabled="isLoading"
         return-object
-        class="mb-4"
       ></v-select>
 
       <v-textarea
         v-model="message"
-        label="Message"
         :disabled="isLoading"
         class="mb-4"
-        rows="3"
+        label="Message"
         required
+        rows="3"
       ></v-textarea>
 
       <v-btn
-        type="submit"
-        color="primary"
-        :loading="isLoading"
         :disabled="!selectedUser || !message.trim() || isLoading"
+        :loading="isLoading"
+        color="primary"
+        type="submit"
       >
         Démarrer la conversation
       </v-btn>

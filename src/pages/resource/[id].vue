@@ -2,7 +2,7 @@
 
 import {definePage} from "unplugin-vue-router/runtime";
 import {useResourceStore} from "@/stores/resource.ts";
-import type {Resource,Comment,RouteParams} from "@/types";
+import type {Comment, Resource, RouteParams} from "@/types";
 import {useCommentStore} from "@/stores/comment.ts";
 import axios from "@/lib/axios.ts";
 
@@ -20,7 +20,7 @@ const item: Ref<Resource | undefined> = ref();
 const comments: Ref<Comment[]> = ref([]);
 
 onMounted(async () => {
-  const { id } = route.params as RouteParams;
+  const {id} = route.params as RouteParams;
   const resourceId = Number(id);
   item.value = store.getResourceById(resourceId);
 
@@ -47,7 +47,7 @@ onMounted(async () => {
 });
 
 const getDownloadLink = computed(() => {
-  if (item.value&& item.value.download_url)
+  if (item.value && item.value.download_url)
     return item.value.download_url
   else return ''
 })
@@ -61,10 +61,10 @@ const getDownloadLink = computed(() => {
       <ResourceCard :item="item" @toggle-favorite="store.toggleResourceFavorite">
         <template #action>
           <v-btn
-            variant="tonal"
-            append-icon="mdi-arrow-down"
             :disabled="!getDownloadLink"
             :href="getDownloadLink"
+            append-icon="mdi-arrow-down"
+            variant="tonal"
           >
             Télécharger
           </v-btn>
@@ -73,7 +73,7 @@ const getDownloadLink = computed(() => {
     </v-card>
 
     <v-card v-if="!comments.length" title="Aucun commentaire pour cette ressource."></v-card>
-    <CommentList v-else :items="comments" no-filter />
+    <CommentList v-else :items="comments" no-filter/>
   </div>
 
 </template>
