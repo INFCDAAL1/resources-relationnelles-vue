@@ -17,6 +17,8 @@ import axios from 'axios';
 import { useUserStore } from '@/stores/user.ts'
 
 axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.interceptors.request.use(config => {
   const store = useUserStore()
   const token = store.token
