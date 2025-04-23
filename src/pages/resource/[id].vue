@@ -8,7 +8,7 @@ import {useCommentStore} from "@/stores/comment.ts";
 definePage({
   meta: {
     layout: 'default',
-    requiresAuth: false,
+    requiresAuth: true,
   },
 })
 const router = useRouter();

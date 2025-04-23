@@ -3,6 +3,10 @@
 
   const store = useUserStore()
 
+  const logout = () => {
+    store.logout()
+  }
+
 </script>
 
 <template>
@@ -16,6 +20,7 @@
         color="red"
         icon="mdi-logout"
         variant="text"
+        @click="logout"
       />
     </template>
   </v-list-item>

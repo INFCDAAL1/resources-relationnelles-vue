@@ -6,7 +6,7 @@ import { useResourceStore } from "@/stores/resource.ts";
 definePage({
   meta: {
     layout: 'default',
-    requiresAuth: false,
+    requiresAuth: true,
   },
 })
 const route = useRoute();
@@ -33,7 +33,7 @@ watch(filter, (newValue) => {
 const fetchResources = async () => {
   isLoading.value = true;
 
-  const { data, error:errorApi } = useFetch<ResourceApiResponse>('/api/resources');
+  const { data, error:errorApi } = useFetch<ResourceApiResponse>('resources');
 
   if (error.value) {
     console.error('Error fetching resources:', error.value);

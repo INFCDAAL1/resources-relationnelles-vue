@@ -6,7 +6,7 @@ import {useResourceStore} from "@/stores/resource.ts";
 definePage({
   meta: {
     layout: 'default',
-    requiresAuth: false,
+    requiresAuth: true,
   },
 })
 const route = useRoute();

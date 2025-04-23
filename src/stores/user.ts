@@ -30,6 +30,10 @@ export const useUserStore = defineStore('auth', {
       this.validity = validity
     },
     logout () {
+      const {isFinished}= useFetch('logout',{method:'post'})
+      if (isFinished) {
+        console.log('Déconnexion réussie')
+      }
       this.token = null
       this.validity = null
       this.user = null
