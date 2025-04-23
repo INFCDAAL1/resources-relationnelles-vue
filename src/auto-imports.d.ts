@@ -141,7 +141,6 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useFetch: UnwrapRef<typeof import('./composables/useFetch')['useFetch']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

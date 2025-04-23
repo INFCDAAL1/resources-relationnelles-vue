@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia'
 import type { User } from '@/types';
 import { useStorage } from '@vueuse/core';
+import axios from "@/lib/axios.ts";
 
 export const useUserStore = defineStore('auth', {
   state: () => ({
@@ -30,10 +31,12 @@ export const useUserStore = defineStore('auth', {
       this.validity = validity
     },
     logout () {
-      const {isFinished}= useFetch('logout',{method:'post'})
-      if (isFinished) {
+      axios.post('logout').then(()=> {
         console.log('Déconnexion réussie')
-      }
+      }).catch(()=> {
+        console.error('Erreur lors de la déconnexion')
+      })
+
       this.token = null
       this.validity = null
       this.user = null

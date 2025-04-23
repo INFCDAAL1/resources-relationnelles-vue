@@ -27,17 +27,6 @@ onMounted(() => {
     search.value = searchQuery.toString();
   }
   items.value = store.getFavoriteResources;
-  store.addResource({
-    id: items.value.length + 1,
-    name: "Resource personnelle",
-    description: "Un poney qui fait des tours de magie",
-    category: "Resource",
-    isValid: true,
-    isPublished: true,
-    isFavorite: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  })
 })
 
 const updateQuery = () => {

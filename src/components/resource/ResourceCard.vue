@@ -31,7 +31,7 @@ const isFavorite = computed(() => {
 });
 
 const isFavoriteColor = computed(() => {
-  return isFavorite.value ? 'yellow' : 'grey';
+  return isFavorite.value ? 'orange' : 'grey';
 });
 
 const isFavoriteIcon = computed(() => {
