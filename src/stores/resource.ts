@@ -2,6 +2,7 @@
 import type { Resource } from "@/types";
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
+import { useUserStore } from "@/stores/user";
 
 export const useResourceStore = defineStore("resource", {
   state: () => ({
@@ -35,6 +36,12 @@ export const useResourceStore = defineStore("resource", {
           resource.name.toLowerCase().includes(name.toLowerCase())
         );
     },
+    getMyResources: (state) => {
+      const userStore = useUserStore();
+      if (userStore.user !== null)
+        return  state.resources.filter((resource) => resource.user.id === userStore.user?.id);
+      else return [];
+    }
   },
 
   actions: {

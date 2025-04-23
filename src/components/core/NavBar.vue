@@ -20,6 +20,7 @@
     <v-list density="compact">
       <v-list-item link prepend-icon="mdi-package-variant" title="Ressources" to="/resource/" />
       <v-list-item link prepend-icon="mdi-message" title="Messagerie" to="/message/"/>
+      <v-list-item link prepend-icon="mdi-email-plus" title="Invitation" to="/invitation/"/>
       <v-list-item link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite" />
     </v-list>
     <template #append>

@@ -33,8 +33,8 @@ watch(filter, (newValue) => {
 // Fetch resources from API
 const fetchResources = async () => {
   isLoading.value = true;
-  
-  axios.get('/resources')
+
+  axios.get('resources')
     .then(response => {
       store.setResources(response.data.data);
       items.value = response.data.data;

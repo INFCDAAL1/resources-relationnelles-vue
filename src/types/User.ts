@@ -7,3 +7,7 @@ export interface User {
   updated_at: string
   token: string | null
 }
+
+export interface UserResponse {
+  data: Partial<User>[];
+}
