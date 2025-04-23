@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 //
-  import { definePage } from 'unplugin-vue-router/runtime';
+import {definePage} from "unplugin-vue-router/runtime";
 
   definePage({
     meta: {

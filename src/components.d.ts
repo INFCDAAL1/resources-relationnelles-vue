@@ -13,6 +13,8 @@ declare module 'vue' {
     CommentCard: typeof import('./components/comment/CommentCard.vue')['default']
     CommentList: typeof import('./components/comment/CommentList.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    MessageGroupCard: typeof import('./components/message/MessageGroupCard.vue')['default']
+    MessageList: typeof import('./components/message/MessageList.vue')['default']
     NavBar: typeof import('./components/core/NavBar.vue')['default']
     NotFound: typeof import('./components/core/NotFound.vue')['default']
     ProfileCard: typeof import('./components/profile/ProfileCard.vue')['default']
