@@ -18,7 +18,6 @@ declare module 'vue' {
     MessageList: typeof import('./components/message/MessageList.vue')['default']
     MessageNewConversation: typeof import('./components/message/MessageNewConversation.vue')['default']
     NavBar: typeof import('./components/core/NavBar.vue')['default']
-    NewConversation: typeof import('./components/message/NewConversation.vue')['default']
     NotFound: typeof import('./components/core/NotFound.vue')['default']
     ProfileCard: typeof import('./components/profile/ProfileCard.vue')['default']
     ResourceCard: typeof import('./components/resource/ResourceCard.vue')['default']
