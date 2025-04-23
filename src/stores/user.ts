@@ -7,7 +7,12 @@ export const useUserStore = defineStore('auth', {
   state: () => ({
     token: useStorage('token','' as User['token'] | null,localStorage),
     validity:  useStorage('validity',null as Date | null,localStorage),
-    user:  useStorage('user',null as User | null,localStorage),
+    user: useStorage<User | null>('user', null, localStorage, {
+      serializer: {
+        read: (v: string) => JSON.parse(v),
+        write: (v: User | null) => JSON.stringify(v),
+      },
+    }),
   }),
 
   getters: {
