@@ -13,17 +13,6 @@ import App from './App.vue'
 
 // Composables
 import { createApp } from 'vue'
-import axios from 'axios';
-import { useUserStore } from '@/stores/user.ts'
-
-axios.defaults.baseURL = 'http://localhost:8000/api/';
-axios.interceptors.request.use(config => {
-  const store = useUserStore()
-  const token = store.token
-  config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
-
 
 const app = createApp(App)
 
