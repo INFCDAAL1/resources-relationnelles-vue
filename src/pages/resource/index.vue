@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type {FilterResource, Resource} from '@/types';
-import {definePage} from "unplugin-vue-router/runtime";
-import {useResourceStore} from "@/stores/resource.ts";
+import type { FilterResource, Resource, ResourceApiResponse } from '@/types';
+import { definePage } from "unplugin-vue-router/runtime";
+import { useResourceStore } from "@/stores/resource.ts";
 
 definePage({
   meta: {
@@ -11,50 +11,70 @@ definePage({
 })
 const route = useRoute();
 const router = useRouter();
-const store = useResourceStore()
+const store = useResourceStore();
 
 const items: Ref<Resource[]> = ref([] as Resource[]);
+const isLoading = ref(true);
+const error = ref(null);
 
-const search = shallowRef('')
+const search = shallowRef('');
 watch(search, (_) => {
-  updateQuery()
-})
+  updateQuery();
+});
 
-const filter: Ref<FilterResource> = ref("all")
+const filter: Ref<FilterResource> = ref("all");
 watch(filter, (newValue) => {
   if (filter.value != newValue) {
-    applyFilter(newValue)
+    applyFilter(newValue);
   }
-})
-onMounted(() => {
+});
+
+// Fetch resources from API
+const fetchResources = async () => {
+  isLoading.value = true;
+  error.value = null;
+  
+  const { data, error: fetchError } = useFetch<ResourceApiResponse>('/api/resources');
+  await until(data).toBeTruthy().catch(() => {
+    error.value = "Timeout waiting for API response";
+  });
+  
+  if (data.value) {
+    store.setResources(data.value.data);
+    applyFilter(filter.value);
+  }
+  
+  if (fetchError.value) {
+    error.value = fetchError.value;
+    console.error('Error fetching resources:', fetchError.value);
+  }
+  
+  isLoading.value = false;
+};
+
+onMounted(async () => {
+  // Load search and filter from URL
   const searchQuery = route.query.search;
   const filterQuery = route.query.filter;
-  applyFilter(filterQuery?.toString() || "all")
+  
   if (searchQuery) {
     search.value = searchQuery.toString();
   }
-
-  store.addResource({
-    id: items.value.length + 1,
-    name: "Resource personnelle",
-    description: "Un poney qui fait des tours de magie",
-    category: "Resource",
-    isValid: true,
-    isPublished: true,
-    isFavorite: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  })
-})
+  
+  filter.value = (filterQuery?.toString() as FilterResource) || "all";
+  
+  // Fetch resources from API
+  await fetchResources();
+});
 
 watch(() => route.query, (_) => {
   if (route.query.filter) {
     if (filter.value != route.query.filter) {
       filter.value = route.query.filter as FilterResource;
-      applyFilter(filter.value)
+      applyFilter(filter.value);
     }
   }
-})
+});
 
 const applyFilter = (filterCase: string) => {
   switch (filterCase) {
@@ -74,7 +94,7 @@ const applyFilter = (filterCase: string) => {
       filter.value = 'all';
       items.value = store.getAllResources;
   }
-  updateQuery()
+  updateQuery();
 };
 
 const updateQuery = () => {
@@ -86,11 +106,23 @@ const updateQuery = () => {
 </script>
 <template>
   <div class="d-flex flex-column ga-5">
-    <h1>Liste des ressources {{ items.length }}</h1>
-    <ResourceList :filter="filter" :items="items" :search="search" @filter="applyFilter" @search="search = $event"/>
+    <h1>Liste des ressources ({{ items.length }})</h1>
+    
+    <v-alert v-if="error" type="error" title="Erreur de chargement">
+      Une erreur est survenue lors du chargement des ressources.
+    </v-alert>
+    
+    <div v-if="isLoading" class="d-flex justify-center my-5">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    
+    <ResourceList 
+      v-else 
+      :filter="filter" 
+      :items="items" 
+      :search="search" 
+      @filter="applyFilter" 
+      @search="search = $event"
+    />
   </div>
 </template>
-
-
-<style lang="sass" scoped>
-</style>

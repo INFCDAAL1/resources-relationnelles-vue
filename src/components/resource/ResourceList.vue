@@ -39,7 +39,6 @@ onMounted(() => {
   filterModel.value = props.filter
   search.value = props.search
 })
-
 </script>
 <template>
   <div class="d-flex flex-column ga-5">
@@ -72,14 +71,13 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.id">
-            <ResourceCard :item="item.raw" @toggle-favorite="store.toggleResourceFavorite">
+            <ResourceCard :item="item.raw" @toggle-favorite="store.toggleResourceFavorite(item.raw.id)">
               <template #action>
                 <v-btn :to="'/resource/'+item.raw.id" append-icon="mdi-arrow-right" variant="tonal">En savoir plus
                 </v-btn>
               </template>
             </ResourceCard>
           </template>
-
         </div>
       </template>
       <template #footer>
@@ -90,10 +88,5 @@ onMounted(() => {
         ></v-pagination>
       </template>
     </v-data-iterator>
-
   </div>
 </template>
-
-
-<style lang="sass" scoped>
-</style>
