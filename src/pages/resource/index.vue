@@ -110,45 +110,6 @@ const formFile = ref<File | null>(null);
 
 const categories = ref([] as string[]);
 const visibilities = ref([] as string[]);
-// const formValid = ref(false);
-// const formRules = ref({
-//   name: [(v: string) => !!v || 'Le nom est requis'],
-//   description: [(v: string) => !!v || 'La description est requise'],
-//   category: [(v: string) => !!v || 'La catégorie est requise'],
-//   file: [(v: File) => !!v || 'Le fichier est requis'],
-// });
-
-const submitForm = async () => {
-  formLoading.value = true;
-  const formData = new FormData();
-  formData.append('name', formName.value);
-  formData.append('description', formDescription.value);
-  formData.append('category_id', formCategory.value);
-  formData.append('visibility_id', formVisibility.value);
-  formData.append('published', formPublished.value ? '1' : '0');
-  formData.append('file', formFile.value as Blob);
-
-  axios.post('/resources', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  })
-    .then(response => {
-      formLoading.value = false;
-      formName.value = '';
-      formDescription.value = '';
-      formCategory.value = '';
-      formFile.value = null;
-      formVisibility.value = '';
-      formPublished.value = false;
-      dialog.value = false;
-      fetchResources(); // Refresh the resource list after creating a new resource
-    })
-    .catch(error => {
-      console.error('Error creating resource:', error);
-      formLoading.value = false;
-    });
-};
 
 onMounted(async () => {
   // Fetch categories from API
@@ -191,66 +152,6 @@ onMounted(async () => {
       @filter="applyFilter"
       @search="search = $event"
     />
-    <v-fab color="primary" icon="mdi-plus" :app="true" @click="dialog = true" location="bottom end"></v-fab>
-
-    <!-- Dialog with Form -->
-    <v-dialog v-model="dialog" max-width="600px">
-      <v-card>
-        <v-card-title>
-          <span class="text-h6">Créer une ressource</span>
-        </v-card-title>
-
-        <v-card-text>
-          <v-form ref="form" @submit.prevent="submitForm">
-            <v-text-field
-              label="Nom"
-              v-model="formName"
-              required
-            ></v-text-field>
-
-            <v-textarea
-              label="Description"
-              v-model="formDescription"
-            ></v-textarea>
-
-            <v-select
-              v-model="formCategory"
-             :items="categories"
-              item-text="name"
-              item-value="id"
-              label="Catégorie"
-              required
-            ></v-select>
-
-            <v-select
-              v-model="formVisibility"
-              :items="visibilities"
-              item-text="name"
-              item-value="id"
-              label="Visibilité"
-              required
-            ></v-select>
-
-            <v-checkbox
-              v-model="formPublished"
-              label="Publié"
-              color="primary"
-              > </v-checkbox>
-
-            <v-file-input
-              label="Fichier"
-              v-model="formFile"
-              required
-            ></v-file-input>
-          </v-form>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false">Annuler</v-btn>
-          <v-btn :disabled="formLoading" color="primary" @click="submitForm">Créer</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-fab icon="mdi-plus" app to="/resource/add" color="primary" size="75" v-role="['admin', 'user','moderator','superadmin']"></v-fab>
   </div>
 </template>

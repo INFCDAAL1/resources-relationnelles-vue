@@ -31,14 +31,14 @@ onMounted(loadUsers);
 
 const startConversation = async () => {
   if (!selectedUser.value || !message.value.trim()) return;
-  
+
   try {
     isLoading.value = true;
     await messageStore.startConversation(selectedUser.value.id, message.value);
-    
+
     // Emit event to parent component
     emit('conversation-started');
-    
+
     // Navigate to the new conversation
     router.push(`/message/${selectedUser.value.id}`);
   } catch (err) {
@@ -51,17 +51,15 @@ const startConversation = async () => {
 <template>
   <div class="new-conversation">
     <h2>Démarrer une nouvelle conversation</h2>
-    
+
     <v-alert v-if="error" type="error" class="mb-4">
       {{ error }}
     </v-alert>
 
-    <div v-if="users.length === 0 && !error">
-      <v-alert type="info">
-        Vous avez déjà des conversations avec tous les utilisateurs disponibles.
-      </v-alert>
-    </div>
-    
+    <v-alert type="info" v-if="users.length === 0 && !error">
+      Vous avez déjà des conversations avec tous les utilisateurs disponibles.
+    </v-alert>
+
     <v-form v-else @submit.prevent="startConversation">
       <v-select
         v-model="selectedUser"
@@ -74,7 +72,7 @@ const startConversation = async () => {
         return-object
         class="mb-4"
       ></v-select>
-      
+
       <v-textarea
         v-model="message"
         label="Message"
@@ -83,7 +81,7 @@ const startConversation = async () => {
         rows="3"
         required
       ></v-textarea>
-      
+
       <v-btn
         type="submit"
         color="primary"

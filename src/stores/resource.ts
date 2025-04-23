@@ -55,8 +55,8 @@ export const useResourceStore = defineStore("resource", {
       this.resources.push(resource);
     },
 
-    updateResource(id: Resource["id"], updatedResource: Partial<Resource>) {
-      const index = this.resources.findIndex((resource) => resource.id === id);
+    updateResource(updatedResource: Partial<Resource>) {
+      const index = this.resources.findIndex((resource) => resource.id === updatedResource.id);
       if (index !== -1) {
         this.resources[index] = {
           ...this.resources[index],

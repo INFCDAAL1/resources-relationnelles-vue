@@ -24,6 +24,7 @@ declare module 'vue' {
     NotFound: typeof import('./components/core/NotFound.vue')['default']
     ProfileCard: typeof import('./components/profile/ProfileCard.vue')['default']
     ResourceCard: typeof import('./components/resource/ResourceCard.vue')['default']
+    ResourceForm: typeof import('./components/resource/ResourceForm.vue')['default']
     ResourceList: typeof import('./components/resource/ResourceList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

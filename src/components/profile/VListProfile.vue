@@ -13,7 +13,7 @@
   <v-list-item
     v-if="store.isLoggedIn && store.user"
     nav
-    :title="store.user.name"
+    :title="store.user.name+' - '+store.user.role"
   >
     <template #append>
       <v-btn

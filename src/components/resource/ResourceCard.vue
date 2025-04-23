@@ -71,6 +71,7 @@ const toggleFavorite = () => {
           <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
             Favoris
           </v-btn>
+          <v-btn v-role="['admin', 'user','moderator','superadmin']" :to="'/resource/edit/'+item.id" variant="tonal" prepend-icon="mdi-pencil">Modifier</v-btn>
           <slot name="action"/>
         </div>
       </div>
