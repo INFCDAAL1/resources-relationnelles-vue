@@ -2,6 +2,7 @@
 import type { FilterResource, Resource, ResourceApiResponse } from '@/types';
 import { definePage } from "unplugin-vue-router/runtime";
 import { useResourceStore } from "@/stores/resource.ts";
+import axios from '@/lib/axios';
 
 definePage({
   meta: {
@@ -32,22 +33,18 @@ watch(filter, (newValue) => {
 // Fetch resources from API
 const fetchResources = async () => {
   isLoading.value = true;
-
-  const { data, error:errorApi } = useFetch<ResourceApiResponse>('resources');
-
-  if (error.value) {
-    console.error('Error fetching resources:', error.value);
-    error.value = errorApi.value;
-    isLoading.value = false;
-    return;
-  }
-
-  if (data.value) {
-    store.setResources(data.value.data);
-    applyFilter(filter.value);
-  }
-
-  isLoading.value = false;
+  
+  axios.get('/resources')
+    .then(response => {
+      store.setResources(response.data.data);
+      items.value = response.data.data;
+      isLoading.value = false;
+    })
+    .catch(error => {
+      console.error('Error fetching resources:', error);
+      error.value = error;
+      isLoading.value = false;
+    });
 };
 
 onMounted(async () => {
@@ -60,7 +57,6 @@ onMounted(async () => {
   }
 
   filter.value = (filterQuery?.toString() as FilterResource) || "all";
-
   // Fetch resources from API
   await fetchResources();
 });
