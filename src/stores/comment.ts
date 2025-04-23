@@ -50,6 +50,9 @@ export const useCommentStore = defineStore('comment', {
     },
     deleteCommentByResourceId(resourceId: Comment['id']) {
       this.comments = this.comments.filter(comment => comment.resourceId !== resourceId)
+    },
+    setComments(state: Comment[]) {
+      this.comments = state
     }
   }
 })

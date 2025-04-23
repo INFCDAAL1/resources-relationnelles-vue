@@ -4,6 +4,7 @@ import {definePage} from "unplugin-vue-router/runtime";
 import {useResourceStore} from "@/stores/resource.ts";
 import type {Resource,Comment,RouteParams} from "@/types";
 import {useCommentStore} from "@/stores/comment.ts";
+import axios from "@/lib/axios.ts";
 
 definePage({
   meta: {
@@ -28,22 +29,16 @@ onMounted(() => {
     return;
   }
 
-  storeComment.addComment({
-    content: "C'est un super article !",
-    user: {
-      id: 1,
-      name: "John Doe",
-    },
-    resourceId: Number(id),
-    status: "approved",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    id: 9999,
-  })
-
-  // Fetch the resource details using the id
-  // For example, you can use a fetch or axios call to get the data
-  // Example: fetch(`https://api.example.com/resource/${id}`)
+  if(comments.value){
+    axios.get(`comments?resource_id=${item.value.id}`).then((res) => {
+      if (res.status === 200) {
+        storeComment.setComments(res.data.data)
+        comments.value = res.data.data
+      }
+    }).catch((error) => {
+      console.error('Error fetching comments:', error);
+    })
+  }
 })
 
 </script>

@@ -33,8 +33,8 @@
       }).then((response:AxiosResponse<AuthReponse>) => {
       if (response.status === 200) {
         const store = useUserStore();
-        store.setToken(response.token);
-        store.setUser(response.user);
+        store.setToken(response.data.token);
+        store.setUser(response.data.user);
         router.push({name: '/'});
       }
     }).catch((error) => {
