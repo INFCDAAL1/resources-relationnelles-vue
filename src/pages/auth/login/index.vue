@@ -3,6 +3,8 @@
   import { definePage } from 'unplugin-vue-router/runtime';
   import { useUserStore } from '@/stores/user.ts'
   import type {AuthReponse} from "@/types";
+  import axios from "@/lib/axios.ts";
+  import type {AxiosResponse} from "axios";
 
   definePage({
     meta: {
@@ -25,23 +27,19 @@
   ]);
 
   const submit = async () => {
-    const {
-      data, error, execute: login }=  useFetch<AuthReponse>('login', {
-      method:"post",
-      data: {
+     await axios.post('login', {
         email: email.value,
         password: password.value,
-      },
-    },false)
-    await login();
-    if (data.value) {
-      const store = useUserStore();
-      store.setToken(data.value.token);
-      store.setUser(data.value.user);
-      await router.push({name: '/'});
-    } else  if (error.value) {
-      console.error('Erreur lors de la connexion:', error.value);
-    }
+      }).then((response:AxiosResponse<AuthReponse>) => {
+      if (response.status === 200) {
+        const store = useUserStore();
+        store.setToken(response.token);
+        store.setUser(response.user);
+        router.push({name: '/'});
+      }
+    }).catch((error) => {
+      console.error('Erreur lors de la connexion:', error);
+    })
   };
 
 </script>

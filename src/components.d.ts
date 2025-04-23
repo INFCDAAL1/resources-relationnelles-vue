@@ -20,6 +20,7 @@ declare module 'vue' {
     ResourceList: typeof import('./components/resource/ResourceList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StepConfirmation: typeof import('./components/auth/register/StepConfirmation.vue')['default']
     StepForgotPassword: typeof import('./components/auth/forgot/StepForgotPassword.vue')['default']
     StepSendEmail: typeof import('./components/auth/forgot/StepSendEmail.vue')['default']
     StepSetPassword: typeof import('./components/auth/register/StepSetPassword.vue')['default']
