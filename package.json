@@ -12,6 +12,8 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
     "@mdi/font": "7.4.47",
     "@vueuse/core": "^13.1.0",
     "axios": "^1.8.4",
@@ -20,6 +22,7 @@
     "vuetify": "^3.8.1"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.2.0",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
     "@vitejs/plugin-vue": "^5.2.3",
