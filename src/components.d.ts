@@ -10,6 +10,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppBar: typeof import('./components/core/AppBar.vue')['default']
     AppFooter: typeof import('./components/core/AppFooter.vue')['default']
+    CategoryCard: typeof import('./components/category/CategoryCard.vue')['default']
+    CategoryForm: typeof import('./components/category/CategoryForm.vue')['default']
+    CategoryList: typeof import('./components/category/CategoryList.vue')['default']
     CommentCard: typeof import('./components/comment/CommentCard.vue')['default']
     CommentList: typeof import('./components/comment/CommentList.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
