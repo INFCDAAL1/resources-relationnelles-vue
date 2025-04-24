@@ -7,6 +7,7 @@ const props = defineProps<{
   password: string;
   userinfoValide: boolean;
   passwordValide: boolean;
+  loading: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -26,7 +27,7 @@ const passwordCensure = computed(() => {
 <template>
   <div class="confirmation-step">
     <h2>Confirmation des informations</h2>
-    <v-card class="pa-4" outlined>
+    <v-card class="pa-4" outlined :loading="loading">
       <v-list>
         <v-list-item>
           <v-list-item-title>Email :</v-list-item-title>
@@ -55,6 +56,7 @@ const passwordCensure = computed(() => {
         class="mt-4"
         color="primary"
         @click="handleSubmit"
+        :loading="loading"
       >
         Confirmer et s'inscrire
       </v-btn>

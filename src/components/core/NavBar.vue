@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-navigation-drawer v-model="drawer" permanent>
+  <v-navigation-drawer v-model="drawer">
 
     <v-divider/>
     <v-list density="compact">

@@ -17,6 +17,7 @@
     "@mdi/font": "7.4.47",
     "@vueuse/core": "^13.1.0",
     "axios": "^1.8.4",
+    "capacitor-plugin-safe-area": "^4.0.0",
     "roboto-fontface": "*",
     "vue": "^3.5.13",
     "vuetify": "^3.8.1"
@@ -24,7 +25,7 @@
   "devDependencies": {
     "@capacitor/cli": "^7.2.0",
     "@tsconfig/node22": "^22.0.0",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.23.0",

@@ -46,7 +46,7 @@ const submit = async () => {
 
 <template>
   <div class="d-flex flex-column align-center">
-    <v-card subtitle="Entrez vos identifiants" title="Connexion" width="800">
+    <v-card subtitle="Entrez vos identifiants" title="Connexion" max-width="800">
       <template #text>
         <div class="d-flex flex-column ga-3">
           <v-form v-model="formValid">

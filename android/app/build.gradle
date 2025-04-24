@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    buildFeatures {
+        viewBinding true
+    }
+    dependenciesInfo {
+        includeInBundle true
+        includeInApk true
+    }
+    buildToolsVersion '36.0.0'
     namespace "local.cesi.rr"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {

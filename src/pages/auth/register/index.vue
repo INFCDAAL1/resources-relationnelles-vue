@@ -43,7 +43,13 @@ const getPasswordValide = (e: boolean) => {
   passwordValide.value = e;
 }
 
+const alertMessage = ref('');
+const alertType = ref<"success" | "error" | "info" | "warning" | undefined>();
+const showAlert = ref(false);
+const loading = ref(false);
+
 const submit = () => {
+  loading.value = true;
   axios.post('register', {
     email: email.value,
     name: nom.value,
@@ -52,18 +58,36 @@ const submit = () => {
     if (response.status === 200) {
       store.setToken(response.data.token);
       store.setUser(response.data.user);
-      router.push({name: '/'});
+      alertMessage.value = 'Inscription réussie 🎉';
+      alertType.value = 'success';
+      showAlert.value = true;
+      setTimeout(() => router.push({ name: '/' }), 1000);
     }
   }).catch((error) => {
     console.error('Erreur lors de l\'inscription:', error);
-  })
+    alertMessage.value = 'Erreur lors de l\'inscription. Veuillez réessayer.';
+    alertType.value = 'error';
+    showAlert.value = true;
+  }).finally(
+    () => {
+      loading.value = false;
+    })
 }
 </script>
 
 <template>
   <div class="d-flex flex-column align-center">
+    <v-alert
+      v-if="showAlert"
+      :type="alertType"
+      v-model="showAlert"
+      dismissible
+      class="mb-4"
+    >
+      {{ alertMessage }}
+    </v-alert>
     <v-stepper :items="['Renseignement de l\'utilisateur', 'Renseignement du mot de passe', 'Confirmation']"
-               width="800">
+               max-width="800">
       <template v-slot:item.1>
         <StepUserInfo @email="getEmail" @nom="getNom" @valide="getUserinfoValide"/>
       </template>
@@ -73,7 +97,7 @@ const submit = () => {
       </template>
       <template v-slot:item.3>
         <StepConfirmation :email="email" :nom="nom" :password="password" :passwordValide="passwordValide"
-                          :userinfoValide="userinfoValide" @submit="submit"/>
+                          :userinfoValide="userinfoValide" @submit="submit" :loading="loading"/>
       </template>
 
     </v-stepper>
