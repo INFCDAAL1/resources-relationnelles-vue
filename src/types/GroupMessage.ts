@@ -3,5 +3,9 @@ import type {Message} from "@/types";
 export interface GroupMessage {
   id: number;
   name: string;
-  message: Message;
+  last_message: Message[];
+}
+
+export interface GroupMessageResponse {
+  data: GroupMessage[];
 }

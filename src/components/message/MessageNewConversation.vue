@@ -8,20 +8,18 @@ const loading: Ref<boolean> = ref(false);
 const error: Ref<string> = ref("");
 const selectedUser: Ref<User | null> = ref(null);
 const message: Ref<string> = ref("");
-const users: Ref<User[]> = ref([]);
+const usersList: Ref<User[]> = ref([]);
 
 const emit = defineEmits<{
   (e: 'conversation-started'): void;
 }>();
-
-const usersList = ref<User[]>([]);
 
 onMounted(async () => {
   try {
     loading.value = true;
     const res = await axios.get("users/list")
     console.log(res.data)
-    usersList.value = res.data
+    usersList.value = res.data.data
 
   } catch (err) {
     error.value = err instanceof Error ? err.message : "Failed to load users";
@@ -37,7 +35,7 @@ const startConversation = async () => {
     loading.value = true;
     await axios.post("/messages", {
       receiver_id: selectedUser.value.id,
-      message: message.value,
+      content: message.value,
     });
 
     // Emit event to parent component
@@ -62,7 +60,7 @@ const startConversation = async () => {
       {{ error }}
     </v-alert>
 
-    <v-alert v-if="users.length === 0 && !error" type="info">
+    <v-alert v-if="usersList.length === 0 && !error" type="info">
       Vous avez déjà des conversations avec tous les utilisateurs disponibles.
     </v-alert>
 
@@ -70,7 +68,7 @@ const startConversation = async () => {
       <v-select
         v-model="selectedUser"
         :disabled="loading"
-        :items="users"
+        :items="usersList"
         :loading="loading"
         class="mb-4"
         item-title="name"

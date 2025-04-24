@@ -5,8 +5,6 @@ export interface Message {
   content: string,
   created_at: string,
   sender: Partial<User>,
-  is_sender: boolean,
-  read: boolean
 }
 
 export interface MessageResponse {

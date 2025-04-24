@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import axios from "@/lib/axios.ts";
+import type {AxiosResponse} from "axios";
+import type {GroupMessage, GroupMessageResponse} from "@/types";
 
 definePage({
   meta: {
@@ -16,8 +18,8 @@ onMounted(async () => {
   try {
     loading.value = true;
 
-    const response = await axios.get("messages");
-    conversations.value = response.data || [];
+    const response:AxiosResponse<GroupMessageResponse> = await axios.get("messages");
+    conversations.value = response.data.data || [];
 
     if ((conversations.value.length ?? 0) === 0) {
       console.log('No conversations found, showing new conversation component');

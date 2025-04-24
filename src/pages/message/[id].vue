@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import {useUserStore} from "@/stores/user.ts";
-import type {GroupMessage, Message, RouteParams} from "@/types";
+import type {GroupMessage, GroupMessageResponse, Message, MessageResponse, RouteParams} from "@/types";
 import {definePage} from 'unplugin-vue-router/runtime';
 import {useRoute, useRouter} from "vue-router";
 import axios from "@/lib/axios.ts";
 import {computed, onMounted, ref, type Ref} from "vue";
+import type {AxiosResponse} from "axios";
 
 definePage({
   meta: {
@@ -31,9 +32,7 @@ const userId = computed(() => {
 const fetchNewMessages = async () => {
   loading.value = true;
   try {
-    const res = await axios.get(`/messages`, {
-      params: {user_id: userId.value},
-    });
+    const res:AxiosResponse<MessageResponse> = await axios.get(`/messages/${userId.value}`);
     messages.value = res.data.data;
   } catch (err) {
     console.error('Failed to load conversation:', err);
@@ -47,8 +46,8 @@ onMounted(async () => {
   try {
     await fetchNewMessages();
 
-    const response = await axios.get("messages");
-    conversation.value = response.data.find((conv: GroupMessage) => conv.id === userId.value) || null;
+    const response:AxiosResponse<GroupMessageResponse> = await axios.get("messages");
+    conversation.value = response.data.data.find((conv: GroupMessage) => conv.id === userId.value) || null;
   } catch (err) {
     console.error('Failed to fetch messages:', err);
     error.value = err instanceof Error ? err.message : 'Unknown error occurred';
@@ -107,7 +106,7 @@ const formatDate = (dateString: string) => {
           >
             <v-list-item-title>
               <div class="text-wrap">
-                <strong>{{ message.is_sender ? 'Moi' : conversation?.name }} :</strong> {{ message.content }}
+                <strong>{{ message.sender.name }} :</strong> {{ message.content }}
               </div>
             </v-list-item-title>
             <v-list-item-subtitle>
