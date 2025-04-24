@@ -2,6 +2,7 @@
 import type {Resource} from '@/types';
 import {useResourceStore} from "@/stores/resource.ts";
 import {useUserStore} from "@/stores/user.ts";
+import axios from '@/lib/axios.ts';
 
 const store = useResourceStore();
 const userStore = useUserStore();
@@ -41,6 +42,16 @@ const isFavoriteIcon = computed(() => {
 const toggleFavorite = () => {
   emit('toggle-favorite', props.item.id);
 };
+
+const toggleValidated = () => {
+  axios.post(`/resources/${props.item.id}/validate`, { setTo: !props.item.validated })
+    .then(() => {
+      props.item.validated = !props.item.validated;
+    })
+    .catch((error) => {
+      console.error('Error toggling validation:', error);
+    });
+};
 </script>
 
 <template>
@@ -71,10 +82,13 @@ const toggleFavorite = () => {
             <v-icon color="green">mdi-account</v-icon>
             Votre ressource
           </p>
+          <v-btn v-role="['admin','superadmin','modo']" :color="item.validated ? 'green' : 'red'" prepend-icon="mdi-hand-okay" @click="toggleValidated">
+            {{ item.validated ? 'Valider' : 'Invalider' }}
+          </v-btn>
           <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
             Favoris
           </v-btn>
-          <v-btn v-role="['admin', 'user','moderator','superadmin']" :to="'/resource/edit/'+item.id" prepend-icon="mdi-pencil"
+          <v-btn v-role="['admin', 'user','modo','superadmin']" :to="'/resource/edit/'+item.id" prepend-icon="mdi-pencil"
                  variant="tonal">Modifier
           </v-btn>
           <slot name="action"/>
