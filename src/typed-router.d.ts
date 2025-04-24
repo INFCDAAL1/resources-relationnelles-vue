@@ -38,5 +38,6 @@ declare module 'vue-router/auto-routes' {
     '/resource/add/': RouteRecordInfo<'/resource/add/', '/resource/add', Record<never, never>, Record<never, never>>,
     '/resource/edit/[id]': RouteRecordInfo<'/resource/edit/[id]', '/resource/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/resource/favorite/': RouteRecordInfo<'/resource/favorite/', '/resource/favorite', Record<never, never>, Record<never, never>>,
+    '/stats/': RouteRecordInfo<'/stats/', '/stats', Record<never, never>, Record<never, never>>,
   }
 }
