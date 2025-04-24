@@ -1,3 +1,5 @@
+[![Build Project](https://github.com/INFCDAAL1/resources-relationnelles-vue/actions/workflows/build.yml/badge.svg)](https://github.com/INFCDAAL1/resources-relationnelles-vue/actions/workflows/build.yml)
+
 # Vuetify (Default)
 
 This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify
