@@ -11,6 +11,8 @@ const emit = defineEmits<{
 }>()
 
 const {modelValue} = toRefs(props)
+const store = useUserStore()
+
 
 const form = ref<Partial<User>>({
   name: '',
@@ -46,6 +48,7 @@ const handleSubmit = () => {
 
     <v-select
       v-model="form.role"
+      v-if="store.user.role !== 'user' && store.user.id === modelValue?.id"
       :items="['user', 'admin', 'moderator', 'superadmin']"
       label="Rôle"
       required
