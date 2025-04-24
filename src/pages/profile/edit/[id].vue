@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime"
-import { useRoute, useRouter } from "vue-router"
+import {definePage} from "unplugin-vue-router/runtime"
+import {useRoute, useRouter} from "vue-router"
 import axios from "@/lib/axios"
-import type { RouteParams, User } from "@/types"
-import { ref, onMounted } from "vue"
+import type {RouteParams, User} from "@/types"
+import {onMounted, ref} from "vue"
 import ProfilForm from "@/components/profile/ProfilForm.vue"
-import { useUserStore } from "@/stores/user.ts"
+import {useUserStore} from "@/stores/user.ts"
 
 definePage({
   meta: {
@@ -51,7 +51,7 @@ const submit = async (formData: Partial<User>) => {
 }
 
 onMounted(async () => {
-  const { id } = route.params as RouteParams
+  const {id} = route.params as RouteParams
   const userId = Number(id)
 
   if (store.user && store.user.id === userId) {
@@ -76,17 +76,17 @@ onMounted(async () => {
     <v-alert
       v-if="alert"
       :type="alertType"
-      class="mb-4"
       border="start"
-      variant="tonal"
+      class="mb-4"
       closable
+      variant="tonal"
       @click:close="alert = ''"
     >
       {{ alert }}
     </v-alert>
 
     <v-card v-if="!user" title="Chargement du profil..."></v-card>
-    <ProfilForm v-else :model-value="user" @submit="submit" />
+    <ProfilForm v-else :model-value="user" @submit="submit"/>
   </div>
 </template>
 

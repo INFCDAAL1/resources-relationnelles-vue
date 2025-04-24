@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import {onMounted, ref, Ref} from 'vue';
 import type {Category} from "@/types";
 import axios from "@/lib/axios.ts";
 

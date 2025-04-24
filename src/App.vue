@@ -16,9 +16,9 @@ onMounted(() => {
 
 <template>
   <SafeArea>
-  <v-app fluid>
-    <router-view/>
-  </v-app>
+    <v-app fluid>
+      <router-view/>
+    </v-app>
   </SafeArea>
 </template>
 

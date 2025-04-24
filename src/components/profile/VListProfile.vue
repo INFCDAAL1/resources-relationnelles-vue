@@ -17,10 +17,10 @@ const logout = () => {
   >
     <template #append>
       <v-btn
+        :to="'/profile/'+store.user.id"
         color="primary"
         icon="mdi-account"
         variant="text"
-        :to="'/profile/'+store.user.id"
       />
       <v-btn
         color="red"

@@ -44,7 +44,7 @@ const toggleFavorite = () => {
 };
 
 const toggleValidated = () => {
-  axios.post(`/resources/${props.item.id}/validate`, { setTo: !props.item.validated })
+  axios.post(`/resources/${props.item.id}/validate`, {setTo: !props.item.validated})
     .then(() => {
       props.item.validated = !props.item.validated;
     })
@@ -76,22 +76,26 @@ const toggleValidated = () => {
           </v-chip-group>
         </div>
         <v-spacer/>
-        <div class="d-flex ga-3 align-center">
+        <div class="d-flex ga-3 align-center flex-wrap">
           <p class="text-grey-lighten-2">Créé le : {{ new Date(item.created_at).toDateString() }}</p>
           <p v-if="isOurResource">
             <v-icon color="green">mdi-account</v-icon>
             Votre ressource
           </p>
-          <v-btn v-role="['admin','superadmin','modo']" :color="item.validated ? 'green' : 'red'" prepend-icon="mdi-hand-okay" @click="toggleValidated">
-            {{ item.validated ? 'Valider' : 'Invalider' }}
-          </v-btn>
-          <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
-            Favoris
-          </v-btn>
-          <v-btn v-role="['admin', 'user','modo','superadmin']" :to="'/resource/edit/'+item.id" prepend-icon="mdi-pencil"
-                 variant="tonal">Modifier
-          </v-btn>
-          <slot name="action"/>
+          <div class="d-flex flex-wrap ga-3">
+            <v-btn v-role="['admin','superadmin','modo']" :color="item.validated ? 'green' : 'red'"
+                   prepend-icon="mdi-hand-okay" @click="toggleValidated">
+              {{ item.validated ? 'Valider' : 'Invalider' }}
+            </v-btn>
+            <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
+              Favoris
+            </v-btn>
+            <v-btn v-role="['admin', 'user','modo','superadmin']" :to="'/resource/edit/'+item.id"
+                   prepend-icon="mdi-pencil"
+                   variant="tonal">Modifier
+            </v-btn>
+            <slot name="action"/>
+          </div>
         </div>
       </div>
     </v-card-text>

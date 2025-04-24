@@ -38,6 +38,7 @@
                 <v-kbd>{{
                     `
 
+
                   <HelloWorld/>
                   ` }}
                 </v-kbd>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime"
-import { useRouter, useRoute } from "vue-router"
+import {definePage} from "unplugin-vue-router/runtime"
+import {useRoute, useRouter} from "vue-router"
 import axios from "@/lib/axios"
-import type { User } from "@/types"
-import { ref, onMounted, shallowRef, watch } from "vue"
+import type {User} from "@/types"
+import {onMounted, ref, shallowRef, watch} from "vue"
 
 definePage({
   meta: {
@@ -41,7 +41,7 @@ const fetchUsers = async () => {
 const updateQuery = () => {
   const query: Record<string, any> = {}
   if (search.value) query.search = search.value
-  router.push({ query })
+  router.push({query})
 }
 
 onMounted(async () => {
@@ -62,25 +62,25 @@ onMounted(async () => {
     </v-alert>
 
     <div v-if="isLoading" class="d-flex justify-center my-5">
-      <v-progress-circular indeterminate color="primary" />
+      <v-progress-circular color="primary" indeterminate/>
     </div>
 
     <v-text-field
       v-model="search"
-      label="Rechercher un utilisateur"
       append-inner-icon="mdi-magnify"
-      clearable
       class="mb-4"
+      clearable
+      label="Rechercher un utilisateur"
     />
 
     <v-empty-state
       v-if="!isLoading && users.length === 0"
-      title="Aucun utilisateur trouvé"
       icon="mdi-account-off-outline"
+      title="Aucun utilisateur trouvé"
     />
 
     <div v-if="!isLoading" class="d-flex flex-wrap ga-4">
-      <ProfilCard v-for="user in users" :key="user.id" :user="user" />
+      <ProfilCard v-for="user in users" :key="user.id" :user="user"/>
     </div>
 
     <v-fab v-role="['admin', 'user','moderator','superadmin']" app color="primary" icon="mdi-plus" size="75"

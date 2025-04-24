@@ -1,4 +1,4 @@
-import type {Message, User} from "@/types";
+import type {Message} from "@/types";
 
 export interface GroupMessage {
   id: number;

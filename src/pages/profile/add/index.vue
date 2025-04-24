@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime"
-import type { User } from "@/types"
+import {definePage} from "unplugin-vue-router/runtime"
+import type {User} from "@/types"
 import axios from "@/lib/axios"
 import ProfilForm from "@/components/profile/ProfilForm.vue"
-import { useRouter } from "vue-router"
-import { ref } from "vue"
+import {useRouter} from "vue-router"
+import {ref} from "vue"
 
 definePage({
   meta: {
@@ -46,16 +46,16 @@ const submit = async (formData: Partial<User>) => {
     <v-alert
       v-if="alert"
       :type="alertType"
-      class="mb-4"
       border="start"
-      variant="tonal"
+      class="mb-4"
       closable
+      variant="tonal"
       @click:close="alert = ''"
     >
       {{ alert }}
     </v-alert>
 
-    <ProfilForm :model-value="user" @submit="submit" />
+    <ProfilForm :model-value="user" @submit="submit"/>
   </div>
 </template>
 

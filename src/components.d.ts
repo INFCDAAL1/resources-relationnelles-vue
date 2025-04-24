@@ -19,7 +19,6 @@ declare module 'vue' {
     InvitationCard: typeof import('./components/invitation/InvitationCard.vue')['default']
     InvitationForm: typeof import('./components/invitation/InvitationForm.vue')['default']
     InvitationList: typeof import('./components/invitation/InvitationList.vue')['default']
-    MessageDetail: typeof import('./components/message/MessageDetail.vue')['default']
     MessageGroupCard: typeof import('./components/message/MessageGroupCard.vue')['default']
     MessageList: typeof import('./components/message/MessageList.vue')['default']
     MessageNewConversation: typeof import('./components/message/MessageNewConversation.vue')['default']

@@ -1,11 +1,11 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type {CapacitorConfig} from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'local.cesi.rr',
   appName: 'RR',
   webDir: 'dist',
-  android:{
-    adjustMarginsForEdgeToEdge:"auto"
+  android: {
+    adjustMarginsForEdgeToEdge: "auto"
   },
   server: {
     cleartext: true,

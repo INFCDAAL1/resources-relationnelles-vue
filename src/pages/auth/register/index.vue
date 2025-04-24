@@ -61,7 +61,7 @@ const submit = () => {
       alertMessage.value = 'Inscription réussie 🎉';
       alertType.value = 'success';
       showAlert.value = true;
-      setTimeout(() => router.push({ name: '/' }), 1000);
+      setTimeout(() => router.push({name: '/'}), 1000);
     }
   }).catch((error) => {
     console.error('Erreur lors de l\'inscription:', error);
@@ -79,10 +79,10 @@ const submit = () => {
   <div class="d-flex flex-column align-center">
     <v-alert
       v-if="showAlert"
-      :type="alertType"
       v-model="showAlert"
-      dismissible
+      :type="alertType"
       class="mb-4"
+      dismissible
     >
       {{ alertMessage }}
     </v-alert>
@@ -96,8 +96,8 @@ const submit = () => {
         <StepSetPassword @password="getPassword" @passwordValide="getPasswordValide"/>
       </template>
       <template v-slot:item.3>
-        <StepConfirmation :email="email" :nom="nom" :password="password" :passwordValide="passwordValide"
-                          :userinfoValide="userinfoValide" @submit="submit" :loading="loading"/>
+        <StepConfirmation :email="email" :loading="loading" :nom="nom" :password="password"
+                          :passwordValide="passwordValide" :userinfoValide="userinfoValide" @submit="submit"/>
       </template>
 
     </v-stepper>

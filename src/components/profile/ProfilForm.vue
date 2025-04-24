@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { User } from '@/types'
-import { ref, watch, toRefs } from 'vue'
+import type {User} from '@/types'
+import {ref, toRefs, watch} from 'vue'
 
 const props = defineProps<{
   modelValue: User | undefined
@@ -10,7 +10,7 @@ const emit = defineEmits<{
   (e: 'submit', form: Partial<User>): void
 }>()
 
-const { modelValue } = toRefs(props)
+const {modelValue} = toRefs(props)
 
 const form = ref<Partial<User>>({
   name: '',
@@ -20,9 +20,9 @@ const form = ref<Partial<User>>({
 
 watch(modelValue, (value) => {
   if (value) {
-    form.value = { ...value }
+    form.value = {...value}
   }
-}, { immediate: true })
+}, {immediate: true})
 
 const handleSubmit = () => {
   emit('submit', form.value)
@@ -32,26 +32,26 @@ const handleSubmit = () => {
 <template>
   <v-form @submit.prevent="handleSubmit">
     <v-text-field
-      label="Nom"
       v-model="form.name"
+      label="Nom"
       required
     />
 
     <v-text-field
-      label="Email"
-      type="email"
       v-model="form.email"
+      label="Email"
       required
+      type="email"
     />
 
     <v-select
-      label="Rôle"
-      :items="['user', 'admin', 'moderator', 'superadmin']"
       v-model="form.role"
+      :items="['user', 'admin', 'moderator', 'superadmin']"
+      label="Rôle"
       required
     />
 
-    <v-btn type="submit" color="primary" class="mt-4">Valider</v-btn>
+    <v-btn class="mt-4" color="primary" type="submit">Valider</v-btn>
   </v-form>
 </template>
 

@@ -22,11 +22,11 @@ watch(filter, (newValue) => {
 
 onMounted(() => {
   axios.get(`invitations`).then((response: AxiosResponse<InvitationResponse>) => {
-      store.setInvitations(response.data.data)
-      invitation.value = response.data.data
-    }).catch((error) => {
-      console.error(error)
-    })
+    store.setInvitations(response.data.data)
+    invitation.value = response.data.data
+  }).catch((error) => {
+    console.error(error)
+  })
 })
 
 const applyFilter = (value: FilterInvitation) => {

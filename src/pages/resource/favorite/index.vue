@@ -23,12 +23,12 @@ watch(search, (_) => {
 
 
 onMounted(() => {
-  try{
-  const searchQuery = route.query.search;
-  if (searchQuery) {
-    search.value = searchQuery.toString();
-  }
-  items.value = store.getFavoriteResources;
+  try {
+    const searchQuery = route.query.search;
+    if (searchQuery) {
+      search.value = searchQuery.toString();
+    }
+    items.value = store.getFavoriteResources;
   } catch (err) {
     error.value = err;
     console.error('Error fetching resources:', error);
@@ -54,15 +54,16 @@ const updateQuery = () => {
 
     <v-empty-state
       v-if="items.length === 0 && !loading"
-      title="Aucune ressource trouvée"
       icon="mdi-file-document-outline"
+      title="Aucune ressource trouvée"
     ></v-empty-state>
 
     <div v-if="loading" class="d-flex justify-center my-5">
       <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
-    <ResourceList :items="items" :search="search" filter="favorite" no-filter @search="search = $event" v-if="!loading && items.length>0"/>
+    <ResourceList v-if="!loading && items.length>0" :items="items" :search="search" filter="favorite" no-filter
+                  @search="search = $event"/>
   </div>
 </template>
 

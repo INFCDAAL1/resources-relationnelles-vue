@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 </script>
 
 <template>
-<div class="safe-area">
-  <slot/>
-</div>
+  <div class="safe-area">
+    <slot/>
+  </div>
 </template>
 
 <style scoped>

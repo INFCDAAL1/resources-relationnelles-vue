@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type {Category, Comment, FilterComment} from '@/types';
+import type {Category} from '@/types';
 
 const props = defineProps<{
   items: Category[],

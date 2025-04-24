@@ -4,11 +4,11 @@ import {useRouter} from "vue-router";
 import axios from "@/lib/axios.ts";
 
 const router = useRouter();
-const loading:Ref<boolean> = ref(false);
-const error:Ref<string> = ref("");
-const selectedUser:Ref<User|null> = ref(null);
-const message:Ref<string> = ref("");
-const users:Ref<User[]> = ref([]);
+const loading: Ref<boolean> = ref(false);
+const error: Ref<string> = ref("");
+const selectedUser: Ref<User | null> = ref(null);
+const message: Ref<string> = ref("");
+const users: Ref<User[]> = ref([]);
 
 const emit = defineEmits<{
   (e: 'conversation-started'): void;
@@ -16,12 +16,12 @@ const emit = defineEmits<{
 
 const usersList = ref<User[]>([]);
 
-onMounted(async ()=>{
+onMounted(async () => {
   try {
     loading.value = true;
     const res = await axios.get("users/list")
     console.log(res.data)
-    usersList.value =res.data
+    usersList.value = res.data
 
   } catch (err) {
     error.value = err instanceof Error ? err.message : "Failed to load users";
@@ -48,7 +48,7 @@ const startConversation = async () => {
   } catch (err) {
     error.value = err instanceof Error ? err.message : "Failed to start conversation";
     loading.value = false;
-  }finally {
+  } finally {
     loading.value = false;
   }
 };

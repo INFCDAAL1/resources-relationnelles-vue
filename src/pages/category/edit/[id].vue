@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { onMounted, ref, Ref } from 'vue';
-import { useRoute } from 'vue-router';
-import type { Category } from "@/types";
+import {useRoute} from 'vue-router';
+import type {Category} from "@/types";
 import axios from "@/lib/axios.ts";
 
 const item: Ref<Category | null> = ref(null);
@@ -10,7 +9,7 @@ const error = ref<string | null>(null);
 const route = useRoute();
 
 onMounted(() => {
-  const { id } = route.params as { id: string };
+  const {id} = route.params as { id: string };
 
   axios.get('categories')
     .then(response => {
@@ -25,7 +24,7 @@ onMounted(() => {
     });
 });
 
-const onSubmit = async (value:Category) => {
+const onSubmit = async (value: Category) => {
   if (!item.value) return;
 
   try {
@@ -55,7 +54,7 @@ const onSubmit = async (value:Category) => {
       {{ error }}
     </v-alert>
 
-      <CategoryForm v-else-if="item" :item="item" @submit="onSubmit"/>
+    <CategoryForm v-else-if="item" :item="item" @submit="onSubmit"/>
   </div>
 </template>
 

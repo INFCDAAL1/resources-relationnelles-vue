@@ -12,12 +12,12 @@ const resources: Ref<Resource[]> = ref([] as Resource[])
 
 const userSelected: Ref<Partial<User> | undefined> = ref()
 const resourceSelected: Ref<Resource | undefined> = ref()
-  
-  
+
+
 const userStore = useUserStore()
 const filteredResources = computed(() => {
-    return resources.value.filter((res) => {
-        return res.user.id === userStore?.user?.id
+  return resources.value.filter((res) => {
+    return res.user.id === userStore?.user?.id
   });
 });
 

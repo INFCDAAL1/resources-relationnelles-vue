@@ -24,19 +24,19 @@ const formatTime = (dateString: string | null) => {
 <template>
   <v-card :to="`/message/${item.id}`">
     <v-card-title class="d-flex justify-space-between">
-      <span>{{ item.name}}</span>
+      <span>{{ item.name }}</span>
     </v-card-title>
 
     <v-card-text>
       <div class="d-flex flex-column flex-wrap">
-        <div v-if="item.last_message">
-          {{ formatTime(item.last_message.createdAt) }}
-          <strong>{{ item.last_message.sender.name }}</strong>:
-          {{ shortContent(item.last_message.content) }}
-        </div>
-        <div v-else class="text-grey">
-          No messages yet
-        </div>
+        <!--        <div v-if="item.last_message">-->
+        <!--          {{ formatTime(item.last_message.createdAt) }}-->
+        <!--          <strong>{{ item.last_message.sender.name }}</strong>:-->
+        <!--          {{ shortContent(item.last_message.content) }}-->
+        <!--        </div>-->
+        <!--        <div v-else class="text-grey">-->
+        <!--          No messages yet-->
+        <!--        </div>-->
       </div>
     </v-card-text>
   </v-card>

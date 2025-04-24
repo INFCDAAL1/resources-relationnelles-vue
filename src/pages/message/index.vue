@@ -16,8 +16,8 @@ onMounted(async () => {
   try {
     loading.value = true;
 
-      const response = await axios.get("messages");
-      conversations.value = response.data || [];
+    const response = await axios.get("messages");
+    conversations.value = response.data || [];
 
     if ((conversations.value.length ?? 0) === 0) {
       console.log('No conversations found, showing new conversation component');
@@ -53,7 +53,7 @@ const closeNewConversation = () => {
     </v-expand-transition>
 
     <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate />
+      <v-progress-circular color="primary" indeterminate/>
     </div>
 
     <v-alert v-else-if="error" type="error">
@@ -73,14 +73,14 @@ const closeNewConversation = () => {
 
     <v-fab
       v-role="['admin', 'user', 'moderator', 'superadmin']"
+      :icon="showNewConversation ? 'mdi-close' : 'mdi-message-plus'"
       app
       color="primary"
-      :icon="showNewConversation ? 'mdi-close' : 'mdi-message-plus'"
       size="75"
       @click="toggleNewConversation"
     />
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

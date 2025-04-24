@@ -48,7 +48,7 @@ const isSender = computed(() => {
 const acceptInvitation = (): void => {
   loading.value = true
 
-  axios.patch(`/invitations/${props.item.id}`, { status: 'accepted' })
+  axios.patch(`/invitations/${props.item.id}`, {status: 'accepted'})
     .then(() => {
       props.item.status = 'accepted'
       loading.value = false
@@ -75,26 +75,29 @@ const cancelInvitation = (): void => {
 </script>
 
 <template>
-  <v-card :append-icon="icon" :loading="loading" v-if="!props.item.deleted">
+  <v-card v-if="!props.item.deleted" :append-icon="icon" :loading="loading">
     <template #title>
-      <div class="text-wrap text-body-1"><span class="text-orange">{{ item.sender.name }}</span> invite <span class="text-green">{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{ item.resource.name }}</span></div>
+      <div class="text-wrap text-body-1"><span class="text-orange">{{ item.sender.name }}</span> invite <span
+        class="text-green">{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{
+          item.resource.name
+        }}</span></div>
     </template>
     <template #actions>
       <div>
         <div class="d-flex ga-5">
           <v-btn v-if="!isSender"
-            :color="color"
-            :disabled="!isPending"
-            :loading="loading"
-            variant="plain"
-            @click="acceptInvitation"
+                 :color="color"
+                 :disabled="!isPending"
+                 :loading="loading"
+                 variant="plain"
+                 @click="acceptInvitation"
           >
             Accepter
           </v-btn>
-            <v-btn :color="color"
-            :loading="loading"
-            variant="plain"
-            @click="cancelInvitation">
+          <v-btn :color="color"
+                 :loading="loading"
+                 variant="plain"
+                 @click="cancelInvitation">
             Annuler l'invitation
           </v-btn>
         </div>

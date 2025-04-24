@@ -3,7 +3,6 @@ import {onMounted, ref, watch} from 'vue'
 import type {Resource} from '@/types'
 import axios from '@/lib/axios.ts'
 import router from '@/router/index';
-import {useUserStore} from "@/stores/user.ts";
 
 const props = defineProps<{
   modelValue?: Partial<Resource>
@@ -64,8 +63,8 @@ const submitForm = async () => {
   const formData = new FormData();
   formData.append('name', formName.value);
   formData.append('description', formDescription.value);
-  formData.append('category_id', formCategory.value);
-  formData.append('visibility_id', formVisibility.value);
+  formData.append('category_id', String(formCategory.value));
+  formData.append('visibility_id', String(formVisibility.value));
   formData.append('published', formPublished.value ? '1' : '0');
   if (!editing.value) {
     formData.append('file', formFile.value as Blob);
@@ -79,13 +78,6 @@ const submitForm = async () => {
     },
   })
     .then(response => {
-      // formLoading.value = false;
-      // formName.value = '';
-      // formDescription.value = '';
-      // formCategory.value = '';
-      // formFile.value = null;
-      // formVisibility.value = '';
-      // formPublished.value = false;
       router.push({name: '/resource/'});
     })
     .catch(error => {
@@ -118,10 +110,10 @@ const submitForm = async () => {
       required
     />
 
-    <v-switch v-model="formPublished" label="Publié" color="green"/>
+    <v-switch v-model="formPublished" color="green" label="Publié"/>
 
     <v-file-input
-    v-if="!editing"
+      v-if="!editing"
       accept=".pdf,.doc,.docx,.jpg,.png"
       label="Fichier à joindre"
       prepend-icon="mdi-paperclip"

@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import {definePage} from "unplugin-vue-router/runtime";
-import {useResourceStore} from "@/stores/resource.ts";
 import type {Resource} from "@/types";
-import axios from "@/lib/axios.ts";
 import ResourceForm from "@/components/resource/ResourceForm.vue";
 
 definePage({

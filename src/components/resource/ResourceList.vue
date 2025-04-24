@@ -44,13 +44,14 @@ onMounted(() => {
   <div class="d-flex flex-column ga-5">
     <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
       <template #header>
-        <div class="d-flex ga-3 align-center justify-center mb-4">
+        <div class="d-flex ga-3 align-center justify-center mb-4 flex-wrap">
           <v-select
             v-model="itemsPerPage"
             :items="[5, 10, 15, 20]"
             hide-details
             label="Items per page"
             max-width="350"
+            min-width="150"
           ></v-select>
           <v-select
             v-if="!noFilter"
@@ -59,12 +60,14 @@ onMounted(() => {
             hide-details
             label="Filtre ressources"
             max-width="350"
+            min-width="150"
           ></v-select>
           <v-text-field
             v-model="search"
             hide-details
             label="Search"
             max-width="350"
+            min-width="150"
           ></v-text-field>
         </div>
       </template>

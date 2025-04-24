@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import { ref, watch } from 'vue';
-import type { Category } from "@/types";
+<script lang="ts" setup>
+import {ref, watch} from 'vue';
+import type {Category} from "@/types";
 
 const props = defineProps<{
   item: Category;
@@ -15,7 +15,7 @@ const itemUpdate = ref<string>(props.item.name);
 // Mettre à jour le champ si la prop change
 watch(() => props.item, (newValue) => {
   itemUpdate.value = newValue.name;
-}, { immediate: true });
+}, {immediate: true});
 
 const onSubmit = () => {
   emit('submit', {
@@ -32,9 +32,9 @@ const onSubmit = () => {
       label="Nom de la catégorie"
       required
     />
-    <v-btn type="submit" color="primary">Enregistrer</v-btn>
+    <v-btn color="primary" type="submit">Enregistrer</v-btn>
   </v-form>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 </style>

@@ -13,8 +13,10 @@ const router = useRouter()
 <template>
   <h1>Page d'authentifiaction</h1>
   <div class="d-flex justify-center align-center ga-3">
-    <v-btn max-height="250" prepend-icon="mdi-login" max-width="250" @click="router.push('/auth/login')">Connexion</v-btn>
-    <v-btn max-height="250" prepend-icon="mdi-account-plus-outline" max-width="250" @click="router.push('/auth/register')">
+    <v-btn max-height="250" max-width="250" prepend-icon="mdi-login" @click="router.push('/auth/login')">Connexion
+    </v-btn>
+    <v-btn max-height="250" max-width="250" prepend-icon="mdi-account-plus-outline"
+           @click="router.push('/auth/register')">
       Inscription
     </v-btn>
   </div>

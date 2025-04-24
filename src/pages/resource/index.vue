@@ -15,7 +15,7 @@ const router = useRouter();
 const store = useResourceStore();
 
 const items: Ref<Resource[]> = ref([] as Resource[]);
-const isLoading = ref(true);
+const loading: Ref<boolean> = ref(true);
 const error = ref();
 
 const search = shallowRef('');
@@ -32,18 +32,18 @@ watch(filter, (newValue) => {
 
 // Fetch resources from API
 const fetchResources = async () => {
-  isLoading.value = true;
+  loading.value = true;
 
   axios.get('resources')
     .then(response => {
       store.setResources(response.data.data);
       items.value = response.data.data;
-      isLoading.value = false;
+      loading.value = false;
     })
     .catch(error => {
       console.error('Error fetching resources:', error);
       error.value = error;
-      isLoading.value = false;
+      loading.value = false;
     });
 };
 
@@ -98,14 +98,6 @@ const updateQuery = () => {
     router.push({query: {filter: filter.value}});
 };
 
-const formLoading = ref(false);
-const formName = ref('');
-const formDescription = ref('');
-const formCategory = ref('');
-const formVisibility = ref('');
-const formPublished = ref(false);
-const formFile = ref<File | null>(null);
-
 const categories = ref([] as string[]);
 const visibilities = ref([] as string[]);
 
@@ -138,12 +130,12 @@ onMounted(async () => {
       Une erreur est survenue lors du chargement des ressources.
     </v-alert>
 
-    <div v-if="isLoading" class="d-flex justify-center my-5">
+    <div v-if="loading" class="d-flex justify-center my-5">
       <v-progress-circular color="primary" indeterminate></v-progress-circular>
     </div>
 
     <ResourceList
-      v-else-if="!isLoading"
+      v-else-if="!loading"
       :filter="filter"
       :items="items"
       :search="search"
@@ -151,11 +143,11 @@ onMounted(async () => {
       @search="search = $event"
     />
     <v-empty-state
-      v-if="items.length === 0 && !isLoading"
-      title="Aucune ressource trouvée"
+      v-if="items.length === 0 && !loading"
       icon="mdi-file-document-outline"
+      title="Aucune ressource trouvée"
     ></v-empty-state>
-    
+
     <v-fab v-role="['admin', 'user','moderator','superadmin']" app color="primary" icon="mdi-plus" size="75"
            to="/resource/add"></v-fab>
   </div>

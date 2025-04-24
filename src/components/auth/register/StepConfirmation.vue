@@ -27,7 +27,7 @@ const passwordCensure = computed(() => {
 <template>
   <div class="confirmation-step">
     <h2>Confirmation des informations</h2>
-    <v-card class="pa-4" outlined :loading="loading">
+    <v-card :loading="loading" class="pa-4" outlined>
       <v-list>
         <v-list-item>
           <v-list-item-title>Email :</v-list-item-title>
@@ -53,10 +53,10 @@ const passwordCensure = computed(() => {
 
       <v-btn
         :disabled="!props.userinfoValide || !props.passwordValide"
+        :loading="loading"
         class="mt-4"
         color="primary"
         @click="handleSubmit"
-        :loading="loading"
       >
         Confirmer et s'inscrire
       </v-btn>

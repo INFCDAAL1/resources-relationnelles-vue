@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import {useUserStore} from "@/stores/user.ts";
-import {useMessageStore} from "@/stores/message.ts";
 import type {GroupMessage, Message, RouteParams} from "@/types";
 import {definePage} from 'unplugin-vue-router/runtime';
 import {useRoute, useRouter} from "vue-router";
 import axios from "@/lib/axios.ts";
-import {ref, computed, onMounted, type Ref} from "vue";
+import {computed, onMounted, ref, type Ref} from "vue";
 
 definePage({
   meta: {
