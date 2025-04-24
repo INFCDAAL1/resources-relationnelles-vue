@@ -90,9 +90,9 @@ const toggleValidated = () => {
             <v-btn :color="isFavoriteColor" :prepend-icon="isFavoriteIcon" variant="tonal" @click="toggleFavorite">
               Favoris
             </v-btn>
-            <v-btn v-role="['admin', 'user','modo','superadmin']" :to="'/resource/edit/'+item.id"
-                   prepend-icon="mdi-pencil"
-                   variant="tonal">Modifier
+            <v-btn v-if="isOurResource || userStore.user.role == 'admin'  || userStore.user.role == 'superadmin'  || userStore.user.role == 'modo'" :to="'/resource/edit/'+item.id"
+                prepend-icon="mdi-pencil"
+                variant="tonal">Modifier
             </v-btn>
             <slot name="action"/>
           </div>
