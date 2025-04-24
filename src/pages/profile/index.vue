@@ -28,7 +28,7 @@ watch(search, (newVal) => {
 const fetchUsers = async () => {
   isLoading.value = true
   try {
-    const response = await axios.get('users')
+    const response = await axios.get('users/list')
     users.value = response.data.data
   } catch (err) {
     console.error('Erreur de récupération des utilisateurs :', err)

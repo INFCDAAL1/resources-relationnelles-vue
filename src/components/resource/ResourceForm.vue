@@ -114,7 +114,7 @@ const submitForm = async () => {
 
     <v-file-input
       v-if="!editing"
-      accept=".pdf,.doc,.docx,.jpg,.png"
+      accept=".pdf,.doc,.docx,.jpg,.png,.csv"
       label="Fichier à joindre"
       prepend-icon="mdi-paperclip"
       @change="handleFileChange"

@@ -7,12 +7,28 @@ const logout = () => {
   store.logout()
 }
 
+const sugerRole = computed(() => {
+  if (store.user) {
+   switch (store.user.role) {
+      case 'admin':
+        return 'Administrateur'
+      case 'modo':
+        return 'Modérateur'
+      case 'superadmin':
+        return 'Super Administrateur'
+      default:
+        return 'Utilisateur'
+   }
+  }
+  return ''
+})
+
 </script>
 
 <template>
   <v-list-item
     v-if="store.isLoggedIn && store.user"
-    :title="store.user.name+' - '+store.user.role"
+    :title="store.user.name+' - '+sugerRole"
     nav
   >
     <template #append>
