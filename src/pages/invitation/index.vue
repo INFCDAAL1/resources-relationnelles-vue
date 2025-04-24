@@ -21,23 +21,16 @@ watch(filter, (newValue) => {
 
 
 onMounted(() => {
-  resources.value = resourceStore.getMyResources
-  invitation.value = store.getAllInvitations
-  if (invitation.value) {
-    axios.get(`invitations`).then((response: AxiosResponse<InvitationResponse>) => {
+  axios.get(`invitations`).then((response: AxiosResponse<InvitationResponse>) => {
       store.setInvitations(response.data.data)
+      invitation.value = response.data.data
     }).catch((error) => {
       console.error(error)
     })
-  }
 })
 
 const applyFilter = (value: FilterInvitation) => {
-  if (value === "all") {
-    invitation.value = store.getAllInvitations
-  } else {
-    invitation.value = store.getInvitationsByStatus(value)
-  }
+  invitation.value = store.getAllInvitations
 }
 
 </script>

@@ -8,6 +8,7 @@ export interface Invitation {
   resource: Partial<Resource>;
   createdAt: Date;
   updatedAt: Date;
+  deleted: boolean;
 }
 
 export interface InvitationResponse {

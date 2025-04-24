@@ -3,6 +3,7 @@ import {onMounted, ref, watch} from 'vue'
 import type {Resource} from '@/types'
 import axios from '@/lib/axios.ts'
 import router from '@/router/index';
+import {useUserStore} from "@/stores/user.ts";
 
 const props = defineProps<{
   modelValue?: Partial<Resource>

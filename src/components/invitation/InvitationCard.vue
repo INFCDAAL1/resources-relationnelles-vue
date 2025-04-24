@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type {Invitation} from "@/types";
 import {useInvitationStore} from "@/stores/invitation.ts";
+import {useUserStore} from "@/stores/user.ts";
+import axios from "@/lib/axios.ts";
 
 const props = defineProps<{
   item: Invitation
@@ -37,51 +39,66 @@ const icon = computed(() => {
   }
 })
 
-const submit = (value: boolean): void => {
-  // axios.post(`/api/invitation/${props.item.id}`,  {result: value})
-  //   .then(() => {
-  //     if (value) props.item.status = 'accepted'
-  //     else props.item.status = 'rejected'
-  //
-  //     store.updateInvitation({...props.item, status: props.item.status})
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error updating invitation:', error)
-  //   })
 
-  if (value) props.item.status = 'accepted'
-  else props.item.status = 'rejected'
+const isSender = computed(() => {
+  const userStore = useUserStore()
+  return props.item.sender.id === userStore?.user?.id
+})
 
-  store.updateInvitation({...props.item, status: props.item.status})
+const acceptInvitation = (): void => {
+  loading.value = true
+
+  axios.patch(`/invitations/${props.item.id}`, { status: 'accepted' })
+    .then(() => {
+      props.item.status = 'accepted'
+      loading.value = false
+    })
+    .catch((error) => {
+      console.error('Error accepting invitation:', error)
+      loading.value = false
+    })
+}
+
+const cancelInvitation = (): void => {
+  loading.value = true
+  axios.delete(`/invitations/${props.item.id}`)
+    .then(() => {
+      props.item.deleted = true
+      loading.value = false
+    })
+    .catch((error) => {
+      console.error('Error deleting invitation:', error)
+      loading.value = false
+    })
 }
 
 </script>
 
 <template>
-  <v-card :append-icon="icon" :loading="loading">
+  <v-card :append-icon="icon" :loading="loading" v-if="!props.item.deleted">
     <template #title>
-      <div class="text-wrap text-body-1">{{ item.sender.name }} vous invite à rejoindre {{ item.resource.name }}</div>
+      <div class="text-wrap text-body-1"><span class="text-orange">{{ item.sender.name }}</span> invite <span class="text-green">{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{ item.resource.name }}</span></div>
     </template>
     <template #actions>
-      <div class="d-flex ga-5">
-        <v-btn
-          :color="color"
-          :disabled="!isPending"
-          :loading="loading"
-          variant="plain"
-          @click="submit(true)"
-        >
-          Accepter
-        </v-btn>
-        <v-btn
-          :color="color"
-          :disabled="!isPending"
-          :loading="loading"
-          variant="plain"
-          @click="submit(false)"
-        >
-          Rejeter
-        </v-btn>
+      <div>
+        <div class="d-flex ga-5">
+          <v-btn v-if="!isSender"
+            :color="color"
+            :disabled="!isPending"
+            :loading="loading"
+            variant="plain"
+            @click="acceptInvitation"
+          >
+            Accepter
+          </v-btn>
+            <v-btn :color="color"
+            :loading="loading"
+            variant="plain"
+            @click="cancelInvitation">
+            Annuler l'invitation
+          </v-btn>
+        </div>
+
       </div>
     </template>
   </v-card>
