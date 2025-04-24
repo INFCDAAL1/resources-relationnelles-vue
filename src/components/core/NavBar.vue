@@ -22,7 +22,7 @@ onMounted(() => {
       <v-list-item link prepend-icon="mdi-message" title="Messagerie" to="/message/"/>
       <v-list-item v-role="['admin', 'superadmin','modo', 'user']" link prepend-icon="mdi-email-plus" title="Invitation" to="/invitation/"/>
       <v-list-item v-role="['admin', 'superadmin','modo', 'user']" link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite"/>
-      <v-list-item v-role="['admin', 'superadmin','modo', 'user']" link prepend-icon="mdi-chart-bar" title="Statistique" to="/stats"/>
+      <v-list-item v-role="['admin', 'superadmin','modo']" link prepend-icon="mdi-chart-bar" title="Statistique" to="/stats"/>
     </v-list>
     <template #append>
       <v-list-item v-role="['admin', 'superadmin']" link prepend-icon="mdi-shape-plus" title="Gestion des catégories" to="/category/"/>

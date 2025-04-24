@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type {User} from '@/types'
-import {ref, toRefs, watch} from 'vue'
+import {useUserStore} from "@/stores/user.ts"
 
 const props = defineProps<{
   modelValue: User | undefined
