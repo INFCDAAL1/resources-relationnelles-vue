@@ -12,7 +12,7 @@ definePage({
 const loading = ref(true);
 const error = ref<string | null>(null);
 const showNewConversation = ref(false);
-const conversations = ref([]);
+const conversations:Ref<GroupMessage[]> = ref([]);
 
 onMounted(async () => {
   try {
