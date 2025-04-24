@@ -2,6 +2,7 @@
 import {onMounted, ref, watch} from 'vue'
 import type {Resource} from '@/types'
 import axios from '@/lib/axios.ts'
+import router from '@/router/index';
 
 const props = defineProps<{
   modelValue?: Partial<Resource>
@@ -57,21 +58,36 @@ const handleFileChange = (event: Event) => {
   }
 }
 
-const submitForm = () => {
-  formLoading.value = true
-  const formData = new FormData()
-  formData.append('name', formName.value)
-  formData.append('description', formDescription.value)
-  formData.append('category_id', formCategory.value.toString())
-  formData.append('visibility_id', formVisibility.value.toString())
-  formData.append('published', formPublished.value ? '1' : '0')
-  if (formFile.value) {
-    formData.append('file', formFile.value)
-  }
+const submitForm = async () => {
+  formLoading.value = true;
+  const formData = new FormData();
+  formData.append('name', formName.value);
+  formData.append('description', formDescription.value);
+  formData.append('category_id', formCategory.value);
+  formData.append('visibility_id', formVisibility.value);
+  formData.append('published', formPublished.value ? '1' : '0');
+  formData.append('file', formFile.value as Blob);
 
-  emit('submit', formData)
-  formLoading.value = false
-}
+  axios.post('/resources', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+    .then(response => {
+      formLoading.value = false;
+      formName.value = '';
+      formDescription.value = '';
+      formCategory.value = '';
+      formFile.value = null;
+      formVisibility.value = '';
+      formPublished.value = false;
+      router.push({name: '/resource/'});
+    })
+    .catch(error => {
+      console.error('Error creating resource:', error);
+      formLoading.value = false;
+    });
+};
 </script>
 
 <template>
