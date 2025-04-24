@@ -8,10 +8,6 @@ const props = defineProps<{
   modelValue?: Partial<Resource>
 }>()
 
-const emit = defineEmits<{
-  (e: 'submit', resource: FormData): void
-}>()
-
 // Champs du formulaire
 const formName = ref('')
 const formDescription = ref('')
@@ -84,8 +80,8 @@ const submitForm = async () => {
       router.push({name: '/resource/'});
     })
     .catch(error => {
-      console.error('Error creating resource:', error);
       formLoading.value = false;
+      console.error('Error creating resource:', error);
     });
 };
 </script>
@@ -113,7 +109,7 @@ const submitForm = async () => {
       required
     />
 
-    <v-switch v-model="formPublished" label="Publié"/>
+    <v-switch v-model="formPublished" label="Publié" color="green"/>
 
     <v-file-input
       accept=".pdf,.doc,.docx,.jpg,.png"

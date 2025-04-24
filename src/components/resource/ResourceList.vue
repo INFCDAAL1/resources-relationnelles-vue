@@ -44,7 +44,7 @@ onMounted(() => {
   <div class="d-flex flex-column ga-5">
     <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
       <template #header>
-        <div class="d-flex ga-3 align-center justify-center">
+        <div class="d-flex ga-3 align-center justify-center mb-4">
           <v-select
             v-model="itemsPerPage"
             :items="[5, 10, 15, 20]"

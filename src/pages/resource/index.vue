@@ -7,7 +7,7 @@ import axios from '@/lib/axios';
 definePage({
   meta: {
     layout: 'default',
-    requiresAuth: true,
+    requiresAuth: false,
   },
 })
 const route = useRoute();
@@ -97,8 +97,6 @@ const updateQuery = () => {
   else
     router.push({query: {filter: filter.value}});
 };
-
-const dialog = ref(false);
 
 const formLoading = ref(false);
 const formName = ref('');
