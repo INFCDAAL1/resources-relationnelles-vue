@@ -52,6 +52,33 @@ const getDownloadLink = computed(() => {
   else return ''
 })
 
+const downloadFile = async () => {
+  if (getDownloadLink.value) {
+    try {
+      console.log("Downloading file from:", getDownloadLink.value);
+      
+      const response = await axios.get(getDownloadLink.value, {
+      responseType: 'blob', // important pour obtenir le fichier correctement
+    });
+
+    const blob = new Blob([response.data], { type: 'application/octet-stream' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = (item.value?.name || 'downloaded_file') + ".pdf"; // Nom par défaut si item.value est undefined
+    link.style.display = 'none';
+
+    document.body.appendChild(link);
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+    document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  }
+  else console.error("No download link available for this resource.")
+}
+
 </script>
 
 <template>
@@ -62,9 +89,9 @@ const getDownloadLink = computed(() => {
         <template #action>
           <v-btn
             :disabled="!getDownloadLink"
-            :href="getDownloadLink"
             append-icon="mdi-arrow-down"
             variant="tonal"
+            @click="downloadFile"
           >
             Télécharger
           </v-btn>
