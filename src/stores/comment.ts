@@ -1,22 +1,11 @@
 // Utilities
 import {defineStore} from 'pinia'
-import type {Comment, User} from '@/types';
+import type {User,Comment} from '@/types';
 import {useStorage} from "@vueuse/core";
 
 export const useCommentStore = defineStore('comment', {
   state: () => ({
-    comments: useStorage("comments", Array.from({length: 200}, (_, i) => ({
-      id: i,
-      content: "Comment " + i,
-      status: "pending" as Comment['status'],
-      user: {
-        id: Math.floor(Math.random() * 100),
-        name: "User " + Math.floor(Math.random() * 100),
-      } as User,
-      resourceId: Math.floor(Math.random() * 200),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    })) as Comment[], sessionStorage),
+    comments: useStorage("comments", [] as Comment[], sessionStorage),
   }),
 
   getters: {
@@ -25,13 +14,13 @@ export const useCommentStore = defineStore('comment', {
       return (userId: User['id']): Comment[] | undefined => state.comments.filter(comment => comment.user.id === userId)
     },
     getApprovedCommentsByResourceId: (state) => {
-      return (resourceId: Comment['resourceId']): Comment[] | undefined => state.comments.filter(comment => comment.resourceId === resourceId && comment.status === 'approved')
+      return (resource_id: Comment['resource_id']): Comment[] | undefined => state.comments.filter(comment => comment.resource_id === resource_id && comment.status === 'approved')
     },
     getPendingCommentsByResourceId: (state) => {
-      return (resourceId: Comment['resourceId']): Comment[] | undefined => state.comments.filter(comment => comment.resourceId === resourceId && comment.status === 'pending')
+      return (resource_id: Comment['resource_id']): Comment[] | undefined => state.comments.filter(comment => comment.resource_id === resource_id && comment.status === 'pending')
     },
     getRejectedCommentsByResourceId: (state) => {
-      return (resourceId: Comment['resourceId']): Comment[] | undefined => state.comments.filter(comment => comment.resourceId === resourceId && comment.status === 'rejected')
+      return (resource_id: Comment['resource_id']): Comment[] | undefined => state.comments.filter(comment => comment.resource_id === resource_id && comment.status === 'rejected')
     },
   },
 
@@ -48,8 +37,8 @@ export const useCommentStore = defineStore('comment', {
     deleteComment(commentId: Comment['id']) {
       this.comments = this.comments.filter(comment => comment.id !== commentId)
     },
-    deleteCommentByResourceId(resourceId: Comment['id']) {
-      this.comments = this.comments.filter(comment => comment.resourceId !== resourceId)
+    deleteCommentByResourceId(resource_id: Comment['id']) {
+      this.comments = this.comments.filter(comment => comment.resource_id !== resource_id)
     },
     setComments(state: Comment[]) {
       this.comments = state
