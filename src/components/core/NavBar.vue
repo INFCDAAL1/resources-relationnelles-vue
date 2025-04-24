@@ -20,11 +20,11 @@ onMounted(() => {
     <v-list density="compact">
       <v-list-item link prepend-icon="mdi-package-variant" title="Ressources" to="/resource/"/>
       <v-list-item link prepend-icon="mdi-message" title="Messagerie" to="/message/"/>
-      <v-list-item link prepend-icon="mdi-email-plus" title="Invitation" to="/invitation/"/>
-      <v-list-item link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite"/>
+      <v-list-item v-role="['admin', 'superadmin','modo', 'user']" link prepend-icon="mdi-email-plus" title="Invitation" to="/invitation/"/>
+      <v-list-item v-role="['admin', 'superadmin','modo', 'user']" link prepend-icon="mdi-star" title="Favoris" to="/resource/favorite"/>
     </v-list>
     <template #append>
-      <v-list-item link prepend-icon="mdi-shape-plus" title="Gestion des catégories" to="/category/"/>
+      <v-list-item v-role="['admin', 'superadmin']" link prepend-icon="mdi-shape-plus" title="Gestion des catégories" to="/category/"/>
       <v-list-item v-role="['admin', 'superadmin']" link prepend-icon="mdi-account-group" title="Gestion utilisateurs"
                    to="/profile/"/>
       <v-list-profile/>

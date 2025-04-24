@@ -5,6 +5,12 @@ import {useResourceStore} from "@/stores/resource.ts";
 import {useInvitationStore} from "@/stores/invitation.ts";
 import type {FilterInvitation, Invitation, InvitationResponse, Resource} from "@/types";
 import type {AxiosResponse} from "axios";
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+  },
+});
 
 const store = useInvitationStore()
 const resourceStore = useResourceStore()

@@ -2,6 +2,12 @@
 import type {Category} from "@/types";
 import axios from "@/lib/axios.ts";
 
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+  },
+});
 const items: Ref<Category[]> = ref([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
