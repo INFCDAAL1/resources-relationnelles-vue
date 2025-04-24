@@ -59,10 +59,11 @@ const downloadFile = async () => {
         responseType: 'blob', // Important to handle the file correctly
       });
 
-      const blob = new Blob([response.data], { type: 'application/octet-stream' });
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = (item.value?.name || 'downloaded_file') + ".pdf"; // Default filename if not defined
+      link.download = item.value?.name || 'downloaded_file'; // Default name if not available
       link.style.display = 'none';
 
       document.body.appendChild(link);
