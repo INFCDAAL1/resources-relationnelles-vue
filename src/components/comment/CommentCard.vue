@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import type {Comment} from '@/types';
-import {defineProps} from 'vue';
+import { defineProps, computed } from 'vue';
+import type { Comment } from '@/types'; // Assurez-vous que le type Comment est bien défini dans vos types
 
 const props = defineProps<{
   item: Comment;
 }>();
 
+// Calculer le texte du statut
 const statusText = computed(() => {
   switch (props.item.status) {
     case 'pending':
@@ -14,11 +15,14 @@ const statusText = computed(() => {
       return 'Approuvé';
     case 'rejected':
       return 'Rejeté';
+    case 'published':
+      return 'Publié'; // Ajout du statut "published"
     default:
       return 'Inconnu';
   }
-})
+});
 
+// Calculer la couleur en fonction du statut
 const statusColor = computed(() => {
   switch (props.item.status) {
     case 'pending':
@@ -27,10 +31,14 @@ const statusColor = computed(() => {
       return 'green';
     case 'rejected':
       return 'red';
+    case 'published':
+      return 'blue'; // Couleur bleue pour "published"
     default:
       return 'grey';
   }
 });
+
+// Icône en fonction du statut
 const statusIcon = computed(() => {
   switch (props.item.status) {
     case 'pending':
@@ -39,6 +47,8 @@ const statusIcon = computed(() => {
       return 'mdi-check-circle';
     case 'rejected':
       return 'mdi-close-circle';
+    case 'published':
+      return 'mdi-pencil'; // Icône pour "published"
     default:
       return 'mdi-help-circle';
   }
@@ -52,20 +62,19 @@ const statusIcon = computed(() => {
         <div>{{ item.user.name }}</div>
         <v-spacer></v-spacer>
         <div class="d-flex ga-2">
-          <v-chip :append-icon="statusIcon" :color="statusColor" :text="statusText"></v-chip>
+          <v-chip :append-icon="statusIcon" :color="statusColor" :text="statusText" />
         </div>
       </div>
     </v-card-title>
     <v-card-subtitle>{{ item.content }}</v-card-subtitle>
     <v-card-text>
       <div class="d-flex align-end">
-        <v-spacer/>
+        <v-spacer />
         <div class="d-flex ga-3 align-center flex-wrap">
-          <p class="text-grey-lighten-2">Créer le : {{ new Date(item.createdAt).toDateString() }}</p>
-          <slot name="action"/>
+          <p class="text-grey-lighten-2">Créé le : {{ new Date(item.created_at).toDateString() }}</p>
+          <slot name="action" />
         </div>
       </div>
-
     </v-card-text>
   </v-card>
 </template>

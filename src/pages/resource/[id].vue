@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-
-import {definePage} from "unplugin-vue-router/runtime";
-import {useResourceStore} from "@/stores/resource.ts";
-import type {Comment, Resource, RouteParams} from "@/types";
-import {useCommentStore} from "@/stores/comment.ts";
+import { definePage } from "unplugin-vue-router/runtime";
+import { useResourceStore } from "@/stores/resource.ts";
+import { useCommentStore } from "@/stores/comment.ts";
+import type { Comment, Resource, RouteParams } from "@/types";
 import axios from "@/lib/axios.ts";
 
 definePage({
@@ -12,15 +11,16 @@ definePage({
     requiresAuth: true,
   },
 })
+
 const router = useRouter();
 const route = useRoute();
-const store = useResourceStore()
-const storeComment = useCommentStore()
+const store = useResourceStore();
+const storeComment = useCommentStore();
 const item: Ref<Resource | undefined> = ref();
 const comments: Ref<Comment[]> = ref([]);
 
 onMounted(async () => {
-  const {id} = route.params as RouteParams;
+  const { id } = route.params as RouteParams;
   const resourceId = Number(id);
   item.value = store.getResourceById(resourceId);
 
@@ -47,10 +47,8 @@ onMounted(async () => {
 });
 
 const getDownloadLink = computed(() => {
-  if (item.value && item.value.download_url)
-    return item.value.download_url
-  else return ''
-})
+  return item.value?.download_url || '';
+});
 
 const downloadFile = async () => {
   if (getDownloadLink.value) {
@@ -58,13 +56,13 @@ const downloadFile = async () => {
       console.log("Downloading file from:", getDownloadLink.value);
 
       const response = await axios.get(getDownloadLink.value, {
-        responseType: 'blob', // important pour obtenir le fichier correctement
+        responseType: 'blob', // Important to handle the file correctly
       });
 
-      const blob = new Blob([response.data], {type: 'application/octet-stream'});
+      const blob = new Blob([response.data], { type: 'application/octet-stream' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = (item.value?.name || 'downloaded_file') + ".pdf"; // Nom par défaut si item.value est undefined
+      link.download = (item.value?.name || 'downloaded_file') + ".pdf"; // Default filename if not defined
       link.style.display = 'none';
 
       document.body.appendChild(link);
@@ -75,14 +73,28 @@ const downloadFile = async () => {
     } catch (error) {
       console.error("Error downloading file:", error);
     }
-  } else console.error("No download link available for this resource.")
-}
+  } else {
+    console.error("No download link available for this resource.");
+  }
+};
 
+const addComment = (comment: Comment) => {
+  if (item.value) {
+    try {
+      comments.value.push(comment); // Add the new comment to the local list
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  }
+};
 </script>
 
 <template>
   <div class="d-flex flex-column ga-5">
+    <!-- Card for loading resource -->
     <v-card v-if="!item" title="Chargement de la ressource..."></v-card>
+
+    <!-- Display resource details when available -->
     <v-card v-else>
       <ResourceCard :item="item" @toggle-favorite="store.toggleResourceFavorite">
         <template #action>
@@ -98,12 +110,15 @@ const downloadFile = async () => {
       </ResourceCard>
     </v-card>
 
-    <v-card v-if="!comments.length" title="Aucun commentaire pour cette ressource."></v-card>
-    <CommentList v-else :items="comments" no-filter/>
-  </div>
+    <!-- Comment form to add a new comment -->
+    <CommentForm v-if="item"  :item="item" @comment-added="addComment" />
 
+    <!-- Display list of comments -->
+    <v-card v-if="!comments.length" title="Aucun commentaire pour cette ressource."></v-card>
+    <CommentList v-else :items="comments" no-filter />
+  </div>
 </template>
 
-<style lang="sass" scoped>
-
+<style scoped lang="sass">
+/* You can add your styles here if needed */
 </style>
