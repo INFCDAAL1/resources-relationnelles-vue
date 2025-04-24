@@ -35,32 +35,12 @@ onMounted(async () => {
     }
   }
 });
-
-const submit = async (formData: FormData) => {
-  if (!item.value) return;
-
-  try {
-    const res = await axios.put(
-      `/resources/${item.value.id}`,
-      formData,
-      {headers: {'Content-Type': 'multipart/form-data'}}
-    );
-
-    // Mettre à jour le store local
-    store.updateResource(res.data.data);
-
-    // Redirection ou message de succès si besoin
-    router.push(`/resource/${item.value.id}`);
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour de la ressource :", error);
-  }
-};
 </script>
 
 <template>
   <div>
     <h1 class="text-h5 mb-4">Modifier une ressource</h1>
-    <ResourceForm v-if="item" :model-value="item" @submit="submit"/>
+    <ResourceForm v-if="item" :model-value="item"/>
     <v-alert v-else text="Chargement de la ressource..." type="info"></v-alert>
   </div>
 </template>

@@ -55,7 +55,7 @@ onMounted(() => {
           <v-select
             v-if="!noFilter"
             v-model="filterModel"
-            :items="['pending' , 'accepted' , 'rejected' , 'all']"
+            :items="['pending' , 'accepted' , 'all']"
             hide-details
             label="Filtre invitations"
             max-width="350"

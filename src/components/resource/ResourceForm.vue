@@ -21,6 +21,10 @@ const formLoading = ref(false)
 const categories = ref<{ id: number; name: string }[]>([])
 const visibilities = ref<{ id: number; name: string }[]>([])
 
+const editing = computed(() => {
+  return !!props.modelValue
+})
+
 watch(
   () => props.modelValue,
   (newVal) => {
@@ -63,21 +67,25 @@ const submitForm = async () => {
   formData.append('category_id', formCategory.value);
   formData.append('visibility_id', formVisibility.value);
   formData.append('published', formPublished.value ? '1' : '0');
-  formData.append('file', formFile.value as Blob);
+  if (!editing.value) {
+    formData.append('file', formFile.value as Blob);
+  }
 
-  axios.post('/resources', formData, {
+  const action = editing.value ? axios.patch : axios.post;
+  const resourceId = editing.value ? props.modelValue?.id : null;
+  action(`/resources/${resourceId}`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': editing.value ? 'application/json' : 'multipart/form-data',
     },
   })
     .then(response => {
-      formLoading.value = false;
-      formName.value = '';
-      formDescription.value = '';
-      formCategory.value = '';
-      formFile.value = null;
-      formVisibility.value = '';
-      formPublished.value = false;
+      // formLoading.value = false;
+      // formName.value = '';
+      // formDescription.value = '';
+      // formCategory.value = '';
+      // formFile.value = null;
+      // formVisibility.value = '';
+      // formPublished.value = false;
       router.push({name: '/resource/'});
     })
     .catch(error => {
@@ -113,6 +121,7 @@ const submitForm = async () => {
     <v-switch v-model="formPublished" label="Publié" color="green"/>
 
     <v-file-input
+    v-if="!editing"
       accept=".pdf,.doc,.docx,.jpg,.png"
       label="Fichier à joindre"
       prepend-icon="mdi-paperclip"
