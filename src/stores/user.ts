@@ -36,10 +36,7 @@ export const useUserStore = defineStore('auth', {
       }).catch(() => {
         console.error('Erreur lors de la déconnexion')
       })
-
-      this.token = null
-      this.validity = null
-      this.user = null
+      location.reload()
     },
   },
 })
