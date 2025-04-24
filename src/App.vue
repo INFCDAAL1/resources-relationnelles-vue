@@ -15,7 +15,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-app>
+  <SafeArea>
+  <v-app fluid>
     <router-view/>
   </v-app>
+  </SafeArea>
 </template>
+

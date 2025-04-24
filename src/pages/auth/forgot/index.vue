@@ -27,7 +27,7 @@ const getValide = (e: boolean) => {
 
 <template>
   <div class="d-flex flex-column align-center">
-    <v-stepper :items="['Mot de passe oublié', 'Envoie du message électronique']" width="800">
+    <v-stepper :items="['Mot de passe oublié', 'Envoie du message électronique']" max-width="800">
       <template v-slot:item.1>
         <StepForgotPassword @email="getEmail" @valide="getValide"/>
       </template>
