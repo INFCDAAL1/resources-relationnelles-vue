@@ -3,6 +3,7 @@ import type {Resource, User} from "@/types";
 import axios from "@/lib/axios.ts";
 import {useInvitationStore} from "@/stores/invitation.ts";
 import type {AxiosResponse} from "axios";
+import {useUserStore} from "@/stores/user.ts";
 
 const store = useInvitationStore()
 
@@ -11,6 +12,14 @@ const resources: Ref<Resource[]> = ref([] as Resource[])
 
 const userSelected: Ref<Partial<User> | undefined> = ref()
 const resourceSelected: Ref<Resource | undefined> = ref()
+  
+  
+const userStore = useUserStore()
+const filteredResources = computed(() => {
+    return resources.value.filter((res) => {
+        return res.user.id === userStore?.user?.id
+  });
+});
 
 const isLoading = ref(true)
 const formStatus = ref<null | { type: 'success' | 'error'; message: string }>(null);
@@ -60,7 +69,7 @@ const submit = async () => {
     <template #text>
       <v-form>
         <div class="d-flex flex-column ga-5">
-          <div v-if="(!users.length || !resources.length) && !isLoading" class="text-red">
+          <div v-if="(!users.length || !filteredResources.length) && !isLoading" class="text-red">
             ⚠️ Impossible de créer une invitation : aucun utilisateur ou ressource disponible.
           </div>
           <v-alert
@@ -85,8 +94,8 @@ const submit = async () => {
 
           <v-autocomplete
             v-model="resourceSelected"
-            :disabled="!resources.length"
-            :items="resources"
+            :disabled="!filteredResources.length"
+            :items="filteredResources"
             :loading="isLoading"
             item-title="name"
             label="Choisir une ressource"
