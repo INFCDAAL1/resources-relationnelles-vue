@@ -16,6 +16,10 @@ import NotFound from "@/components/core/NotFound.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts([
+    {
+      path: '/',
+      redirect: '/resource'
+    },
     ...routes,
     {
       path: '/:pathMatch(.*)*', // Cela attrape toutes les routes non définies
