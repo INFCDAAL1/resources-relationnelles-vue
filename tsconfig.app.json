@@ -18,6 +18,7 @@
       ]
     },
     "types": [
+      "node",
       "vite-plugin-vue-layouts-next/client"
     ]
   }

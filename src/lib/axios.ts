@@ -2,7 +2,7 @@ import axios from 'axios'
 import {useUserStore} from '@/stores/user'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://10.176.133.185:8000/api/' : 'http://localhost:8000/api/',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

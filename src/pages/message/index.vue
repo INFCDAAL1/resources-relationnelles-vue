@@ -40,16 +40,7 @@ const closeNewConversation = () => {
 
 <template>
   <div>
-    <div class="d-flex justify-space-between align-center mb-4">
       <h1>Vos messages</h1>
-      <v-btn
-        :text="showNewConversation ? 'Fermer' : 'Nouvelle conversation'"
-        color="primary"
-        prepend-icon="mdi-message-plus"
-        @click="showNewConversation = !showNewConversation"
-      ></v-btn>
-    </div>
-
     <v-expand-transition>
       <MessageNewConversation
         v-if="showNewConversation"
@@ -74,6 +65,8 @@ const closeNewConversation = () => {
 
 
     <MessageList v-else-if="items.length > 0" :items="items"/>
+    <v-fab v-role="['admin', 'user','moderator','superadmin']" app color="primary" :icon="showNewConversation ? 'mdi-close' :'mdi-message-plus'" size="75"
+           @click="showNewConversation = !showNewConversation"></v-fab>
   </div>
 </template>
 
