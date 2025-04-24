@@ -48,7 +48,7 @@ const handleSubmit = () => {
 
     <v-select
       v-model="form.role"
-      v-if="store.user.role !== 'user' && store.user.id === modelValue?.id"
+      v-if="store.user&&store.user.role !== 'user' && store.user.id === modelValue?.id"
       :items="['user', 'admin', 'moderator', 'superadmin']"
       label="Rôle"
       required

@@ -18,44 +18,28 @@ const getRoleColor = (role: User['role']) => {
   }
 }
 
-const formatDate = (dateStr: string): string => {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 </script>
 
 <template>
   <v-card :subtitle="user.email" :title="user.name" elevation="3" prepend-icon="mdi-account" width="800">
     <v-card-text>
-      <div class="d-flex flex-column ga-5">
+      <div class="d-flex ga-5">
         <div>
           Rôle :
           <v-chip :color="getRoleColor(user.role)" text-color="white">
             {{ user.role }}
           </v-chip>
         </div>
-        <div>
-          <v-btn
-            v-role="['admin', 'user','moderator','superadmin']"
-            :to="'/profile/edit/'+user.id"
-            prepend-icon="mdi-pencil"
-            size="small"
-            variant="tonal"
-          >
-            Modifier
-          </v-btn>
-        </div>
-
-
-        <div class="d-flex mb-4">
-          <p class="text-grey-lighten-2">Mise à jour le : {{ formatDate(user.updated_at) }}</p>
-          <v-spacer></v-spacer>
-          <p class="text-grey-lighten-2">Créé le : {{ formatDate(user.created_at) }}</p>
-        </div>
+        <v-spacer/>
+        <v-btn
+          v-role="['admin', 'user','moderator','superadmin']"
+          :to="'/profile/edit/'+user.id"
+          prepend-icon="mdi-pencil"
+          size="small"
+          variant="tonal"
+        >
+          Modifier
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>
