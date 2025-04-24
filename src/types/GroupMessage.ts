@@ -1,8 +1,7 @@
-import type {Message, UserMessage} from "@/types";
+import type {Message, User} from "@/types";
 
 export interface GroupMessage {
   id: number;
-  user: UserMessage;
-  unread_count: number;
-  last_message: Message | null;
+  name: string;
+  message: Message;
 }

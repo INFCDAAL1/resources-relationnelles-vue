@@ -1,40 +1,44 @@
 <script lang="ts" setup>
-import {useMessageStore} from "@/stores/message.ts";
 import type {User} from "@/types";
 import {useRouter} from "vue-router";
+import axios from "@/lib/axios.ts";
 
 const router = useRouter();
-const messageStore = useMessageStore();
-const isLoading = ref(false);
-const error = ref<string | null>(null);
-const selectedUser = ref<User | null>(null);
-const message = ref("");
-const users = ref<User[]>([]);
+const loading:Ref<boolean> = ref(false);
+const error:Ref<string> = ref("");
+const selectedUser:Ref<User|null> = ref(null);
+const message:Ref<string> = ref("");
+const users:Ref<User[]> = ref([]);
 
 const emit = defineEmits<{
   (e: 'conversation-started'): void;
 }>();
 
-const loadUsers = async () => {
+const usersList = ref<User[]>([]);
+
+onMounted(async ()=>{
   try {
-    isLoading.value = true;
-    await messageStore.fetchAvailableUsers();
-    users.value = messageStore.getUsersNotInConversation;
+    loading.value = true;
+    const res = await axios.get("users/list")
+    console.log(res.data)
+    usersList.value =res.data
+
   } catch (err) {
     error.value = err instanceof Error ? err.message : "Failed to load users";
   } finally {
-    isLoading.value = false;
+    loading.value = false;
   }
-};
-
-onMounted(loadUsers);
+});
 
 const startConversation = async () => {
   if (!selectedUser.value || !message.value.trim()) return;
 
   try {
-    isLoading.value = true;
-    await messageStore.startConversation(selectedUser.value.id, message.value);
+    loading.value = true;
+    await axios.post("/messages", {
+      receiver_id: selectedUser.value.id,
+      message: message.value,
+    });
 
     // Emit event to parent component
     emit('conversation-started');
@@ -43,7 +47,9 @@ const startConversation = async () => {
     router.push(`/message/${selectedUser.value.id}`);
   } catch (err) {
     error.value = err instanceof Error ? err.message : "Failed to start conversation";
-    isLoading.value = false;
+    loading.value = false;
+  }finally {
+    loading.value = false;
   }
 };
 </script>
@@ -63,9 +69,9 @@ const startConversation = async () => {
     <v-form v-else @submit.prevent="startConversation">
       <v-select
         v-model="selectedUser"
-        :disabled="isLoading"
+        :disabled="loading"
         :items="users"
-        :loading="isLoading"
+        :loading="loading"
         class="mb-4"
         item-title="name"
         item-value="id"
@@ -75,7 +81,7 @@ const startConversation = async () => {
 
       <v-textarea
         v-model="message"
-        :disabled="isLoading"
+        :disabled="loading"
         class="mb-4"
         label="Message"
         required
@@ -83,8 +89,8 @@ const startConversation = async () => {
       ></v-textarea>
 
       <v-btn
-        :disabled="!selectedUser || !message.trim() || isLoading"
-        :loading="isLoading"
+        :disabled="!selectedUser || !message.trim() || loading"
+        :loading="loading"
         color="primary"
         type="submit"
       >

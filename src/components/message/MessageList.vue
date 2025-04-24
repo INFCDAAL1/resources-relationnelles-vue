@@ -1,18 +1,14 @@
 <script lang="ts" setup>
-import type {Conversation} from '@/types';
-import {useMessageStore} from "@/stores/message.ts";
-
-const store = useMessageStore();
+import type {GroupMessage} from '@/types';
 
 const props = defineProps<{
-  items: Conversation[],
+  items: GroupMessage[],
   search?: string,
 }>();
 
 const emit = defineEmits<{
   (e: 'search', value: string): void;
 }>();
-
 const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
@@ -53,7 +49,7 @@ onMounted(() => {
       </template>
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.raw.user.id">
+          <template v-for="(item, i) in items" :key="item.raw">
             <MessageGroupCard :item="item.raw"/>
           </template>
         </div>

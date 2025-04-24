@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type {Conversation} from "@/types";
+import type {GroupMessage} from "@/types";
 
 const props = defineProps<{
-  item: Conversation
+  item: GroupMessage
 }>()
 
 const limitChars = 50;
@@ -22,18 +22,15 @@ const formatTime = (dateString: string | null) => {
 </script>
 
 <template>
-  <v-card :to="`/message/${item.user.id}`">
+  <v-card :to="`/message/${item.id}`">
     <v-card-title class="d-flex justify-space-between">
-      <span>{{ item.user.name }}</span>
-      <v-chip v-if="item.unread_count > 0" color="error" size="small">
-        {{ item.unread_count }}
-      </v-chip>
+      <span>{{ item.name}}</span>
     </v-card-title>
 
     <v-card-text>
       <div class="d-flex flex-column flex-wrap">
         <div v-if="item.last_message">
-          {{ formatTime(item.last_activity) }}
+          {{ formatTime(item.last_message.createdAt) }}
           <strong>{{ item.last_message.sender.name }}</strong>:
           {{ shortContent(item.last_message.content) }}
         </div>

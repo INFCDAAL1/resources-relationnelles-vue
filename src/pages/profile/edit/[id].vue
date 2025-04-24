@@ -27,7 +27,12 @@ const submit = async (formData: Partial<User>) => {
   try {
     if (!user.value) return
 
-    const res = await axios.put(`/users/${user.value.id}`, formData)
+    const res = await axios.put(`/users/${user.value.id}`, {
+      id: user.value.id,
+      email: formData.email,
+      name: formData.name,
+      role: formData.role,
+    })
     console.log("Utilisateur mis à jour :", res.data.data)
 
     alert.value = 'Profil mis à jour avec succès.'
