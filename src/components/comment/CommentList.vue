@@ -13,6 +13,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'filter', value: FilterComment): void;
   (e: 'search', value: string): void;
+  (e: 'delete', value: Comment): void;
+  (e: 'edit', value: Comment): void;
+  (e: 'approved', value: Comment): void;
+  (e: 'rejected', value: Comment): void;
 }>();
 
 // Pagination
@@ -49,6 +53,7 @@ const paginatedItems = computed(() => {
   const endIndex = startIndex + itemsPerPage.value;
   return filteredItems.value.slice(startIndex, endIndex);
 });
+const role = ref(null)
 
 // Watchers pour émettre les changements de filtre et recherche
 watch(search, (newValue) => {
@@ -112,7 +117,14 @@ onMounted(() => {
       <template v-slot:default="{ items }">
         <div class="d-flex flex-column ga-3">
           <template v-for="(item, i) in items" :key="item.id">
-            <CommentCard :item="item.raw"></CommentCard>
+            <CommentCard :item="item.raw">
+              <template #action>
+                <v-btn v-role="['admin', 'modo','superadmin']" @click="$emit('approved', item.raw)" icon="mdi-check" variant="tonal"> </v-btn>
+                <v-btn v-role="['admin', 'modo','superadmin']" @click="$emit('rejected', item.raw)" icon="mdi-close" variant="tonal"> </v-btn>
+                <v-btn v-role="['admin', 'modo','superadmin']" @click="$emit('delete', item.raw)" icon="mdi-delete" variant="tonal"></v-btn>
+                <v-btn v-role="['admin', 'modo','superadmin']" @click="$emit('edit', item.raw)" icon="mdi-pencil" variant="tonal"> </v-btn>
+              </template>
+            </CommentCard>
           </template>
         </div>
       </template>
