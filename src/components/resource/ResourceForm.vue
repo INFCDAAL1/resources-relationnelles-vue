@@ -72,7 +72,7 @@ const submitForm = async () => {
   }
 
   const action = editing.value ? axios.patch : axios.post;
-  const resourceId = editing.value ? props.modelValue?.id : null;
+  const resourceId = editing.value ? props.modelValue?.id : '';
   action(`/resources/${resourceId}`, formData, {
     headers: {
       'Content-Type': editing.value ? 'application/json' : 'multipart/form-data',
