@@ -70,6 +70,9 @@ jobs:
       - name: Build Android App
         run: cd android && ./gradlew assembleRelease && ./gradlew assembleDebug
 
+      - name: List built files
+        run: ls -lh ./android/app/build/outputs/{apk/release,apk/debug}
+
 #      - name: Sign release APK
 #        run: |
 #          jarsigner \
@@ -79,23 +82,20 @@ jobs:
 #            ./android/app/build/outputs/apk/release/app-release-unsigned.apk \
 #            release
 
-      - name: Align APK with zipalign
-        run: |
-          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
-          ZIPALIGNED=./android/app/build/outputs/apk/release/app-release-aligned.apk
-          $BUILDTOOLS/zipalign -v -p 4 ./android/app/build/outputs/apk/release/app-release-signed.apk $ZIPALIGNED
-          mv $ZIPALIGNED ./android/app/build/outputs/apk/release/app-release-signed.apk
-
-      - name: Verify APK Signature
-        run: |
-          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
-          $BUILDTOOLS/apksigner verify ./android/app/build/outputs/apk/release/app-release-signed.apk
+#      - name: Align APK with zipalign
+#        run: |
+#          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
+#          ZIPALIGNED=./android/app/build/outputs/apk/release/app-release-aligned.apk
+#          $BUILDTOOLS/zipalign -v -p 4 ./android/app/build/outputs/apk/release/app-release-signed.apk $ZIPALIGNED
+#          mv $ZIPALIGNED ./android/app/build/outputs/apk/release/app-release-signed.apk
+#
+#      - name: Verify APK Signature
+#        run: |
+#          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
+#          $BUILDTOOLS/apksigner verify ./android/app/build/outputs/apk/release/app-release-signed.apk
 
       - name: Cleanup Android signing files
         run: rm -f android/release.jks.base64 android/release.decrypted.jks
-
-      - name: List built files
-        run: ls -lh ./android/app/build/outputs/{apk/release,apk/debug}
 
       - name: Generate release tag
         id: tag
