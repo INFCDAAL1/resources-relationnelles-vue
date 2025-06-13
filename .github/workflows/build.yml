@@ -29,9 +29,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install-clean
-        with:
-            cache: 'npm'
-            cache-dependency-path: package-lock.json
 
       - name: Build web app
         run: npm run build
