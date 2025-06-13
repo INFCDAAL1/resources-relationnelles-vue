@@ -73,6 +73,9 @@ jobs:
             ./android/app/build/outputs/bundle/release/app-release.aab \
             release
 
+      - name: Cleanup Android signing files
+        run: rm -f android/release.jks.base64 android/release.decrypted.jks
+
       - name: List built files
         run: ls -lh ./android/app/build/outputs/{bundle/release,apk/debug}
 
@@ -80,16 +83,6 @@ jobs:
         id: tag
         run: echo "tag=android-${{ env.NODE_ENV }}-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          name: "Android Build - ${{ env.NODE_ENV }}"
-          files: |
-            ./android/app/build/outputs/bundle/release/app-release-signed.aab
-            ./android/app/build/outputs/apk/debug/app-debug.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -138,6 +131,8 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
           build-args: NODE_ENV=${{ env.NODE_ENV }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Image pushed successfully
         run: echo "✅ Image ${{ env.TAG }} pushed to ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
