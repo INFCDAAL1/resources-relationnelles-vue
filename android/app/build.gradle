@@ -29,9 +29,9 @@ android {
                 storeFile file("../release.decrypted.jks") // Chemin vers votre keystore
                 v2SigningEnabled true // Active la signature v2
                 v1SigningEnabled true // Active la signature v1 (si nécessaire)
-                storePassword System.getenv("RELEASE_KEYSTORE_PASSWORD")
-                keyAlias System.getenv("RELEASE_KEY_ALIAS")
-                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+                storePassword "rr-vue"
+                keyAlias "release"
+                keyPassword "rr-vue"
             }
         }
     buildTypes {
