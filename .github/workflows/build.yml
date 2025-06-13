@@ -21,19 +21,17 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'oracle'
-          java-version: "22"
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install-clean
+        with:
+            cache: 'npm'
+            cache-dependency-path: package-lock.json
 
       - name: Build web app
         run: npm run build
@@ -55,6 +53,12 @@ jobs:
             npx capacitor-assets generate --android
           fi
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: "22"
+          cache: 'gradle'
       - name: Build Android App
         run: cd android && ./gradlew bundle && ./gradlew assembleDebug
 
@@ -113,7 +117,7 @@ jobs:
       NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || 'dev' }}
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
+      IMAGE_NAME: infcdaal1/rr-vue:latest
 
     steps:
       - name: Checkout source
