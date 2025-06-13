@@ -62,6 +62,12 @@ jobs:
           echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
           base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
+      - name: Verify extracted keystore
+        run: |
+          keytool -list -v \
+            -keystore android/release.decrypted.jks \
+            -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}"
+
       - name: Build Android App
         env:
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
