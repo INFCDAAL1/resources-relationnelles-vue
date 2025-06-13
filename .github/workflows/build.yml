@@ -28,7 +28,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install-clean
+        run: npm ci
 
       - name: Build web app
         run: npm run build
@@ -114,7 +114,7 @@ jobs:
       NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || 'dev' }}
       REGISTRY: ghcr.io
-      IMAGE_NAME: infcdaal1/rr-vue:latest
+      IMAGE_NAME: infcdaal1/rr-vue
 
     steps:
       - name: Checkout source
