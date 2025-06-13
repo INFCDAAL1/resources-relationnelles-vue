@@ -27,7 +27,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install-clean --audit
+        run: NODE_ENV=development npm ci
 
       - name: Show dependencies
         run: npm fund
