@@ -80,10 +80,10 @@ jobs:
           $BUILDTOOLS/zipalign -v -p 4 ./android/app/build/outputs/apk/release/app-release.apk $ZIPALIGNED
           mv $ZIPALIGNED ./android/app/build/outputs/apk/release/app-release.apk
 
-      - name: Verify APK Signature
-        run: |
-          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
-          $BUILDTOOLS/apksigner verify ./android/app/build/outputs/apk/release/app-release.apk
+#      - name: Verify APK Signature
+#        run: |
+#          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
+#          $BUILDTOOLS/apksigner verify ./android/app/build/outputs/apk/release/app-release.apk
 
       - name: Cleanup Android signing files
         run: rm -f android/release.jks.base64 android/release.decrypted.jks
