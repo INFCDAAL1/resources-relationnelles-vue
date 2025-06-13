@@ -54,7 +54,9 @@
     "reactive": true,
     "readonly": true,
     "ref": true,
+    "registerDirectives": true,
     "resolveComponent": true,
+    "role": true,
     "shallowReactive": true,
     "shallowReadonly": true,
     "shallowRef": true,
@@ -77,13 +79,6 @@
     "watch": true,
     "watchEffect": true,
     "watchPostEffect": true,
-    "watchSyncEffect": true,
-    "registerDirectives": true,
-    "role": true,
-    "stores": true,
-    "useAppStore": true,
-    "useUserStore": true,
-    "useFetch": true,
-    "definePage": "readonly"
+    "watchSyncEffect": true
   }
 }
