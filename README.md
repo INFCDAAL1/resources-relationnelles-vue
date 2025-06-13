@@ -13,7 +13,10 @@ keytool -genkeypair \
   -keypass rr-vue
 keytool -importkeystore -srckeystore release.jks -destkeystore release.jks -deststoretype pkcs12
 keytool -list -v -keystore release.jks
-base64 release.jks > release.jks.base64
+base64 -w 0 release.jks > release.jks.base64
+-- Test the keystore
+base64 -d release.jks.base64 > test.jks
+keytool -list -v -keystore test.jks
 ```
 
 # Vuetify (Default)
