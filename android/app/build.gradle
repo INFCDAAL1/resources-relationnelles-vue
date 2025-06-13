@@ -26,6 +26,7 @@ android {
     }
     signingConfigs {
             release {
+                storeFile file("android/release.jks") // Chemin vers votre keystore
                 v2SigningEnabled true // Active la signature v2
                 v1SigningEnabled true // Active la signature v1 (si nécessaire)
             }
