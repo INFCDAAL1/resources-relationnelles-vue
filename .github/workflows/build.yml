@@ -1,34 +1,23 @@
-name: Build Project
+name: Build All (Docker + Android)
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+      - dev
 
 jobs:
-  build:
+  trigger_builds:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Trigger Docker build workflow
+        uses: benc-uk/workflow-dispatch@v1
         with:
-          node-version: '22'
+          workflow: build_docker.yml
+          ref: ${{ github.ref_name }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Trigger Android build workflow
+        uses: benc-uk/workflow-dispatch@v1
         with:
-          name: build
-          path: dist
+          workflow: build_android.yml
+          ref: ${{ github.ref_name }}

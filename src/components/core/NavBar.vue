@@ -10,7 +10,6 @@ const drawer = ref(true)
 onMounted(() => {
   drawer.value = props.show
 })
-
 </script>
 
 <template>

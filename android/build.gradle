@@ -17,7 +17,7 @@ buildscript {
 
 apply from: "variables.gradle"
 
-allprojects {
+projects {
     repositories {
         google()
         mavenCentral()

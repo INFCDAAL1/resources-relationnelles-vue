@@ -1,5 +1,21 @@
 [![Build Project](https://github.com/INFCDAAL1/resources-relationnelles-vue/actions/workflows/build.yml/badge.svg)](https://github.com/INFCDAAL1/resources-relationnelles-vue/actions/workflows/build.yml)
 
+```sh
+keytool -genkeypair \
+  -keystore release.jks \
+  -alias release \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000 \
+  -storetype JKS \
+  -dname "CN=RR-VUE, OU=Unkwnows, O=Unknows, L=Unknows, ST=IDF, C=FR" \
+  -storepass rr-vue \
+  -keypass rr-vue
+keytool -importkeystore -srckeystore release.jks -destkeystore release.jks -deststoretype pkcs12
+keytool -list -v -keystore release.jks
+base64 release.jks > release.jks.base64
+```
+
 # Vuetify (Default)
 
 This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify
