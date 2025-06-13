@@ -73,15 +73,6 @@ jobs:
       - name: List built files
         run: ls -lh ./android/app/build/outputs/{apk/release,apk/debug}
 
-#      - name: Sign release APK
-#        run: |
-#          jarsigner \
-#            -keystore android/release.decrypted.jks \
-#            -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" \
-#            -signedjar ./android/app/build/outputs/apk/release/app-release-signed.apk \
-#            ./android/app/build/outputs/apk/release/app-release-unsigned.apk \
-#            release
-
       - name: Align APK with zipalign
         run: |
           BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
