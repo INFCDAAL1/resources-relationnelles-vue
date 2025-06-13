@@ -7,17 +7,136 @@ on:
       - dev
 
 jobs:
-  trigger_builds:
+  build-android:
+    name: Build Android App
     runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Docker build workflow
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: build_docker.yml
-          ref: ${{ github.ref_name }}
+    concurrency:
+      group: build-android-${{ github.ref }}
+      cancel-in-progress: true
 
-      - name: Trigger Android build workflow
-        uses: benc-uk/workflow-dispatch@v1
+    env:
+      NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          workflow: build_android.yml
-          ref: ${{ github.ref_name }}
+          distribution: 'oracle'
+          java-version: "22"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build web app
+        run: npm run build
+        env:
+          NODE_ENV: ${{ env.NODE_ENV }}
+
+      - name: Add Android folder if not present
+        run: if [ ! -d "./android" ]; then npx cap add android; fi
+
+      - name: Capacitor update & copy
+        run: |
+          npx cap update
+          npx cap copy
+
+      - name: Generate icons and splash screen
+        run: |
+          if [ -d "./resources" ]; then
+            npm install @capacitor/assets --save-dev
+            npx capacitor-assets generate --android
+          fi
+
+      - name: Build Android App
+        run: cd android && ./gradlew bundle && ./gradlew assembleDebug
+
+      - name: Extract Android signing key
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
+          base64 -d android/release.jks.base64 > android/release.decrypted.jks
+
+      - name: Sign release AAB
+        run: |
+          jarsigner \
+            -keystore android/release.decrypted.jks \
+            -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" \
+            -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab \
+            ./android/app/build/outputs/bundle/release/app-release.aab \
+            release
+
+      - name: List built files
+        run: ls -lh ./android/app/build/outputs/{bundle/release,apk/debug}
+
+      - name: Generate release tag
+        id: tag
+        run: echo "tag=android-${{ env.NODE_ENV }}-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: "Android Build - ${{ env.NODE_ENV }}"
+          files: |
+            ./android/app/build/outputs/bundle/release/app-release-signed.aab
+            ./android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-signed.aab
+          path: ./android/app/build/outputs/bundle/release/app-release-signed.aab
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: ./android/app/build/outputs/apk/debug/app-debug.apk
+
+  build-docker:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: build-docker-${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+      TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || 'dev' }}
+      REGISTRY: ghcr.io
+      IMAGE_NAME: rr-vue
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+          build-args: NODE_ENV=${{ env.NODE_ENV }}
+
+      - name: Image pushed successfully
+        run: echo "✅ Image ${{ env.TAG }} pushed to ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
