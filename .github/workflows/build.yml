@@ -30,7 +30,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: '22'
 
       - name: Install dependencies
         run: npm install
@@ -113,7 +113,7 @@ jobs:
       NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || 'dev' }}
       REGISTRY: ghcr.io
-      IMAGE_NAME: rr-vue
+      IMAGE_NAME: ${{ github.repository }}
 
     steps:
       - name: Checkout source
