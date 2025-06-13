@@ -75,8 +75,9 @@ jobs:
 
       - name: Align APK with zipalign
         run: |
+          BUILDTOOLS=$ANDROID_HOME/build-tools/$(ls $ANDROID_HOME/build-tools | sort -V | tail -n 1)
           ZIPALIGNED=./android/app/build/outputs/apk/release/app-release-aligned.apk
-          zipalign -v -p 4 ./android/app/build/outputs/apk/release/app-release-signed.apk $ZIPALIGNED
+          $BUILDTOOLS/zipalign -v -p 4 ./android/app/build/outputs/apk/release/app-release-signed.apk $ZIPALIGNED
           mv $ZIPALIGNED ./android/app/build/outputs/apk/release/app-release-signed.apk
 
       - name: Verify APK Signature
