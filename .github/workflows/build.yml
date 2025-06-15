@@ -76,7 +76,12 @@ jobs:
             ./gradlew assembleDebug
           fi
       - name: List built files
-        run: ls -lh ./android/app/build/outputs/{apk/release,apk/debug}
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            ls -lh ./android/app/build/outputs/apk/release
+          else
+            ls -lh ./android/app/build/outputs/apk/debug
+          fi
 
 #      - name: Align APK with zipalign
 #        run: |
