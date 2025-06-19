@@ -2,7 +2,7 @@ import axios from 'axios'
 import {useUserStore} from '@/stores/user'
 
 const api = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://rr-api.qalpuch.cc/' : 'https://rr-api.qalpuch.cc/',
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://rr-api.qalpuch.cc/api' : 'https://rr-api.qalpuch.cc/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
