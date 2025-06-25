@@ -1,19 +1,32 @@
 <script lang="ts" setup>
+import { useDisplay } from 'vuetify';
+
 const props = defineProps<{
   show: boolean
-}>()
-watch(() => props.show, val => {
-  drawer.value = val
-})
-const drawer = ref(true)
+}>();
 
-onMounted(() => {
-  drawer.value = props.show
-})
+const { mdAndUp } = useDisplay();
+
+const drawer = ref(props.show);
+
+watch(() => props.show, val => {
+  drawer.value = val;
+});
+
+// Le tiroir est permanent sur les écrans larges, sinon il est contrôlé par la prop `show`
+const isPermanent = computed(() => mdAndUp.value);
+const model = computed({
+  get: () => isPermanent.value || drawer.value,
+  set: val => drawer.value = val
+});
 </script>
 
 <template>
-  <v-navigation-drawer v-model="drawer">
+  <v-navigation-drawer
+    v-model="model"
+    :permanent="isPermanent"
+    :temporary="!isPermanent"
+  >
     <v-divider/>
     <v-list density="compact">
       <v-list-item

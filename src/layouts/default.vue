@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 import AppBar from '@/components/core/AppBar.vue';
 import NavBar from '@/components/core/NavBar.vue';
 
@@ -10,21 +10,23 @@ const drawer = ref(true);
 </script>
 
 <template>
-  <!-- Appliquez le padding de la zone de sécurité directement sur v-main -->
-  <v-main
-    :style="{
-      paddingTop: 'var(--safe-area-inset-top)',
-      paddingLeft: 'var(--safe-area-inset-left)',
-      paddingRight: 'var(--safe-area-inset-right)',
-      paddingBottom: 'var(--safe-area-inset-bottom)',
-    }"
-  >
-    <AppBar @toggle-drawer="drawer = !drawer"/>
-    <NavBar :show="drawer"/>
+  <!-- Ces composants seront rendus à l'intérieur de v-app dans App.vue -->
+  <AppBar @toggle-drawer="drawer = !drawer" />
+  <NavBar v-model:show="drawer" />
 
-    <!-- Ajoutez un conteneur interne pour votre padding personnalisé -->
-    <div class="pa-4">
-      <router-view/>
+  <!-- v-main gère automatiquement l'espacement par rapport à l'AppBar et la NavBar -->
+  <v-main>
+    <!-- Le padding de la zone de sécurité est appliqué ici pour le contenu -->
+    <div
+      class="pa-4 h-100"
+      :style="{
+        paddingTop: 'var(--safe-area-inset-top)',
+        paddingLeft: 'var(--safe-area-inset-left)',
+        paddingRight: 'var(--safe-area-inset-right)',
+        paddingBottom: 'var(--safe-area-inset-bottom)',
+      }"
+    >
+      <router-view />
     </div>
   </v-main>
 </template>

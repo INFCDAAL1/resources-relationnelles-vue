@@ -16,7 +16,6 @@ declare module 'vue' {
     CommentCard: typeof import('./components/comment/CommentCard.vue')['default']
     CommentForm: typeof import('./components/comment/CommentForm.vue')['default']
     CommentList: typeof import('./components/comment/CommentList.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     InvitationCard: typeof import('./components/invitation/InvitationCard.vue')['default']
     InvitationForm: typeof import('./components/invitation/InvitationForm.vue')['default']
     InvitationList: typeof import('./components/invitation/InvitationList.vue')['default']
