@@ -7,18 +7,11 @@ import type {CapacitorConfig} from '@capacitor/cli';
   loggingBehavior: 'production',
   zoomEnabled: true,
   server: {
-    // Utiliser l'URL de l'API définie dans les variables d'environnement du workflow
     url: process.env.VITE_API_URL,
     cleartext: false,
   },
   android: {
-    adjustMarginsForEdgeToEdge: "auto",
-    buildOptions: {
-      keystorePath: "./release.jks",
-      keystoreAlias: "release",
-      keystorePassword: process.env.RELEASE_KEYSTORE_PASSWORD,
-      releaseType: 'APK',
-    }
+    adjustMarginsForEdgeToEdge: "auto"
   }
 };
 

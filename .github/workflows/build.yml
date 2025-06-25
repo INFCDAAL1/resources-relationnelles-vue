@@ -69,8 +69,6 @@ jobs:
     env:
       NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       VITE_API_URL: ${{ github.ref == 'refs/heads/main' && 'https://rr-api.qalpuch.cc/api' || 'https://rr-api.qalpuch.cc/api' }}
-      # Variables pour la signature et le versioning
-      KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
 
     steps:
       - name: Checkout source
@@ -80,12 +78,12 @@ jobs:
         id: vars
         run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Set version name
+      - name: Set image tags
         run: |
           if [ "${{ env.NODE_ENV }}" = "production" ]; then
-            echo "VERSION_NAME=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VERSION=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           else
-            echo "VERSION_NAME=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VERSION=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           fi
 
       - name: Setup Node.js
@@ -96,23 +94,28 @@ jobs:
       - name: Install dependencies
         run: NODE_ENV=development npm ci
 
+      - name: Show dependencies
+        run: npm fund
+
       - name: Build web app
         run: npm run build
         env:
           NODE_ENV: ${{ env.NODE_ENV }}
           VITE_API_URL: ${{ env.VITE_API_URL }}
-          VERSION: ${{ env.VERSION_NAME }}
+          VERSION: ${{ env.VERSION }}
 
       - name: Add Android folder if not present
         run: if [ ! -d "./android" ]; then npx cap add android; fi
 
-      - name: Create Keystore file from secret
-        run: |
-          echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > release.jks
-          echo "KEYSTORE_PATH=$(pwd)/release.jks" >> $GITHUB_ENV
-
       - name: Capacitor sync
         run: npx cap sync android
+
+      - name: Generate icons and splash screen
+        run: |
+          if [ -d "./resources" ]; then
+            npm install @capacitor/assets --save-dev
+            npx capacitor-assets generate --android
+          fi
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -120,6 +123,16 @@ jobs:
           distribution: 'oracle'
           java-version: "22"
           cache: 'gradle'
+
+      - name: Extract Android signing key
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > android/release.decrypted.jks
+
+      - name: Verify extracted keystore
+        run: |
+          keytool -list -v \
+            -keystore android/release.decrypted.jks \
+            -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}"
 
       - name: Build Android App
         run: |
@@ -129,7 +142,6 @@ jobs:
           else
             ./gradlew assembleDebug
           fi
-
       - name: List built files
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
@@ -138,15 +150,15 @@ jobs:
             ls -lh ./android/app/build/outputs/apk/debug
           fi
 
-      - name: Cleanup Keystore
-        run: rm -f release.jks
+      - name: Cleanup Android signing files
+        run: rm -f android/release.jks.base64 android/release.decrypted.jks
 
       - name: APK Release Artifact
         if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
           name: app-release-signed.apk
-          path: ./android/app/build/outputs/apk/release/app-release-signed.apk
+          path: ./android/app/build/outputs/apk/release/app-release.apk
 
       - name: APK Debug Artifact
         if: github.ref != 'refs/heads/main'
