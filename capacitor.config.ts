@@ -7,8 +7,8 @@ import type {CapacitorConfig} from '@capacitor/cli';
   loggingBehavior: 'production',
   zoomEnabled: true,
   server: {
-    url: process.env.VITE_API_URL,
     cleartext: false,
+    androidScheme: 'http',
   },
   android: {
     adjustMarginsForEdgeToEdge: "auto"
