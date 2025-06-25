@@ -70,9 +70,7 @@ jobs:
       NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
       VITE_API_URL: ${{ github.ref == 'refs/heads/main' && 'https://rr-api.qalpuch.cc/api' || 'https://rr-api.qalpuch.cc/api' }}
       # Variables pour la signature et le versioning
-      KEYSTORE_ALIAS: release
       KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
-      KEY_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
 
     steps:
       - name: Checkout source

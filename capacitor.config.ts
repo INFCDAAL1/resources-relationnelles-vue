@@ -14,9 +14,9 @@ import type {CapacitorConfig} from '@capacitor/cli';
   android: {
     adjustMarginsForEdgeToEdge: "auto",
     buildOptions: {
-      keystorePath: process.env.KEYSTORE_PATH,
-      keystoreAlias: process.env.KEYSTORE_ALIAS,
-      keystorePassword: process.env.KEYSTORE_PASSWORD,
+      keystorePath: "./release.jks",
+      keystoreAlias: "release",
+      keystorePassword: process.env.RELEASE_KEYSTORE_PASSWORD,
       releaseType: 'APK',
     }
   }
