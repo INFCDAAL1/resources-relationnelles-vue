@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^7.3.0",
+    "@capacitor/app": "^7.0.1",
     "@capacitor/core": "^7.3.0",
     "@mdi/font": "^7.4.47",
     "@vueuse/core": "^13.3.0",

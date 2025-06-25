@@ -4,7 +4,6 @@ import type {CapacitorConfig} from '@capacitor/cli';
   appId: 'local.cesi.rr',
   appName: 'RR',
   webDir: 'dist',
-  loggingBehavior: 'production',
   zoomEnabled: true,
   server: {
     cleartext: false,

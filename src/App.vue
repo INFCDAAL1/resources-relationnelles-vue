@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {useTheme} from 'vuetify/framework';
+import {App as CapacitorApp} from '@capacitor/app';
 
 const theme = useTheme()
 const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -11,6 +12,14 @@ const updateTheme = () => {
 onMounted(() => {
   darkThemeMq.addEventListener('change', updateTheme);
   updateTheme()
+});
+
+CapacitorApp.addListener('backButton', ({canGoBack}) => {
+  if (!canGoBack) {
+    CapacitorApp.exitApp();
+  } else {
+    window.history.back();
+  }
 });
 </script>
 

@@ -37,6 +37,9 @@ onMounted(async () => {
     router.back()
   }
 })
+const appVersion = import.meta.env.VITE_FRONT_VERSION
+const apiUrl = import.meta.env.VITE_API_URL
+const mode = import.meta.env.MODE
 </script>
 
 <template>
@@ -49,6 +52,40 @@ onMounted(async () => {
       v-if="user"
       :item="user"
     />
+    <v-card
+      v-if="user&&user.role== 'admin'"
+      class="w-sm-100 w-md-66"
+      title="Configuration de l'application"
+    >
+      <v-card-text>
+        <v-table>
+          <thead>
+          <tr>
+            <th class="text-left">
+              Paramètre
+            </th>
+            <th class="text-left">
+              Valeur
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Version de l'application</td>
+            <td>{{ appVersion }}</td>
+          </tr>
+          <tr>
+            <td>API URL</td>
+            <td>{{ apiUrl }}</td>
+          </tr>
+          <tr>
+            <td>Mode de développement</td>
+            <td>{{ mode }}</td>
+          </tr>
+          </tbody>
+        </v-table>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

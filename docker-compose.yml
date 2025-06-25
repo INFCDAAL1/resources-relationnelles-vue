@@ -5,11 +5,11 @@ services:
       dockerfile: Dockerfile
       target: development
       args:
-        VITE_API_URL: "http://localhost:8080/v1"
+        VITE_API_URL: "http://localhost:8080/api"
         VERSION: "dev-local"
     container_name: front-local
     ports:
-      - "3000:3000"  # Exposer le port 8080 pour le front
+      - "3000:3000"
     volumes:
       - .:/app
     depends_on:
@@ -21,19 +21,19 @@ services:
     image: ghcr.io/infcdaal1/rr-vue:dev
     container_name: api-local
     ports:
-      - "8080:8080"  # Exposer le port 8081 pour l'API
+      - "8080:80"
     environment:
       DB_HOST: db
-      DB_PORT: ${DB_PORT}
+      DB_PORT: '${DB_PORT}'
+      DB_DATABASE: '${DB_DATABASE}'
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD}'
     env_file:
       - .env
     depends_on:
       db:
         required: true
         condition: service_healthy
-    networks:
-      - db # Utiliser le réseau de la base de données pour la communication
-
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:8080/v1/version || exit 1" ]
       interval: 10s
@@ -41,21 +41,25 @@ services:
       retries: 5
 
   db:
-    image: postgres:17.5-alpine3.22
-    container_name: db-local
+    image: 'mariadb:11'
+    container_name: db_local
+    ports:
+      - "3306:3306"
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ROOT_HOST: '0.0.0.0'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
     volumes:
-      - db_local:/var/lib/postgresql/data
-    networks:
-      - db # Utiliser le réseau de la base de données pour la communication
+      - 'mariadb:/var/lib/mysql'
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d ${DB_NAME}" ]
-      interval: 10s
+      test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
+      start_period: 1m
+      start_interval: 10s
+      interval: 1m
       timeout: 5s
-      retries: 5
+      retries: 3
 
 volumes:
   db_local:
