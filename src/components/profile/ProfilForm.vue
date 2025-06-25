@@ -47,14 +47,20 @@ const handleSubmit = () => {
     />
 
     <v-select
-      v-model="form.role"
       v-if="store.user&&store.user.role !== 'user' && store.user.id === modelValue?.id"
+      v-model="form.role"
       :items="['user', 'admin', 'moderator', 'superadmin']"
       label="Rôle"
       required
     />
 
-    <v-btn class="mt-4" color="primary" type="submit">Valider</v-btn>
+    <v-btn
+      class="mt-4"
+      color="primary"
+      type="submit"
+    >
+      Valider
+    </v-btn>
   </v-form>
 </template>
 

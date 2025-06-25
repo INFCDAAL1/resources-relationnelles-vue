@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { defineProps, computed } from 'vue';
-import type { Comment } from '@/types'; // Assurez-vous que le type Comment est bien défini dans vos types
+import {computed, defineProps} from 'vue';
+import type {Comment} from '@/types'; // Assurez-vous que le type Comment est bien défini dans vos types
 
 const props = defineProps<{
   item: Comment;
@@ -60,19 +60,25 @@ const statusIcon = computed(() => {
     <v-card-title>
       <div class="d-flex">
         <div>{{ item.user.name }}</div>
-        <v-spacer></v-spacer>
+        <v-spacer/>
         <div class="d-flex ga-2">
-          <v-chip :append-icon="statusIcon" :color="statusColor" :text="statusText" />
+          <v-chip
+            :append-icon="statusIcon"
+            :color="statusColor"
+            :text="statusText"
+          />
         </div>
       </div>
     </v-card-title>
     <v-card-subtitle>{{ item.content }}</v-card-subtitle>
     <v-card-text>
       <div class="d-flex align-end">
-        <v-spacer />
+        <v-spacer/>
         <div class="d-flex ga-3 align-center flex-wrap">
-          <p class="text-grey-lighten-2">Créé le : {{ new Date(item.created_at).toDateString() }}</p>
-          <slot name="action" />
+          <p class="text-grey-lighten-2">
+            Créé le : {{ new Date(item.created_at).toDateString() }}
+          </p>
+          <slot name="action"/>
         </div>
       </div>
     </v-card-text>

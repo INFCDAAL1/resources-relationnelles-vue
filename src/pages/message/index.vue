@@ -12,13 +12,13 @@ definePage({
 const loading = ref(true);
 const error = ref<string | null>(null);
 const showNewConversation = ref(false);
-const conversations:Ref<GroupMessage[]> = ref([]);
+const conversations: Ref<GroupMessage[]> = ref([]);
 
 onMounted(async () => {
   try {
     loading.value = true;
 
-    const response:AxiosResponse<GroupMessageResponse> = await axios.get("messages");
+    const response: AxiosResponse<GroupMessageResponse> = await axios.get("messages");
     conversations.value = response.data.data || [];
 
     if ((conversations.value.length ?? 0) === 0) {
@@ -54,11 +54,20 @@ const closeNewConversation = () => {
       />
     </v-expand-transition>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate/>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
-    <v-alert v-else-if="error" type="error">
+    <v-alert
+      v-else-if="error"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 

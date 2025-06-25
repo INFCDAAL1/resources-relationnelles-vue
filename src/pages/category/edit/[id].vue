@@ -3,6 +3,12 @@ import {useRoute} from 'vue-router';
 import type {Category} from "@/types";
 import axios from "@/lib/axios.ts";
 
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+  },
+});
 const item: Ref<Category | null> = ref(null);
 const loading = ref(true);
 const error = ref<string | null>(null);
@@ -46,15 +52,28 @@ const onSubmit = async (value: Category) => {
   <div>
     <h1>Modification d'une catégorie</h1>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
-    <v-alert v-else-if="error" type="error">
+    <v-alert
+      v-else-if="error"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 
-    <CategoryForm v-else-if="item" :item="item" @submit="onSubmit"/>
+    <CategoryForm
+      v-else-if="item"
+      :item="item"
+      @submit="onSubmit"
+    />
   </div>
 </template>
 

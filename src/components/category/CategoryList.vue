@@ -14,26 +14,31 @@ const emit = defineEmits<{
 const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
-const search = shallowRef("");
+const searchQuery = shallowRef("");
 
-watch(search, (newValue) => {
+watch(searchQuery, (newValue) => {
   emit('search', newValue);
 });
 
 watch(() => props.search, (newValue) => {
-  search.value = newValue as string;
+  searchQuery.value = newValue as string;
 });
 
 
 onMounted(() => {
-  search.value = props.search || "";
+  searchQuery.value = props.search || "";
 });
 </script>
 
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator v-if="items && props.items.length" :items="items" :items-per-page="itemsPerPage" :page="page"
-                     :search="search">
+    <v-data-iterator
+      v-if="items && props.items.length"
+      :items="items"
+      :items-per-page="itemsPerPage"
+      :page="page"
+      :search="searchQuery"
+    >
       <template #header>
         <div class="d-flex ga-3 align-center justify-center">
           <v-select
@@ -42,21 +47,23 @@ onMounted(() => {
             hide-details
             label="Items per page"
             max-width="350"
-          ></v-select>
+          />
           <v-text-field
             v-if="!props.noSearch"
-            v-model="search"
+            v-model="searchQuery"
             hide-details
             label="Search"
             max-width="350"
-          ></v-text-field>
+          />
         </div>
       </template>
-      <template v-slot:default="{ items }">
+      <template #default="{ items: paginatedItems }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.id">
-            <CategoryCard :item="item.raw">
-            </CategoryCard>
+          <template
+            v-for="(item) in paginatedItems"
+            :key="item.id"
+          >
+            <CategoryCard :item="item.raw"/>
           </template>
         </div>
       </template>
@@ -65,7 +72,7 @@ onMounted(() => {
           v-model="page"
           :length="totalPages"
           total-visible="5"
-        ></v-pagination>
+        />
       </template>
     </v-data-iterator>
   </div>

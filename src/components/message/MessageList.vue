@@ -12,24 +12,29 @@ const emit = defineEmits<{
 const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
-const search = shallowRef("");
+const searchQuery = shallowRef("");
 
-watch(search, (newValue) => {
+watch(searchQuery, (newValue) => {
   emit('search', newValue);
 });
 
 watch(() => props.search, (newValue: string | undefined) => {
-  search.value = newValue || "";
+  searchQuery.value = newValue || "";
 });
 
 onMounted(() => {
-  search.value = props.search || "";
+  searchQuery.value = props.search || "";
 });
 </script>
 
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
+    <v-data-iterator
+      :items="items"
+      :items-per-page="itemsPerPage"
+      :page="page"
+      :search="searchQuery"
+    >
       <template #header>
         <div class="d-flex ga-3 align-center justify-center">
           <v-select
@@ -38,18 +43,21 @@ onMounted(() => {
             hide-details
             label="Items per page"
             max-width="350"
-          ></v-select>
+          />
           <v-text-field
-            v-model="search"
+            v-model="searchQuery "
             hide-details
             label="Search"
             max-width="350"
-          ></v-text-field>
+          />
         </div>
       </template>
-      <template v-slot:default="{ items }">
+      <template #default="{ items: messageItems }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.raw">
+          <template
+            v-for="(item) in messageItems"
+            :key="item.raw"
+          >
             <MessageGroupCard :item="item.raw"/>
           </template>
         </div>
@@ -59,7 +67,7 @@ onMounted(() => {
           v-model="page"
           :length="totalPages"
           total-visible="5"
-        ></v-pagination>
+        />
       </template>
     </v-data-iterator>
   </div>

@@ -1,0 +1,66 @@
+services:
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        VITE_API_URL: "http://localhost:8080/v1"
+        VERSION: "dev-local"
+    container_name: front-local
+    ports:
+      - "3000:3000"  # Exposer le port 8080 pour le front
+    volumes:
+      - .:/app
+    depends_on:
+      api:
+        required: true
+        condition: service_healthy
+
+  api:
+    image: ghcr.io/infcdaal1/rr-vue:dev
+    container_name: api-local
+    ports:
+      - "8080:8080"  # Exposer le port 8081 pour l'API
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+    env_file:
+      - .env
+    depends_on:
+      db:
+        required: true
+        condition: service_healthy
+    networks:
+      - db # Utiliser le réseau de la base de données pour la communication
+
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8080/v1/version || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db:
+    image: postgres:17.5-alpine3.22
+    container_name: db-local
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_local:/var/lib/postgresql/data
+    networks:
+      - db # Utiliser le réseau de la base de données pour la communication
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d ${DB_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_local:
+    driver: local
+
+networks:
+  db:
+    name: db-local

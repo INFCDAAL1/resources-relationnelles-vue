@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {useUserStore} from "@/stores/user.ts";
+
 import type {GroupMessage, GroupMessageResponse, Message, MessageResponse, RouteParams} from "@/types";
 import {definePage} from 'unplugin-vue-router/runtime';
 import {useRoute, useRouter} from "vue-router";
@@ -16,7 +16,7 @@ definePage({
 
 const route = useRoute();
 const router = useRouter();
-const userStore = useUserStore();
+
 
 const conversation: Ref<GroupMessage | null> = ref(null);
 const messages: Ref<Message[]> = ref([]);
@@ -32,7 +32,7 @@ const userId = computed(() => {
 const fetchNewMessages = async () => {
   loading.value = true;
   try {
-    const res:AxiosResponse<MessageResponse> = await axios.get(`/messages/${userId.value}`);
+    const res: AxiosResponse<MessageResponse> = await axios.get(`/messages/${userId.value}`);
     messages.value = res.data.data;
   } catch (err) {
     console.error('Failed to load conversation:', err);
@@ -46,7 +46,7 @@ onMounted(async () => {
   try {
     await fetchNewMessages();
 
-    const response:AxiosResponse<GroupMessageResponse> = await axios.get("messages");
+    const response: AxiosResponse<GroupMessageResponse> = await axios.get("messages");
     conversation.value = response.data.data.find((conv: GroupMessage) => conv.id === userId.value) || null;
   } catch (err) {
     console.error('Failed to fetch messages:', err);
@@ -81,22 +81,37 @@ const formatDate = (dateString: string) => {
 <template>
   <v-container>
     <div class="d-flex align-center mb-4">
-      <v-btn class="mr-2" icon @click="router.push('/message')">
+      <v-btn
+        class="mr-2"
+        icon
+        @click="router.push('/message')"
+      >
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <h2>{{ conversation?.name || 'Conversation' }}</h2>
-
     </div>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
-    <v-alert v-else-if="error" type="error">
+    <v-alert
+      v-else-if="error"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 
-    <v-card v-else flat>
+    <v-card
+      v-else
+      flat
+    >
       <v-card-text>
         <v-list>
           <v-list-item
@@ -114,7 +129,6 @@ const formatDate = (dateString: string) => {
             </v-list-item-subtitle>
           </v-list-item>
         </v-list>
-
       </v-card-text>
       <v-card-actions>
         <v-text-field
@@ -122,7 +136,9 @@ const formatDate = (dateString: string) => {
           label="Écrire un message..."
           @keyup.enter="sendMessage"
         />
-        <v-btn @click="sendMessage">Envoyer</v-btn>
+        <v-btn @click="sendMessage">
+          Envoyer
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>

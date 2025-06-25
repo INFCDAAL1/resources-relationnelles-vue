@@ -31,11 +31,20 @@ onMounted(() => {
   <div>
     <h1>Catégorie</h1>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
-    <v-alert v-else-if="error" type="error">
+    <v-alert
+      v-else-if="error"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 
@@ -43,9 +52,12 @@ onMounted(() => {
       v-else-if="items.length === 0"
       icon="mdi-message-outline"
       title="Aucune catégorie"
-    ></v-empty-state>
+    />
 
-    <CategoryList v-else :items="items"/>
+    <CategoryList
+      v-else
+      :items="items"
+    />
 
     <v-fab
       v-role="['admin', 'user','moderator','superadmin']"

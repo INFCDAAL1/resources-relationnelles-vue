@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type {User} from '@/types'
 
-const props = defineProps<{
-  user: User
+defineProps<{
+  item: User
 }>()
 
 const getRoleColor = (role: User['role']) => {
@@ -21,19 +21,27 @@ const getRoleColor = (role: User['role']) => {
 </script>
 
 <template>
-  <v-card :subtitle="user.email" :title="user.name" elevation="3" prepend-icon="mdi-account" width="800">
+  <v-card
+    :subtitle="item.email"
+    :title="item.name"
+    elevation="3"
+    prepend-icon="mdi-account"
+    width="800"
+  >
     <v-card-text>
       <div class="d-flex ga-5">
         <div>
           Rôle :
-          <v-chip :color="getRoleColor(user.role)" text-color="white">
-            {{ user.role }}
+          <v-chip
+            :color="getRoleColor(item.role)"
+          >
+            {{ item.role }}
           </v-chip>
         </div>
         <v-spacer/>
         <v-btn
           v-role="['admin', 'user','moderator','superadmin']"
-          :to="'/profile/edit/'+user.id"
+          :to="'/profile/edit/'+item.id"
           prepend-icon="mdi-pencil"
           size="small"
           variant="tonal"

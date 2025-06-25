@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type {Invitation} from "@/types";
-import {useInvitationStore} from "@/stores/invitation.ts";
+
 import {useUserStore} from "@/stores/user.ts";
 import axios from "@/lib/axios.ts";
 
@@ -8,7 +8,12 @@ const props = defineProps<{
   item: Invitation
 }>()
 
-const store = useInvitationStore()
+const emit = defineEmits<{
+  (e: 'accepted', value: Invitation): void
+  (e: 'deleted', value: Invitation): void
+}>()
+
+
 const loading = ref(false)
 const isAccepted = computed(() => {
   return props.item.status === 'accepted'
@@ -50,7 +55,7 @@ const acceptInvitation = (): void => {
 
   axios.patch(`/invitations/${props.item.id}`, {status: 'accepted'})
     .then(() => {
-      props.item.status = 'accepted'
+      emit('accepted', props.item)
       loading.value = false
     })
     .catch((error) => {
@@ -63,7 +68,7 @@ const cancelInvitation = (): void => {
   loading.value = true
   axios.delete(`/invitations/${props.item.id}`)
     .then(() => {
-      props.item.deleted = true
+      emit('deleted', props.item)
       loading.value = false
     })
     .catch((error) => {
@@ -75,33 +80,42 @@ const cancelInvitation = (): void => {
 </script>
 
 <template>
-  <v-card v-if="!props.item.deleted" :append-icon="icon" :loading="loading">
+  <v-card
+    v-if="!props.item.deleted"
+    :append-icon="icon"
+    :loading="loading"
+  >
     <template #title>
-      <div class="text-wrap text-body-1"><span class="text-orange">{{ item.sender.name }}</span> invite <span
-        class="text-green">{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{
+      <div class="text-wrap text-body-1">
+        <span class="text-orange">{{ item.sender.name }}</span> invite <span
+        class="text-green"
+      >{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{
           item.resource.name
-        }}</span></div>
+        }}</span>
+      </div>
     </template>
     <template #actions>
       <div>
         <div class="d-flex ga-5">
-          <v-btn v-if="!isSender"
-                 :color="color"
-                 :disabled="!isPending"
-                 :loading="loading"
-                 variant="plain"
-                 @click="acceptInvitation"
+          <v-btn
+            v-if="!isSender"
+            :color="color"
+            :disabled="!isPending"
+            :loading="loading"
+            variant="plain"
+            @click="acceptInvitation"
           >
             Accepter
           </v-btn>
-          <v-btn :color="color"
-                 :loading="loading"
-                 variant="plain"
-                 @click="cancelInvitation">
+          <v-btn
+            :color="color"
+            :loading="loading"
+            variant="plain"
+            @click="cancelInvitation"
+          >
             Annuler l'invitation
           </v-btn>
         </div>
-
       </div>
     </template>
   </v-card>

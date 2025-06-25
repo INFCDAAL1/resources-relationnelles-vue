@@ -56,15 +56,25 @@ const startConversation = async () => {
   <div class="new-conversation">
     <h2>Démarrer une nouvelle conversation</h2>
 
-    <v-alert v-if="error" class="mb-4" type="error">
+    <v-alert
+      v-if="error"
+      class="mb-4"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 
-    <v-alert v-if="usersList.length === 0 && !error" type="info">
+    <v-alert
+      v-if="usersList.length === 0 && !error"
+      type="info"
+    >
       Vous avez déjà des conversations avec tous les utilisateurs disponibles.
     </v-alert>
 
-    <v-form v-else @submit.prevent="startConversation">
+    <v-form
+      v-else
+      @submit.prevent="startConversation"
+    >
       <v-select
         v-model="selectedUser"
         :disabled="loading"
@@ -75,7 +85,7 @@ const startConversation = async () => {
         item-value="id"
         label="Sélectionnez un utilisateur"
         return-object
-      ></v-select>
+      />
 
       <v-textarea
         v-model="message"
@@ -84,7 +94,7 @@ const startConversation = async () => {
         label="Message"
         required
         rows="3"
-      ></v-textarea>
+      />
 
       <v-btn
         :disabled="!selectedUser || !message.trim() || loading"

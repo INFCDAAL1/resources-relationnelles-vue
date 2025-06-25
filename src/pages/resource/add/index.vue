@@ -15,7 +15,9 @@ const item: Ref<Resource | undefined> = ref();
 
 <template>
   <div>
-    <h1 class="text-h5 mb-4">Ajout d'une ressource</h1>
+    <h1 class="text-h5 mb-4">
+      Ajout d'une ressource
+    </h1>
     <ResourceForm :model-value="item"/>
   </div>
 </template>

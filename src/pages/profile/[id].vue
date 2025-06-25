@@ -41,8 +41,14 @@ onMounted(async () => {
 
 <template>
   <div class="d-flex flex-column ga-5 align-center">
-    <v-card v-if="!user" title="Chargement du profil..."></v-card>
-    <ProfilCard v-else :user="user"/>
+    <v-card
+      v-if="!user"
+      title="Chargement du profil..."
+    />
+    <ProfilCard
+      v-if="user"
+      :item="user"
+    />
   </div>
 </template>
 

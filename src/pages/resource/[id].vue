@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { definePage } from "unplugin-vue-router/runtime";
-import { useResourceStore } from "@/stores/resource.ts";
-import { useCommentStore } from "@/stores/comment.ts";
-import type { Comment, Resource, RouteParams } from "@/types";
+import {definePage} from "unplugin-vue-router/runtime";
+import {useResourceStore} from "@/stores/resource.ts";
+import {useCommentStore} from "@/stores/comment.ts";
+import type {Comment, Resource, RouteParams} from "@/types";
 import axios from "@/lib/axios.ts";
 
 definePage({
@@ -20,7 +20,7 @@ const item: Ref<Resource | undefined> = ref();
 const comments: Ref<Comment[]> = ref([]);
 
 onMounted(async () => {
-  const { id } = route.params as RouteParams;
+  const {id} = route.params as RouteParams;
   const resourceId = Number(id);
   item.value = store.getResourceById(resourceId);
 
@@ -59,7 +59,7 @@ const downloadFile = async () => {
         responseType: 'blob', // Important to handle the file correctly
       });
 
-      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      const blob = new Blob([response.data], {type: response.headers['content-type']});
 
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -93,11 +93,17 @@ const addComment = (comment: Comment) => {
 <template>
   <div class="d-flex flex-column ga-5">
     <!-- Card for loading resource -->
-    <v-card v-if="!item" title="Chargement de la ressource..."></v-card>
+    <v-card
+      v-if="!item"
+      title="Chargement de la ressource..."
+    />
 
     <!-- Display resource details when available -->
     <v-card v-else>
-      <ResourceCard :item="item" @toggle-favorite="store.toggleResourceFavorite">
+      <ResourceCard
+        :item="item"
+        @toggle-favorite="store.toggleResourceFavorite"
+      >
         <template #action>
           <v-btn
             :disabled="!getDownloadLink"
@@ -112,14 +118,25 @@ const addComment = (comment: Comment) => {
     </v-card>
 
     <!-- Comment form to add a new comment -->
-    <CommentForm v-if="item"  :item="item" @comment-added="addComment" />
+    <CommentForm
+      v-if="item"
+      :item="item"
+      @comment-added="addComment"
+    />
 
     <!-- Display list of comments -->
-    <v-card v-if="!comments.length" title="Aucun commentaire pour cette ressource."></v-card>
-    <CommentList v-else :items="comments" no-filter />
+    <v-card
+      v-if="!comments.length"
+      title="Aucun commentaire pour cette ressource."
+    />
+    <CommentList
+      v-else
+      :items="comments"
+      no-filter
+    />
   </div>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 /* You can add your styles here if needed */
 </style>

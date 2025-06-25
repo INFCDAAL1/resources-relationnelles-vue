@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script lang="ts" setup>
+import {ref} from 'vue';
 import type {Comment, Resource} from '@/types';
 import axios from '@/lib/axios.ts';
 
@@ -27,7 +27,7 @@ const submitComment = async () => {
 
   try {
 
-   const res =  await axios.post('comments', {
+    const res = await axios.post('comments', {
       resource_id: props.item.id,
       content: comment.value,
     });
@@ -48,24 +48,36 @@ const submitComment = async () => {
     <template #text>
       <v-form @submit.prevent="submitComment">
         <!-- Affichage d'une alerte pour l'erreur -->
-        <v-alert v-if="error" type="error" dismissible>{{ error }}</v-alert>
+        <v-alert
+          v-if="error"
+          closable
+          type="error"
+        >
+          {{ error }}
+        </v-alert>
 
         <!-- Textarea pour entrer le commentaire -->
         <v-textarea
           v-model="comment"
           label="Commentaire"
-          outlined
-          rows="3"
           required
-        ></v-textarea>
+          rows="3"
+          variant="outlined"
+        />
 
         <!-- Bouton d'envoi du formulaire -->
-        <v-btn :loading="loading" color="primary" type="submit">Envoyer</v-btn>
+        <v-btn
+          :loading="loading"
+          color="primary"
+          type="submit"
+        >
+          Envoyer
+        </v-btn>
       </v-form>
     </template>
   </v-card>
 </template>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 
 </style>

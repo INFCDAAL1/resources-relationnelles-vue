@@ -32,7 +32,12 @@ const onSubmit = () => {
       label="Nom de la catégorie"
       required
     />
-    <v-btn color="primary" type="submit">Enregistrer</v-btn>
+    <v-btn
+      color="primary"
+      type="submit"
+    >
+      Enregistrer
+    </v-btn>
   </v-form>
 </template>
 

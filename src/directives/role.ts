@@ -6,7 +6,7 @@ import type {User} from "@/types";
 const roleDirective: ObjectDirective = {
   mounted(el: HTMLElement, binding: DirectiveBinding<User["role"] | User["role"][]>) {
     const store = useUserStore()
-    const currentRole:User["role"]  = store.user?.role || 'user'
+    const currentRole: User["role"] = store.user?.role || 'user'
 
     const allowedRoles = Array.isArray(binding.value)
       ? binding.value
@@ -19,7 +19,7 @@ const roleDirective: ObjectDirective = {
 
   updated(el: HTMLElement, binding: DirectiveBinding<User["role"] | User["role"][]>) {
     const store = useUserStore()
-    const currentRole:User["role"]  = store.user?.role || 'user'
+    const currentRole: User["role"] = store.user?.role || 'user'
 
     const allowedRoles = Array.isArray(binding.value)
       ? binding.value

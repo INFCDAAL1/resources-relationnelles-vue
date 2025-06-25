@@ -46,7 +46,12 @@ const submit = async () => {
 
 <template>
   <div class="d-flex flex-column align-center">
-    <v-card max-width="800" min-width="400" subtitle="Entrez vos identifiants" title="Connexion">
+    <v-card
+      max-width="800"
+      min-width="400"
+      subtitle="Entrez vos identifiants"
+      title="Connexion"
+    >
       <template #text>
         <div class="d-flex flex-column ga-3">
           <v-form v-model="formValid">
@@ -65,13 +70,25 @@ const submit = async () => {
               type="password"
             />
             <div class="d-flex flex-column ga-2">
-              <v-btn block variant="text" @click="router.push({ name: '/auth/forgot/' })">
+              <v-btn
+                block
+                variant="text"
+                @click="router.push({ name: '/auth/forgot/' })"
+              >
                 Oubli de mot de passe
               </v-btn>
-              <v-btn block color="primary" @click="submit">
+              <v-btn
+                block
+                color="primary"
+                @click="submit"
+              >
                 Connexion
               </v-btn>
-              <v-btn block color="secondary" @click="router.push({ name: '/auth/register/' })">
+              <v-btn
+                block
+                color="secondary"
+                @click="router.push({ name: '/auth/register/' })"
+              >
                 Inscription
               </v-btn>
             </div>

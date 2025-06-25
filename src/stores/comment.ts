@@ -1,6 +1,6 @@
 // Utilities
 import {defineStore} from 'pinia'
-import type {User,Comment} from '@/types';
+import type {Comment, User} from '@/types';
 import {useStorage} from "@vueuse/core";
 
 export const useCommentStore = defineStore('comment', {

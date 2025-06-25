@@ -39,9 +39,18 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1 class="text-h5 mb-4">Modifier une ressource</h1>
-    <ResourceForm v-if="item" :model-value="item"/>
-    <v-alert v-else text="Chargement de la ressource..." type="info"></v-alert>
+    <h1 class="text-h5 mb-4">
+      Modifier une ressource
+    </h1>
+    <ResourceForm
+      v-if="item"
+      :model-value="item"
+    />
+    <v-alert
+      v-else
+      text="Chargement de la ressource..."
+      type="info"
+    />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type {Category} from "@/types";
 
-const props = defineProps<{
+defineProps<{
   item: Category
 }>()
 
@@ -11,7 +11,11 @@ const formatTime = (dateString: string) => {
 </script>
 
 <template>
-  <v-card :subtitle="formatTime(item.created_at)" :title="item.name" :to="'/category/edit/'+item.id"/>
+  <v-card
+    :subtitle="formatTime(item.created_at)"
+    :title="item.name"
+    :to="'/category/edit/'+item.id"
+  />
 </template>
 
 <style lang="sass" scoped>

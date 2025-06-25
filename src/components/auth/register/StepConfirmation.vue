@@ -27,7 +27,11 @@ const passwordCensure = computed(() => {
 <template>
   <div class="confirmation-step">
     <h2>Confirmation des informations</h2>
-    <v-card :loading="loading" class="pa-4" outlined>
+    <v-card
+      :loading="loading"
+      border
+      class="pa-4"
+    >
       <v-list>
         <v-list-item>
           <v-list-item-title>Email :</v-list-item-title>

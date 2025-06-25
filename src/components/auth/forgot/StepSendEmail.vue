@@ -7,21 +7,40 @@ const send = ref(false)
 </script>
 
 <template>
-  <v-card flat subtitle="Confirmez l'envoi de l'email de réinitialisation de mot de passe" title="Envoie de l'email">
+  <v-card
+    flat
+    subtitle="Confirmez l'envoi de l'email de réinitialisation de mot de passe"
+    title="Envoie de l'email"
+  >
     <template #text>
-      <div v-if="!send" class="d-flex flex-column ga-5">
-        <p>Un email de réinitialisation de mot de passe va être envoyé à l'adresse suivante : <strong>{{
+      <div
+        v-if="!send"
+        class="d-flex flex-column ga-5"
+      >
+        <p>
+          Un email de réinitialisation de mot de passe va être envoyé à l'adresse suivante : <strong>{{
             props.email
-          }}</strong></p>
-        <v-btn :disabled="!props.valide" variant="tonal" @click.prevent="send=true">Envoie du mail de réinitialisation
+          }}</strong>
+        </p>
+        <v-btn
+          :disabled="!props.valide"
+          variant="tonal"
+          @click.prevent="send=true"
+        >
+          Envoie du mail de réinitialisation
         </v-btn>
-        <span v-if="!props.valide" class="text-red">L'email n'est pas valide</span>
+        <span
+          v-if="!props.valide"
+          class="text-red"
+        >L'email n'est pas valide</span>
         <p>Si vous ne recevez pas l'email, vérifiez votre dossier de spam ou essayez avec une autre adresse email.</p>
       </div>
       <div v-else>
-        <p>Un email de réinitialisation de mot de passe a été envoyé à l'adresse suivante : <strong>{{
+        <p>
+          Un email de réinitialisation de mot de passe a été envoyé à l'adresse suivante : <strong>{{
             props.email
-          }}</strong></p>
+          }}</strong>
+        </p>
       </div>
     </template>
   </v-card>

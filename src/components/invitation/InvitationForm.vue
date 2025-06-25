@@ -64,20 +64,26 @@ const submit = async () => {
 </script>
 
 <template>
-  <v-card :loading="isLoading" subtitle="Partager une nouvelle ressource à un utilisateur"
-          title="Créer un nouvelle invitation">
+  <v-card
+    :loading="isLoading"
+    subtitle="Partager une nouvelle ressource à un utilisateur"
+    title="Créer un nouvelle invitation"
+  >
     <template #text>
       <v-form>
         <div class="d-flex flex-column ga-5">
-          <div v-if="(!users.length || !filteredResources.length) && !isLoading" class="text-red">
+          <div
+            v-if="(!users.length || !filteredResources.length) && !isLoading"
+            class="text-red"
+          >
             ⚠️ Impossible de créer une invitation : aucun utilisateur ou ressource disponible.
           </div>
           <v-alert
             v-if="formStatus"
             :type="formStatus.type"
             class="mb-4"
-            dismissible
-            @input="formStatus = null"
+            closable
+            @update:model-value="formStatus = null"
           >
             {{ formStatus.message }}
           </v-alert>
@@ -90,7 +96,7 @@ const submit = async () => {
             item-title="name"
             label="Choisir un utilisateur"
             return-object
-          ></v-autocomplete>
+          />
 
           <v-autocomplete
             v-model="resourceSelected"
@@ -100,7 +106,7 @@ const submit = async () => {
             item-title="name"
             label="Choisir une ressource"
             return-object
-          ></v-autocomplete>
+          />
           <v-btn
             :disabled="!userSelected?.id || !resourceSelected?.id"
             @click="submit"

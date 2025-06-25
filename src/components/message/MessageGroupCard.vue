@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type {GroupMessage} from "@/types";
 
-const props = defineProps<{
+defineProps<{
   item: GroupMessage
 }>()
 
@@ -29,21 +29,27 @@ const formatTime = (dateString: string | null) => {
 
     <v-card-text>
       <div class="d-flex flex-column flex-wrap">
-                <div v-if="item.last_message">
-               <div v-for="item in item.last_message" :key="item.id">
-                  <div class="d-flex justify-space-between">
-                    <div class="text-wrap">
-                      <strong>{{ item.sender.name }}:</strong> {{ shortContent(item.content) }}
-                    </div>
-                    <div class="text-grey">
-                      {{ formatTime(item.created_at) }}
-                    </div>
-                  </div>
-               </div>
-                </div>
-                <div v-else class="text-grey">
-                  No messages yet
-                </div>
+        <div v-if="item.last_message">
+          <div
+            v-for="message in item.last_message"
+            :key="message.id"
+          >
+            <div class="d-flex justify-space-between">
+              <div class="text-wrap">
+                <strong>{{ message.sender.name }}:</strong> {{ shortContent(message.content) }}
+              </div>
+              <div class="text-grey">
+                {{ formatTime(message.created_at) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          class="text-grey"
+        >
+          No messages yet
+        </div>
       </div>
     </v-card-text>
   </v-card>

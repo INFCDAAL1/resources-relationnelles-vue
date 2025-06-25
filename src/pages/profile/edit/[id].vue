@@ -71,7 +71,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1 class="text-h5 mb-4">Modification du profil</h1>
+    <h1 class="text-h5 mb-4">
+      Modification du profil
+    </h1>
 
     <v-alert
       v-if="alert"
@@ -85,8 +87,15 @@ onMounted(async () => {
       {{ alert }}
     </v-alert>
 
-    <v-card v-if="!user" title="Chargement du profil..."></v-card>
-    <ProfilForm v-else :model-value="user" @submit="submit"/>
+    <v-card
+      v-if="!user"
+      title="Chargement du profil..."
+    />
+    <ProfilForm
+      v-else
+      :model-value="user"
+      @submit="submit"
+    />
   </div>
 </template>
 

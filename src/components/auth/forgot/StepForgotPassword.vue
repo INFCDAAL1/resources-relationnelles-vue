@@ -19,7 +19,11 @@ const submit = () => {
 </script>
 
 <template>
-  <v-card flat subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe" title="Mot de passe oublié">
+  <v-card
+    flat
+    subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe"
+    title="Mot de passe oublié"
+  >
     <template #text>
       <v-form v-model="formValid">
         <v-text-field
@@ -27,7 +31,7 @@ const submit = () => {
           :rules="emailRules"
           label="Email"
           type="email"
-          @input="submit"
+          @update:model-value="submit"
         />
       </v-form>
     </template>

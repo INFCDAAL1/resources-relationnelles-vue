@@ -3,6 +3,12 @@ import {ref} from 'vue';
 import type {Category} from "@/types";
 import axios from "@/lib/axios.ts";
 
+definePage({
+  meta: {
+    layout: 'default',
+    requiresAuth: true,
+  },
+});
 const item: Ref<Category> = ref({} as Category);
 const loading = ref(false);
 const error = ref<string | null>(null);
@@ -27,16 +33,28 @@ const onSubmit = async (value: Category) => {
   <div>
     <h1>Ajout d'une catégorie</h1>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
-    <v-alert v-else-if="error" type="error">
+    <v-alert
+      v-else-if="error"
+      type="error"
+    >
       {{ error }}
     </v-alert>
 
-    <CategoryForm v-else :item="item" @submit="onSubmit"/>
-
+    <CategoryForm
+      v-else
+      :item="item"
+      @submit="onSubmit"
+    />
   </div>
 </template>
 

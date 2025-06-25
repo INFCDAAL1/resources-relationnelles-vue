@@ -19,16 +19,16 @@ const emit = defineEmits<{
 const page = ref(1)
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
-const search = shallowRef("");
-watch(search, (newValue) => {
+const searchQuery = shallowRef("");
+watch(searchQuery, (newValue) => {
   emit('search', newValue);
-})
+});
 watch(() => props.search, (newValue: string) => {
-  search.value = newValue
-})
+  searchQuery.value = newValue;
+});
 
 const filterModel: Ref<FilterResource> = ref("all");
-watch(filterModel, (_) => {
+watch(filterModel, () => {
   emit('filter', filterModel.value);
 })
 watch(() => props.filter, (newFilter: FilterResource) => {
@@ -37,12 +37,18 @@ watch(() => props.filter, (newFilter: FilterResource) => {
 
 onMounted(() => {
   filterModel.value = props.filter
-  search.value = props.search
+  searchQuery.value = props.search
 })
 </script>
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
+    <v-data-iterator
+      v-if="items"
+      :items="items"
+      :items-per-page="itemsPerPage"
+      :page="page"
+      :search="search"
+    >
       <template #header>
         <div class="d-flex ga-3 align-center justify-center mb-4 flex-wrap">
           <v-select
@@ -52,7 +58,7 @@ onMounted(() => {
             label="Items per page"
             max-width="350"
             min-width="150"
-          ></v-select>
+          />
           <v-select
             v-if="!noFilter"
             v-model="filterModel"
@@ -61,22 +67,33 @@ onMounted(() => {
             label="Filtre ressources"
             max-width="350"
             min-width="150"
-          ></v-select>
+          />
           <v-text-field
-            v-model="search"
+            v-model="searchQuery"
             hide-details
             label="Search"
             max-width="350"
             min-width="150"
-          ></v-text-field>
+          />
         </div>
       </template>
-      <template v-slot:default="{ items }">
+      <template #default="{ items: paginatedItems }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.id">
-            <ResourceCard :item="item.raw" @toggle-favorite="store.toggleResourceFavorite(item.raw.id)">
+          <template
+            v-for="(item) in paginatedItems"
+            :key="item.id"
+          >
+            <ResourceCard
+              :item="item.raw"
+              @toggle-favorite="store.toggleResourceFavorite(item.raw.id)"
+            >
               <template #action>
-                <v-btn :to="'/resource/'+item.raw.id" append-icon="mdi-arrow-right" variant="tonal">En savoir plus
+                <v-btn
+                  :to="'/resource/'+item.raw.id"
+                  append-icon="mdi-arrow-right"
+                  variant="tonal"
+                >
+                  En savoir plus
                 </v-btn>
               </template>
             </ResourceCard>
@@ -88,7 +105,7 @@ onMounted(() => {
           v-model="page"
           :length="totalPages"
           total-visible="5"
-        ></v-pagination>
+        />
       </template>
     </v-data-iterator>
   </div>

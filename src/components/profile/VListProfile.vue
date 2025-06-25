@@ -9,7 +9,7 @@ const logout = () => {
 
 const sugerRole = computed(() => {
   if (store.user) {
-   switch (store.user.role) {
+    switch (store.user.role) {
       case 'admin':
         return 'Administrateur'
       case 'modo':
@@ -18,7 +18,7 @@ const sugerRole = computed(() => {
         return 'Super Administrateur'
       default:
         return 'Utilisateur'
-   }
+    }
   }
   return ''
 })
@@ -59,7 +59,6 @@ const sugerRole = computed(() => {
       />
     </template>
   </v-list-item>
-
 </template>
 
 <style lang="sass" scoped>

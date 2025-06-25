@@ -77,7 +77,7 @@ const submitForm = async () => {
       'Content-Type': editing.value ? 'application/json' : 'multipart/form-data',
     },
   })
-    .then(response => {
+    .then(() => {
       router.push({name: '/resource/'});
     })
     .catch(error => {
@@ -88,9 +88,20 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <v-form class="d-flex flex-column ga-4" @submit.prevent="submitForm">
-    <v-text-field v-model="formName" label="Nom" required/>
-    <v-textarea v-model="formDescription" label="Description" required/>
+  <v-form
+    class="d-flex flex-column ga-4"
+    @submit.prevent="submitForm"
+  >
+    <v-text-field
+      v-model="formName"
+      label="Nom"
+      required
+    />
+    <v-textarea
+      v-model="formDescription"
+      label="Description"
+      required
+    />
 
     <v-select
       v-model="formCategory"
@@ -110,7 +121,11 @@ const submitForm = async () => {
       required
     />
 
-    <v-switch v-model="formPublished" color="green" label="Publié"/>
+    <v-switch
+      v-model="formPublished"
+      color="green"
+      label="Publié"
+    />
 
     <v-file-input
       v-if="!editing"
@@ -120,7 +135,14 @@ const submitForm = async () => {
       @change="handleFileChange"
     />
 
-    <v-btn :loading="formLoading" color="primary" type="submit" @submit="submitForm">Soumettre</v-btn>
+    <v-btn
+      :loading="formLoading"
+      color="primary"
+      type="submit"
+      @submit="submitForm"
+    >
+      Soumettre
+    </v-btn>
   </v-form>
 </template>
 

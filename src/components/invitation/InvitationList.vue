@@ -1,48 +1,53 @@
 <script lang="ts" setup>
 import type {FilterInvitation, Invitation} from '@/types';
-import {useResourceStore} from "@/stores/resource.ts";
 
-const store = useResourceStore()
 
 const props = defineProps<{
   items: Invitation[],
   filter: FilterInvitation,
   search: string,
   noFilter?: boolean,
-}>()
+}>();
 
 const emit = defineEmits<{
   (e: 'filter', value: FilterInvitation): void;
   (e: 'search', value: string): void;
 }>();
 
-const page = ref(1)
+const page = ref(1);
 const itemsPerPage = ref(10);
 const totalPages = computed(() => Math.ceil(props.items.length / itemsPerPage.value));
-const search = shallowRef("");
-watch(search, (newValue) => {
+const searchValue = shallowRef("");
+watch(searchValue, (newValue) => {
   emit('search', newValue);
-})
+});
 watch(() => props.search, (newValue: string) => {
-  search.value = newValue
-})
+  searchValue.value = newValue;
+});
 
 const filterModel: Ref<FilterInvitation> = ref("all");
-watch(filterModel, (_) => {
-  emit('filter', filterModel.value);
-})
+watch(filterModel, (newValue) => {
+  emit('filter', newValue);
+});
 watch(() => props.filter, (newFilter: FilterInvitation) => {
-  filterModel.value = newFilter
-})
+  filterModel.value = newFilter;
+});
 
 onMounted(() => {
-  filterModel.value = props.filter
-  search.value = props.search
-})
+  filterModel.value = props.filter;
+  searchValue.value = props.search;
+});
 </script>
+
 <template>
   <div class="d-flex flex-column ga-5">
-    <v-data-iterator v-if="items" :items="items" :items-per-page="itemsPerPage" :page="page" :search="search">
+    <v-data-iterator
+      v-if="items"
+      :items="items"
+      :items-per-page="itemsPerPage"
+      :page="page"
+      :search="searchValue"
+    >
       <template #header>
         <div class="d-flex ga-3 align-center justify-center">
           <v-select
@@ -51,26 +56,29 @@ onMounted(() => {
             hide-details
             label="Items per page"
             max-width="350"
-          ></v-select>
+          />
           <v-select
             v-if="!noFilter"
             v-model="filterModel"
-            :items="['pending' , 'accepted' , 'all']"
+            :items="['pending', 'accepted', 'all']"
             hide-details
             label="Filtre invitations"
             max-width="350"
-          ></v-select>
+          />
           <v-text-field
-            v-model="search"
+            v-model="searchValue"
             hide-details
             label="Recherche"
             max-width="350"
-          ></v-text-field>
+          />
         </div>
       </template>
-      <template v-slot:default="{ items }">
+      <template #default="{ items: itemList }">
         <div class="d-flex flex-column ga-3">
-          <template v-for="(item, i) in items" :key="item.raw.id">
+          <template
+            v-for="(item) in itemList"
+            :key="item.raw.id"
+          >
             <InvitationCard :item="item.raw"/>
           </template>
         </div>
@@ -80,7 +88,7 @@ onMounted(() => {
           v-model="page"
           :length="totalPages"
           total-visible="5"
-        ></v-pagination>
+        />
       </template>
     </v-data-iterator>
   </div>

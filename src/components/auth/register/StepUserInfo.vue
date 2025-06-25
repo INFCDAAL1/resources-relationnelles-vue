@@ -35,8 +35,11 @@ const submit = () => {
 </script>
 
 <template>
-  <v-card flat subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe"
-          title="Information utilisateur">
+  <v-card
+    flat
+    subtitle="Entrez votre adresse e-mail pour réinitialiser votre mot de passe"
+    title="Information utilisateur"
+  >
     <template #text>
       <div class="d-flex flex-column ga-2">
         <v-form v-model="formValid">
@@ -44,18 +47,17 @@ const submit = () => {
             v-model="nom"
             :rules="nomRules"
             label="Nom"
-            @input="submit"
+            @update:model-value="submit"
           />
           <v-text-field
             v-model="email"
             :rules="emailRules"
             label="Email"
             type="email"
-            @input="submit"
+            @update:model-value="submit"
           />
         </v-form>
       </div>
-
     </template>
   </v-card>
 </template>

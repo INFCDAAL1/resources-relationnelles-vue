@@ -8,7 +8,7 @@ definePage({
   meta: {
     layout: 'default',
     requiresAuth: false,
-  },
+  }
 })
 const route = useRoute();
 const router = useRouter();
@@ -19,7 +19,7 @@ const loading: Ref<boolean> = ref(true);
 const error = ref();
 
 const search = shallowRef('');
-watch(search, (_) => {
+watch(search, () => {
   updateQuery();
 });
 
@@ -61,7 +61,7 @@ onMounted(async () => {
   await fetchResources();
 });
 
-watch(() => route.query, (_) => {
+watch(() => route.query, () => {
   if (route.query.filter) {
     if (filter.value != route.query.filter) {
       filter.value = route.query.filter as FilterResource;
@@ -126,12 +126,22 @@ onMounted(async () => {
   <div class="d-flex flex-column ga-5">
     <h1>Liste des ressources ({{ items.length }})</h1>
 
-    <v-alert v-if="error" title="Erreur de chargement" type="error">
+    <v-alert
+      v-if="error"
+      title="Erreur de chargement"
+      type="error"
+    >
       Une erreur est survenue lors du chargement des ressources.
     </v-alert>
 
-    <div v-if="loading" class="d-flex justify-center my-5">
-      <v-progress-circular color="primary" indeterminate></v-progress-circular>
+    <div
+      v-if="loading"
+      class="d-flex justify-center my-5"
+    >
+      <v-progress-circular
+        color="primary"
+        indeterminate
+      />
     </div>
 
     <ResourceList
@@ -146,9 +156,15 @@ onMounted(async () => {
       v-if="items.length === 0 && !loading"
       icon="mdi-file-document-outline"
       title="Aucune ressource trouvée"
-    ></v-empty-state>
+    />
 
-    <v-fab v-role="['admin', 'user','moderator','superadmin']" app color="primary" icon="mdi-plus" size="75"
-           to="/resource/add"></v-fab>
+    <v-fab
+      v-role="['admin', 'user','moderator','superadmin']"
+      app
+      color="primary"
+      icon="mdi-plus"
+      size="75"
+      to="/resource/add"
+    />
   </div>
 </template>
