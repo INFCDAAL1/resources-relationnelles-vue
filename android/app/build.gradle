@@ -24,6 +24,16 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+  signingConfigs {
+    release {
+        storeFile file("../release.decrypted.jks") // Chemin vers votre keystore
+        v2SigningEnabled true // Active la signature v2
+        v1SigningEnabled true // Active la signature v1 (si nécessaire)
+        storePassword "rr-vue"
+        keyAlias "release"
+        keyPassword "rr-vue"
+    }
+    }
     buildTypes {
         release {
             signingConfig signingConfigs.release
