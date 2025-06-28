@@ -5,7 +5,7 @@
 <template>
   <v-main>
     <div class="pa-5">
-      <router-view/>
+      <router-view />
     </div>
   </v-main>
 </template>

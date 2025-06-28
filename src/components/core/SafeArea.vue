@@ -4,7 +4,7 @@
 
 <template>
   <div class="safe-area">
-    <slot/>
+    <slot />
   </div>
 </template>
 

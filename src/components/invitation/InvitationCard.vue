@@ -88,8 +88,8 @@ const cancelInvitation = (): void => {
     <template #title>
       <div class="text-wrap text-body-1">
         <span class="text-orange">{{ item.sender.name }}</span> invite <span
-        class="text-green"
-      >{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{
+          class="text-green"
+        >{{ item.receiver.name }}</span> à rejoindre <span class="text-orange">{{
           item.resource.name
         }}</span>
       </div>

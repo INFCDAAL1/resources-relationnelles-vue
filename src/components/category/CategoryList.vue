@@ -63,7 +63,7 @@ onMounted(() => {
             v-for="(item) in paginatedItems"
             :key="item.id"
           >
-            <CategoryCard :item="item.raw"/>
+            <CategoryCard :item="item.raw" />
           </template>
         </div>
       </template>

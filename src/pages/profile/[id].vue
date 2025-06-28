@@ -60,28 +60,28 @@ const mode = import.meta.env.MODE
       <v-card-text>
         <v-table>
           <thead>
-          <tr>
-            <th class="text-left">
-              Paramètre
-            </th>
-            <th class="text-left">
-              Valeur
-            </th>
-          </tr>
+            <tr>
+              <th class="text-left">
+                Paramètre
+              </th>
+              <th class="text-left">
+                Valeur
+              </th>
+            </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>Version de l'application</td>
-            <td>{{ appVersion }}</td>
-          </tr>
-          <tr>
-            <td>API URL</td>
-            <td>{{ apiUrl }}</td>
-          </tr>
-          <tr>
-            <td>Mode de développement</td>
-            <td>{{ mode }}</td>
-          </tr>
+            <tr>
+              <td>Version de l'application</td>
+              <td>{{ appVersion }}</td>
+            </tr>
+            <tr>
+              <td>API URL</td>
+              <td>{{ apiUrl }}</td>
+            </tr>
+            <tr>
+              <td>Mode de développement</td>
+              <td>{{ mode }}</td>
+            </tr>
           </tbody>
         </v-table>
       </v-card-text>

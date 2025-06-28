@@ -79,7 +79,7 @@ onMounted(() => {
             v-for="(item) in itemList"
             :key="item.raw.id"
           >
-            <InvitationCard :item="item.raw"/>
+            <InvitationCard :item="item.raw" />
           </template>
         </div>
       </template>

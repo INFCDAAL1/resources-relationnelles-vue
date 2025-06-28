@@ -27,7 +27,7 @@ const model = computed({
     :permanent="isPermanent"
     :temporary="!isPermanent"
   >
-    <v-divider/>
+    <v-divider />
     <v-list density="compact">
       <v-list-item
         link
@@ -78,8 +78,8 @@ const model = computed({
         title="Gestion utilisateurs"
         to="/profile/"
       />
-      <v-list-profile/>
-      <AppFooter/>
+      <v-list-profile />
+      <AppFooter />
     </template>
   </v-navigation-drawer>
 </template>

@@ -26,7 +26,7 @@ CapacitorApp.addListener('backButton', ({canGoBack}) => {
 <template>
   <SafeArea>
     <v-app fluid>
-      <router-view/>
+      <router-view />
     </v-app>
   </SafeArea>
 </template>

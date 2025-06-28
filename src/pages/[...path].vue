@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <NotFound/>
+  <NotFound />
 </template>
 
 <style lang="sass" scoped>

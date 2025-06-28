@@ -38,7 +38,7 @@ const getRoleColor = (role: User['role']) => {
             {{ item.role }}
           </v-chip>
         </div>
-        <v-spacer/>
+        <v-spacer />
         <v-btn
           v-role="['admin', 'user','moderator','superadmin']"
           :to="'/profile/edit/'+item.id"

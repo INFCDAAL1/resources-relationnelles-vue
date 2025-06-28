@@ -58,7 +58,7 @@ onMounted(() => {
             v-for="(item) in messageItems"
             :key="item.raw"
           >
-            <MessageGroupCard :item="item.raw"/>
+            <MessageGroupCard :item="item.raw" />
           </template>
         </div>
       </template>

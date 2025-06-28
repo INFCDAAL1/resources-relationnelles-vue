@@ -53,7 +53,7 @@ const applyFilter = () => {
       />
     </v-col>
     <v-col>
-      <InvitationForm/>
+      <InvitationForm />
     </v-col>
   </v-row>
 </template>

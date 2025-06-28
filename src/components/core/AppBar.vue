@@ -21,7 +21,10 @@ const isDev = import.meta.env.DEV;
   >
     <template #prepend>
       <!-- Le bouton n'est affiché que sur les écrans de taille moyenne et inférieure -->
-      <v-app-bar-nav-icon v-if="!mdAndUp" @click="toggleDrawer" />
+      <v-app-bar-nav-icon
+        v-if="!mdAndUp"
+        @click="toggleDrawer"
+      />
     </template>
 
     <v-app-bar-title>Resources Relationnelles <span v-if="isDev"> - DEV</span></v-app-bar-title>
