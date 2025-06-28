@@ -81,9 +81,9 @@ jobs:
       - name: Set image tags
         run: |
           if [ "${{ env.NODE_ENV }}" = "production" ]; then
-            echo "VERSION=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VITE_FRONT_VERSION=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           else
-            echo "VERSION=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VITE_FRONT_VERSION=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           fi
 
       - name: Setup Node.js
@@ -102,7 +102,7 @@ jobs:
         env:
           NODE_ENV: ${{ env.NODE_ENV }}
           VITE_API_URL: ${{ env.VITE_API_URL }}
-          VERSION: ${{ env.VERSION }}
+          VITE_FRONT_VERSION: ${{ env.VITE_FRONT_VERSION }}
 
       - name: Add Android folder if not present
         run: if [ ! -d "./android" ]; then npx cap add android; fi
@@ -197,10 +197,10 @@ jobs:
         run: |
           if [ "${{ env.NODE_ENV }}" = "production" ]; then
             echo "TAG=latest" >> $GITHUB_ENV
-            echo "VERSION=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VITE_FRONT_VERSION=prod-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           else
             echo "TAG=dev" >> $GITHUB_ENV
-            echo "VERSION=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
+            echo "VITE_FRONT_VERSION=dev-${{ steps.vars.outputs.SHORT_SHA }}" >> $GITHUB_ENV
           fi
 
       - name: Log in to GitHub Container Registry
@@ -226,6 +226,6 @@ jobs:
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
             VITE_API_URL=${{ env.VITE_API_URL }}
-            VERSION=${{ env.VERSION }}
+            VITE_FRONT_VERSION=${{ env.VITE_FRONT_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
