@@ -222,7 +222,7 @@ jobs:
           target: production
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VITE_FRONT_VERSION }}
           build-args: |
             NODE_ENV=${{ env.NODE_ENV }}
             VITE_API_URL=${{ env.VITE_API_URL }}
