@@ -101,27 +101,26 @@ const toggleValidated = () => {
               v-role="['admin','superadmin','modo']"
               :color="localItem.validated ? 'green' : 'red'"
               prepend-icon="mdi-hand-okay"
+              :text="localItem.validated ? 'Valider' : 'Invalider'"
               @click="toggleValidated"
             >
-              {{ localItem.validated ? 'Valider' : 'Invalider' }}
             </v-btn>
             <v-btn
               v-if="userStore.user"
               :color="isFavoriteColor"
               :prepend-icon="isFavoriteIcon"
               variant="tonal"
+              text="Favoris"
               @click="toggleFavorite"
             >
-              {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
-              Favoris
             </v-btn>
             <v-btn
               v-if="userStore.user && (isOurResource || userStore.user.role == 'admin' || userStore.user.role == 'superadmin' || userStore.user.role == 'modo')"
               :to="'/resource/edit/' + localItem.id"
+              text="Modifier"
               prepend-icon="mdi-pencil"
               variant="tonal"
             >
-              Modifier
             </v-btn>
             <slot name="action"/>
           </div>
