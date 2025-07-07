@@ -1,29 +1,29 @@
 services:
-  front:
+  rr-front-local:
     build:
       context: .
       dockerfile: Dockerfile
       target: development
       args:
         VITE_API_URL: "http://localhost:8080/api"
-        VERSION: "dev-local"
-    container_name: front-local
+        VITE_FRONT_VERSION: "dev-local"
+    container_name: rr-front-local
     ports:
       - "3000:3000"
     volumes:
       - .:/app
     depends_on:
-      api:
+      rr-api-local:
         required: true
         condition: service_healthy
 
-  api:
-    image: ghcr.io/infcdaal1/rr-vue:dev
-    container_name: api-local
+  rr-api-local:
+    image: ghcr.io/infcdaal1/rr:dev
+    container_name: rr-api-local
     ports:
       - "8080:80"
     environment:
-      DB_HOST: db
+      DB_HOST: rr-db-local
       DB_PORT: '${DB_PORT}'
       DB_DATABASE: '${DB_DATABASE}'
       DB_USERNAME: '${DB_USERNAME}'
@@ -31,18 +31,18 @@ services:
     env_file:
       - .env
     depends_on:
-      db:
+      rr-db-local:
         required: true
         condition: service_healthy
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8080/v1/version || exit 1" ]
+      test: [ "CMD-SHELL", "curl -f http://localhost:80/up || exit 1" ]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 15
 
-  db:
+  rr-db-local:
     image: 'mariadb:11'
-    container_name: db_local
+    container_name: rr-db-local
     ports:
       - "3306:3306"
     environment:
@@ -52,7 +52,7 @@ services:
       MYSQL_USER: '${DB_USERNAME}'
       MYSQL_PASSWORD: '${DB_PASSWORD}'
     volumes:
-      - 'mariadb:/var/lib/mysql'
+      - 'rr_db_local:/var/lib/mysql'
     healthcheck:
       test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
       start_period: 1m
@@ -62,7 +62,7 @@ services:
       retries: 3
 
 volumes:
-  db_local:
+  rr_db_local:
     driver: local
 
 networks:
