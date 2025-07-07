@@ -9,108 +9,95 @@ import {VueRouterAutoImports} from 'unplugin-vue-router'
 import Vuetify, {transformAssetUrls} from 'vite-plugin-vuetify'
 
 // Utilities
-import {defineConfig, loadEnv} from 'vite'
+import {defineConfig} from 'vite'
 import {fileURLToPath, URL} from 'node:url'
-import {createHtmlPlugin} from "vite-plugin-html";
 
 // https://vitejs.dev/config/
-export default ({mode}) => {
-  const env = loadEnv(mode, process.cwd(), '')
-
-  return defineConfig({
-    plugins: [
-      VueRouter({
-        dts: 'src/typed-router.d.ts'
-      }),
-      Layouts(),
-      AutoImport({
-        imports: [
-          'vue',
-          VueRouterAutoImports,
-          {
-            'pinia': ['defineStore', 'storeToRefs'],
-          },
-        ],
-        dirs: [
-          'src/composables',
-          'src/directives',
-        ],
-        dts: 'src/auto-imports.d.ts',
-        eslintrc: {
-          enabled: true,
+export default defineConfig({
+  plugins: [
+    VueRouter({
+      dts: 'src/typed-router.d.ts'
+    }),
+    Layouts(),
+    AutoImport({
+      imports: [
+        'vue',
+        VueRouterAutoImports,
+        {
+          'pinia': ['defineStore', 'storeToRefs'],
         },
-        vueTemplate: true,
-        vueDirectives: true,
-      }),
-      Components({
-        dts: 'src/components.d.ts',
-      }),
-      Vue({
-        template: {transformAssetUrls},
-      }),
-      // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
-      Vuetify({
-        autoImport: true,
-        styles: {
-          configFile: 'src/styles/settings.scss',
-        },
-      }),
-      Fonts({
-        google: {
-          families: [{
-            name: 'Roboto',
-            styles: 'wght@100;300;400;500;700;900',
-          }],
-        },
-      }),
-      createHtmlPlugin({
-        minify: true,
-        inject: {
-          data: {
-            ...env,
-          }
-        }
-      })
+      ],
+      dirs: [
+        'src/composables',
+        'src/directives',
+      ],
+      dts: 'src/auto-imports.d.ts',
+      eslintrc: {
+        enabled: true,
+      },
+      vueTemplate: true,
+      vueDirectives: true,
+    }),
+    Components({
+      dts: 'src/components.d.ts',
+    }),
+    Vue({
+      template: {transformAssetUrls},
+    }),
+    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+    Vuetify({
+      autoImport: true,
+      styles: {
+        configFile: 'src/styles/settings.scss',
+      },
+    }),
+    Fonts({
+      google: {
+        families: [{
+          name: 'Roboto',
+          styles: 'wght@100;300;400;500;700;900',
+        }],
+      },
+    }),
+  ],
+  optimizeDeps: {
+    exclude: [
+      'vuetify',
+      'vue-router',
+      'unplugin-vue-router/runtime',
+      'unplugin-vue-router/data-loaders',
+      'unplugin-vue-router/data-loaders/basic',
     ],
-    optimizeDeps: {
-      exclude: [
-        'vuetify',
-        'vue-router',
-        'unplugin-vue-router/runtime',
-        'unplugin-vue-router/data-loaders',
-        'unplugin-vue-router/data-loaders/basic',
-      ],
+  },
+  define: {'process.env': {
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+      VITE_FRONT_VERSION: JSON.stringify(process.env.VITE_FRONT_VERSION || 'ERREUR'),
+    }},
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-    define: {
-      'process.env': {},
-      'import.meta.env.VITE_FRONT_VERSION': JSON.stringify(env.VITE_FRONT_VERSION || process.env.npm_package_version),
-    },
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
+    extensions: [
+      '.js',
+      '.json',
+      '.jsx',
+      '.mjs',
+      '.ts',
+      '.tsx',
+      '.vue',
+    ],
+  },
+  server: {
+    port: 3000
+  },
+  css: {
+    preprocessorOptions: {
+      sass: {
+        api: 'modern-compiler',
       },
-      extensions: [
-        '.js',
-        '.json',
-        '.jsx',
-        '.mjs',
-        '.ts',
-        '.tsx',
-        '.vue',
-      ],
-    },
-    server: {
-      port: 3000
-    },
-    css: {
-      preprocessorOptions: {
-        sass: {
-          api: 'modern-compiler',
-        },
-        scss: {
-          api: 'modern-compiler',
-        },
+      scss: {
+        api: 'modern-compiler',
       },
     },
-  })
-}
+  },
+})
