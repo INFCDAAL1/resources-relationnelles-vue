@@ -9,92 +9,108 @@ import {VueRouterAutoImports} from 'unplugin-vue-router'
 import Vuetify, {transformAssetUrls} from 'vite-plugin-vuetify'
 
 // Utilities
-import {defineConfig} from 'vite'
+import {defineConfig, loadEnv} from 'vite'
 import {fileURLToPath, URL} from 'node:url'
+import {createHtmlPlugin} from "vite-plugin-html";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    VueRouter({
-      dts: 'src/typed-router.d.ts'
-    }),
-    Layouts(),
-    AutoImport({
-      imports: [
-        'vue',
-        VueRouterAutoImports,
-        {
-          'pinia': ['defineStore', 'storeToRefs'],
+export default ({mode}) => {
+  const env = loadEnv(mode, process.cwd(), '')
+
+  return defineConfig({
+    plugins: [
+      VueRouter({
+        dts: 'src/typed-router.d.ts'
+      }),
+      Layouts(),
+      AutoImport({
+        imports: [
+          'vue',
+          VueRouterAutoImports,
+          {
+            'pinia': ['defineStore', 'storeToRefs'],
+          },
+        ],
+        dirs: [
+          'src/composables',
+          'src/directives',
+        ],
+        dts: 'src/auto-imports.d.ts',
+        eslintrc: {
+          enabled: true,
         },
-      ],
-      dirs: [
-        'src/composables',
-        'src/directives',
-      ],
-      dts: 'src/auto-imports.d.ts',
-      eslintrc: {
-        enabled: true,
-      },
-      vueTemplate: true,
-      vueDirectives: true,
-    }),
-    Components({
-      dts: 'src/components.d.ts',
-    }),
-    Vue({
-      template: {transformAssetUrls},
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
-    Vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'src/styles/settings.scss',
-      },
-    }),
-    Fonts({
-      google: {
-        families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
-        }],
-      },
-    }),
-  ],
-  optimizeDeps: {
-    exclude: [
-      'vuetify',
-      'vue-router',
-      'unplugin-vue-router/runtime',
-      'unplugin-vue-router/data-loaders',
-      'unplugin-vue-router/data-loaders/basic',
+        vueTemplate: true,
+        vueDirectives: true,
+      }),
+      Components({
+        dts: 'src/components.d.ts',
+      }),
+      Vue({
+        template: {transformAssetUrls},
+      }),
+      // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+      Vuetify({
+        autoImport: true,
+        styles: {
+          configFile: 'src/styles/settings.scss',
+        },
+      }),
+      Fonts({
+        google: {
+          families: [{
+            name: 'Roboto',
+            styles: 'wght@100;300;400;500;700;900',
+          }],
+        },
+      }),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            ...env,
+          }
+        }
+      })
     ],
-  },
-  define: {'process.env': {}},
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    optimizeDeps: {
+      exclude: [
+        'vuetify',
+        'vue-router',
+        'unplugin-vue-router/runtime',
+        'unplugin-vue-router/data-loaders',
+        'unplugin-vue-router/data-loaders/basic',
+      ],
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ],
-  },
-  server: {
-    port: 3000
-  },
-  css: {
-    preprocessorOptions: {
-      sass: {
-        api: 'modern-compiler',
+    define: {
+      'process.env': {},
+      'import.meta.env.VITE_FRONT_VERSION': JSON.stringify(env.VITE_FRONT_VERSION || process.env.npm_package_version),
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
-      scss: {
-        api: 'modern-compiler',
+      extensions: [
+        '.js',
+        '.json',
+        '.jsx',
+        '.mjs',
+        '.ts',
+        '.tsx',
+        '.vue',
+      ],
+    },
+    server: {
+      port: 3000
+    },
+    css: {
+      preprocessorOptions: {
+        sass: {
+          api: 'modern-compiler',
+        },
+        scss: {
+          api: 'modern-compiler',
+        },
       },
     },
-  },
-})
+  })
+}

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const version = import.meta.env.VITE_FRONT_VERSION || "ERROR"
+const version = import.meta.env.VITE_FRONT_VERSION
 const isDev = import.meta.env.DEV
 
 const copyrightName = computed(() =>
