@@ -124,7 +124,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="d-flex flex-column ga-5">
-    <h1>Liste des ressources ({{ items.length }})</h1>
+    <h1>Liste des ressources magique ({{ items.length }})</h1>
 
     <v-alert
       v-if="error"
