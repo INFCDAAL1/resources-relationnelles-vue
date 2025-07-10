@@ -62,6 +62,12 @@ const model = computed({
         title="Statistique"
         to="/stats"
       />
+      <v-list-item
+        link
+        prepend-icon="mdi-lock"
+        title="Confidentialité"
+        to="/privacy"
+      />
     </v-list>
     <template #append>
       <v-list-item
